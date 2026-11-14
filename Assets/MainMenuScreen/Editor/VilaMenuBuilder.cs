@@ -10,13 +10,14 @@ using UnityEngine.UI;
 using UnityEngine.InputSystem.UI;
 #endif
 
-public static class MainMenuBuilder
+public static class VilaMenuBuilder
 {
     const string Root = "Assets/MainMenuScreen/";
-    static readonly Vector4 Border = new Vector4(56, 44, 56, 44); // esquerda, baixo, direita, cima
-    static readonly Color Ouro = new Color32(243, 166, 74, 255);
+    static readonly Vector4 Border = new Vector4(56, 42, 40, 42); // esquerda, baixo, direita, cima
+    static Sprite campoN, campoF;                                   // fundo dos campos de texto
+    static readonly Color Ouro = new Color32(255, 210, 90, 255);     // amarelo do EducaUs
     static readonly Color Cal = new Color32(241, 227, 200, 255);
-    static readonly Color Ferrugem = new Color32(58, 15, 6, 255);
+    static readonly Color Ferrugem = new Color32(42, 30, 26, 255);    // contorno escuro (mesmo dos desenhos)
 
     [MenuItem("Tools/Menu principal")]
     public static void Build()
@@ -26,10 +27,12 @@ public static class MainMenuBuilder
         var bH = Import("Sprites/btn_highlight.png", Border);
         var bP = Import("Sprites/btn_pressed.png", Border);
         var bM = Import("Sprites/btn_primary.png", Border);
+        campoN = Import("Sprites/field_normal.png", Border);
+        campoF = Import("Sprites/field_focus.png", Border);
         if (!bg || !bN || !bH || !bP || !bM) return;
 
-        var fTitle = Font("Rye");
-        var fBody = Font("Alegreya");
+        var fTitle = Font("Inter-ExtraBold");
+        var fBody = Font("Inter-SemiBold");
 
         var old = GameObject.Find("MainMenuCanvas");
         if (old) Undo.DestroyObjectImmediate(old);
@@ -51,7 +54,7 @@ public static class MainMenuBuilder
         bgImg.sprite = bg; bgImg.raycastTarget = false;
         var fit = bgGO.GetComponent<AspectRatioFitter>();
         fit.aspectMode = AspectRatioFitter.AspectMode.EnvelopeParent;
-        fit.aspectRatio = 1672f / 941f;
+        fit.aspectRatio = 1920f / 1080f;
 
         // Container do menu, canto inferior esquerdo
         var menuGO = new GameObject("Menu", typeof(RectTransform));
@@ -60,16 +63,22 @@ public static class MainMenuBuilder
         mrt.anchorMin = mrt.anchorMax = Vector2.zero; mrt.pivot = Vector2.zero;
         mrt.anchoredPosition = new Vector2(96, 70); mrt.sizeDelta = new Vector2(560, 700);
 
-        MakeText(menuGO.transform, "Titulo", "Vila do Crepúsculo", 574, 100, 78, Ouro, fTitle, true);
-        MakeText(menuGO.transform, "Subtitulo", "A terra vermelha guarda o que a fumaça esconde", 534, 36, 24, Cal, fBody, false);
+        MakeText(menuGO.transform, "Titulo", "EducaUs", 574, 100, 84, Ouro, fTitle, true);
+        MakeText(menuGO.transform, "Subtitulo", "Organize a comunidade. Recupere a vila.", 534, 36, 26, Cal, fBody, false);
+
+        var rotuloNome = MakeText(menuGO.transform, "RotuloNome", "SEU NOME", 476, 32, 22, Ouro, fBody, false);
+        rotuloNome.characterSpacing = 8; rotuloNome.fontStyle = FontStyles.Bold;
+        var nome = MakeInput(menuGO.transform, 396, 76, bN, bH, fBody, "NomeInput", "Ex.: Bruno", 16, 34, 2);
 
         var ctrl = canvasGO.GetComponent<MainMenuController>();
-        var novo = MakeButton(menuGO.transform, "Novo jogo", 420, 84, bN, bH, bP, fBody, 36, Cal);
-        var joinLobby = MakeButton(menuGO.transform, "Juntar-se a partida", 360, 84, bN, bH, bP, fBody, 36, Cal);
+        var novo = MakeButton(menuGO.transform, "Novo jogo", 290, 84, bN, bH, bP, fBody, 36, Cal);
+        var joinLobby = MakeButton(menuGO.transform, "Juntar-se a partida", 190, 84, bN, bH, bP, fBody, 36, Cal);
         //var cont = MakeButton(menuGO.transform, "Continuar", 312, 84, bN, bH, bP, fBody, 36, Cal);
         //var opc  = MakeButton(menuGO.transform, "Opções", 204, 84, bN, bH, bP, fBody, 36, Cal);
         //var cred = MakeButton(menuGO.transform, "Créditos", 96, 84, bN, bH, bP, fBody, 36, Cal);
-        var exit = MakeButton(menuGO.transform, "Sair", 300, 84, bN, bH, bP, fBody, 36, Cal);
+        var exit = MakeButton(menuGO.transform, "Sair", 90, 84, bN, bH, bP, fBody, 36, Cal);
+        var status = MakeText(menuGO.transform, "StatusConexao", "Conectando ao servidor...", 30, 40, 24, Cal, fBody, false);
+        status.fontStyle = FontStyles.Italic;
 
         // Tela "Juntar-se a partida" (começa fechada; o botão abre ela direto)
         var joinScreen = BuildJoinScreen(canvasGO.transform, menuGO, bN, bH, bP, bM, fTitle, fBody);
@@ -81,9 +90,17 @@ public static class MainMenuBuilder
         //UnityEventTools.AddPersistentListener(cred.onClick, ctrl.Credits);
         UnityEventTools.AddPersistentListener(exit.onClick, ctrl.quit);
 
+        // Liga o campo de nome, o texto de conexão e o botão que precisa do servidor
+        var cso = new SerializedObject(ctrl);
+        cso.FindProperty("joinRoomScreen").objectReferenceValue = joinScreen;
+        cso.FindProperty("nomeInput").objectReferenceValue = nome;
+        cso.FindProperty("statusConexao").objectReferenceValue = status;
+        cso.FindProperty("botaoEntrar").objectReferenceValue = joinLobby;
+        cso.ApplyModifiedPropertiesWithoutUndo();
+
         // Navegação vertical por teclado/controle
         //Selectable[] order = { novo, cont, opc, cred, sair };
-        Selectable[] order = { novo, joinLobby, exit };
+        Selectable[] order = { nome, novo, joinLobby, exit };
         foreach (var s in order)
             s.navigation = new Navigation { mode = Navigation.Mode.Vertical };
 
@@ -137,7 +154,7 @@ public static class MainMenuBuilder
         var label = MakeText(panel.transform, "Rotulo", "CÓDIGO DA SALA", 456, 32, 22, Ouro, fBody, false);
         label.characterSpacing = 8; label.fontStyle = FontStyles.Bold;
 
-        var input = MakeInput(panel.transform, 360, 84, bN, bH, fBody);
+        var input = MakeInput(panel.transform, 360, 84, bN, bH, fBody, "CodigoInput", "EX: K7QX", 8, 40, 12);
 
         var status = MakeText(panel.transform, "Status", "", 310, 40, 26, Cal, fBody, false);
         status.fontStyle = FontStyles.Italic;
@@ -167,14 +184,17 @@ public static class MainMenuBuilder
         return screen;
     }
 
-    static TMP_InputField MakeInput(Transform parent, float y, float h, Sprite normal, Sprite hi, TMP_FontAsset font)
+    static TMP_InputField MakeInput(Transform parent, float y, float h, Sprite normal, Sprite hi, TMP_FontAsset font,
+        string nome, string placeholder, int limite, float tamanho, float espacamento)
     {
-        var go = new GameObject("CodigoInput", typeof(RectTransform), typeof(Image));
+        var go = new GameObject(nome, typeof(RectTransform), typeof(Image));
         go.transform.SetParent(parent, false);
         var rt = (RectTransform)go.transform;
         rt.anchorMin = rt.anchorMax = Vector2.zero; rt.pivot = Vector2.zero;
         rt.anchoredPosition = new Vector2(0, y); rt.sizeDelta = new Vector2(540, h);
 
+        if (campoN) normal = campoN;            // campo escuro próprio (se existir)
+        if (campoF) hi = campoF;
         var img = go.GetComponent<Image>();
         img.sprite = normal; img.type = Image.Type.Sliced;
 
@@ -185,17 +205,17 @@ public static class MainMenuBuilder
         art.anchorMin = Vector2.zero; art.anchorMax = Vector2.one;
         art.offsetMin = new Vector2(72, 8); art.offsetMax = new Vector2(-24, -8);
 
-        var ph = MakeText(area.transform, "Placeholder", "EX: K7QX", 0, 0, 34,
+        var ph = MakeText(area.transform, "Placeholder", placeholder, 0, 0, tamanho - 6,
             new Color(Cal.r, Cal.g, Cal.b, 0.35f), font, false);
         Fill(ph.rectTransform);
         ph.alignment = TextAlignmentOptions.Center;
         ph.fontStyle = FontStyles.Italic;
-        ph.characterSpacing = 8;
+        ph.characterSpacing = espacamento * 0.6f;
 
-        var tx = MakeText(area.transform, "Texto", "", 0, 0, 40, Cal, font, false);
+        var tx = MakeText(area.transform, "Texto", "", 0, 0, tamanho, Cal, font, false);
         Fill(tx.rectTransform);
         tx.alignment = TextAlignmentOptions.Center;
-        tx.characterSpacing = 12;
+        tx.characterSpacing = espacamento;
 
         // Adicionado depois dos filhos existirem
         var input = go.AddComponent<TMP_InputField>();
@@ -206,9 +226,9 @@ public static class MainMenuBuilder
         input.transition = Selectable.Transition.SpriteSwap;
         input.spriteState = new SpriteState { highlightedSprite = hi, selectedSprite = hi, pressedSprite = hi };
         input.lineType = TMP_InputField.LineType.SingleLine;
-        input.characterValidation = TMP_InputField.CharacterValidation.None; // validação no JoinRoomScreen
-        input.characterLimit = 8;
-        input.pointSize = 40;
+        input.characterValidation = TMP_InputField.CharacterValidation.None; // validação feita pelos scripts
+        input.characterLimit = limite;
+        input.pointSize = tamanho;
         input.customCaretColor = true;
         input.caretColor = Ouro;
         input.caretWidth = 3;
@@ -238,11 +258,34 @@ public static class MainMenuBuilder
         return AssetDatabase.LoadAssetAtPath<Sprite>(path);
     }
 
+    // Procura a fonte TMP; se só existir o arquivo .otf/.ttf em Fonts/, cria a fonte TMP (dinâmica) sozinho.
     static TMP_FontAsset Font(string key)
     {
-        foreach (var g in AssetDatabase.FindAssets("t:TMP_FontAsset " + key, new[] { Root + "Fonts" }))
-            return AssetDatabase.LoadAssetAtPath<TMP_FontAsset>(AssetDatabase.GUIDToAssetPath(g));
-        return null; // usa a fonte padrão do TextMeshPro
+        string sdf = Root + "Fonts/" + key + " SDF.asset";
+        var pronta = AssetDatabase.LoadAssetAtPath<TMP_FontAsset>(sdf);
+        if (pronta) return pronta;
+
+        Font arquivo = AssetDatabase.LoadAssetAtPath<Font>(Root + "Fonts/" + key + ".otf")
+                    ?? AssetDatabase.LoadAssetAtPath<Font>(Root + "Fonts/" + key + ".ttf");
+        if (arquivo)
+        {
+            var fa = TMP_FontAsset.CreateFontAsset(arquivo);
+            if (fa)
+            {
+                fa.name = key + " SDF";
+                AssetDatabase.CreateAsset(fa, sdf);
+                if (fa.atlasTextures != null && fa.atlasTextures.Length > 0 && fa.atlasTextures[0])
+                {
+                    fa.atlasTextures[0].name = key + " Atlas";
+                    AssetDatabase.AddObjectToAsset(fa.atlasTextures[0], fa);
+                }
+                if (fa.material) { fa.material.name = key + " Material"; AssetDatabase.AddObjectToAsset(fa.material, fa); }
+                AssetDatabase.SaveAssets();
+                return fa;
+            }
+        }
+        Debug.LogWarning("[Menu] Fonte " + key + " não encontrada em " + Root + "Fonts. Usando a padrão do TextMeshPro.");
+        return null;
     }
 
     static TextMeshProUGUI MakeText(Transform parent, string name, string text, float y, float h,
@@ -282,8 +325,9 @@ public static class MainMenuBuilder
         var txt = MakeText(go.transform, "Texto", label, 0, 0, size, color, font, false);
         var trt = (RectTransform)txt.transform;
         trt.anchorMin = Vector2.zero; trt.anchorMax = Vector2.one;
-        trt.offsetMin = new Vector2(72, 0); trt.offsetMax = new Vector2(-24, 0);
+        trt.offsetMin = new Vector2(76, 7); trt.offsetMax = new Vector2(-24, 0);   // centraliza na face (acima da espessura)
         txt.characterSpacing = 2;
+        txt.outlineWidth = 0.12f; txt.outlineColor = Ferrugem;                    // contorno leve: lê bem no verde e no laranja
         return b;
     }
 }

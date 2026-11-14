@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: aeb8a3419070f0847925ecd27adb3960
+guid: 9680739f219a60d478f9d003a0e7fe12
 TextureImporter:
   internalIDToNameTable:
   - first:
@@ -52,7 +52,7 @@ TextureImporter:
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 100
-  spriteBorder: {x: 56, y: 44, z: 56, w: 44}
+  spriteBorder: {x: 56, y: 42, z: 40, w: 42}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
@@ -103,10 +103,10 @@ TextureImporter:
       name: btn_normal_0
       rect:
         serializedVersion: 2
-        x: 16
-        y: 16
-        width: 480
-        height: 96
+        x: 0
+        y: 0
+        width: 300
+        height: 85
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

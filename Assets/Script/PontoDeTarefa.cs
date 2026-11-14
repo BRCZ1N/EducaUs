@@ -11,11 +11,14 @@ using UnityEngine;
 public class PontoDeTarefa : MonoBehaviour
 {
     public string nome;
+    [Tooltip("Quantas pessoas precisam estar no ponto ao mesmo tempo (tarefa coletiva).")]
+    public int jogadores = 1;
 
     public string Id { get; private set; }
     public bool Feita { get; private set; }
     public AreaAmbiental Area { get; set; }
-    public bool EhReuniao => nome != null && nome.StartsWith("Reuni");
+    public bool EhReuniao => nome != null && nome.StartsWith("Reunião de emergência");
+    public bool Coletiva => jogadores > 1;
 
     private SpriteRenderer marca;
     private static Sprite spriteMarca;
@@ -25,8 +28,22 @@ public class PontoDeTarefa : MonoBehaviour
         if (string.IsNullOrEmpty(nome))
             nome = name.StartsWith("Tarefa - ") ? name.Substring("Tarefa - ".Length) : name;
         Id = RaizDoLocal(transform).name + "/" + nome;
-        GetComponent<Collider2D>().isTrigger = true;
+        var col = GetComponent<Collider2D>();
+        col.isTrigger = true;
+        if (Coletiva && col is CircleCollider2D cc) cc.radius = Mathf.Max(cc.radius, RaioColetivo);   // cabe o grupo
         if (!EhReuniao) CriarMarca();
+    }
+
+    private const float RaioColetivo = 2.2f;
+
+    /// Quantos personagens (de qualquer jogador, inclusive o sabotador) estão dentro do ponto agora.
+    public int ContarJogadores()
+    {
+        float raio = GetComponent<CircleCollider2D>() is CircleCollider2D cc ? cc.radius * transform.lossyScale.x : RaioColetivo;
+        int n = 0;
+        foreach (var pm in FindObjectsByType<PlayerMovement>(FindObjectsSortMode.None))
+            if (Vector2.Distance(pm.transform.position, transform.position) <= raio + 0.3f) n++;
+        return n;
     }
 
     public static Transform RaizDoLocal(Transform t)
@@ -77,6 +94,7 @@ public class PontoDeTarefa : MonoBehaviour
         marca = go.AddComponent<SpriteRenderer>();
         marca.sprite = SpriteMarca();
         marca.sortingOrder = 50;
+        if (Coletiva) { marca.color = new Color(0.75f, 0.85f, 1f); go.transform.localScale = Vector3.one * 1.3f; }   // azulada e maior
     }
 
     private static Sprite SpriteMarca()
@@ -104,6 +122,6 @@ public class PontoDeTarefa : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Feita ? Color.green : Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, 1.2f);
+        Gizmos.DrawWireSphere(transform.position, jogadores > 1 ? RaioColetivo : 1.2f);
     }
 }

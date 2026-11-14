@@ -15,8 +15,9 @@ public class HudAmbiental : MonoBehaviour
     private static readonly Color Fundo = new Color(0.08f, 0.06f, 0.05f, 0.72f);
 
     private Font fonte;
-    private Text txtAreas, txtTarefas, txtPapel, txtPrompt, txtAviso, txtGrande;
+    private Text txtAreas, txtTarefas, txtPapel, txtPrompt, txtAviso, txtGrande, txtTempo;
     private RectTransform barraAreas, barraPrompt;
+    private Image painelPapel;
     private GameObject painelPrompt, painelGrande;
     private float avisoAte;
 
@@ -34,8 +35,11 @@ public class HudAmbiental : MonoBehaviour
         float f = totalAreas > 0 ? (float)areas / totalAreas : 0f;
         barraAreas.anchorMax = new Vector2(f, 1f);
         txtTarefas.text = $"Tarefas feitas: {tarefas}/{totalTarefas}";
-        txtPapel.text = sabotador ? "Você é o SABOTADOR — finja tarefas e aperte Q para sabotar" : "Você é VOLUNTÁRIO — faça as tarefas para recuperar a vila";
-        txtPapel.color = sabotador ? Vermelho : Verde;
+        txtPapel.text = sabotador
+            ? "<b>SABOTADOR</b>  Você representa quem lucra com a degradação. Finja ajudar e aperte <b>Q</b> para desfazer conquistas."
+            : "<b>VOLUNTÁRIO</b>  Organize-se com os outros para recuperar a vila.";
+        txtPapel.color = Color.white;
+        painelPapel.color = sabotador ? new Color(0.55f, 0.13f, 0.10f, 0.85f) : new Color(0.16f, 0.36f, 0.27f, 0.85f);
     }
 
     /// texto null esconde; preenchimento < 0 esconde a barrinha.
@@ -56,10 +60,22 @@ public class HudAmbiental : MonoBehaviour
         avisoAte = Time.time + segundos;
     }
 
-    public void Grande(string texto)
+    public void Grande(string texto, Color? cor = null)
     {
         painelGrande.SetActive(texto != null);
-        if (texto != null) txtGrande.text = texto;
+        if (texto == null) return;
+        txtGrande.text = texto;
+        txtGrande.color = cor ?? Verde;
+    }
+
+    /// segundos < 0 esconde o relógio.
+    public void Tempo(float segundos)
+    {
+        txtTempo.enabled = segundos >= 0f;
+        if (segundos < 0f) return;
+        int s = Mathf.CeilToInt(segundos);
+        txtTempo.text = $"{s / 60:00}:{s % 60:00}";
+        txtTempo.color = segundos <= 60f ? Vermelho : Color.white;
     }
 
     // ------------------------------------------------------------------ construção
@@ -82,10 +98,14 @@ public class HudAmbiental : MonoBehaviour
         txtAreas = Texto(topo, "Areas", 30, FontStyle.Bold, Color.white, new Vector2(20, -14), new Vector2(520, 40), TextAnchor.UpperLeft);
         var trilho = Retangulo(topo, "Barra", new Color(1, 1, 1, 0.15f), new Vector2(20, -62), new Vector2(520, 22));
         barraAreas = Preenchimento(trilho, Verde);
-        txtTarefas = Texto(topo, "Tarefas", 22, FontStyle.Normal, Amarelo, new Vector2(20, -96), new Vector2(520, 30), TextAnchor.UpperLeft);
-        txtPapel = Texto(raiz, "Papel", 22, FontStyle.Bold, Verde, new Vector2(24, -184), new Vector2(900, 30), TextAnchor.UpperLeft,
-                         new Vector2(0, 1));
-        Sombra(txtPapel);
+        txtTarefas = Texto(topo, "Tarefas", 22, FontStyle.Normal, Amarelo, new Vector2(20, -96), new Vector2(380, 30), TextAnchor.UpperLeft);
+        txtTempo = Texto(topo, "Tempo", 30, FontStyle.Bold, Color.white, new Vector2(400, -90), new Vector2(140, 40), TextAnchor.UpperRight);
+        // faixa do papel, logo abaixo do progresso: fundo colorido e texto que quebra linha (lê bem sobre o mapa)
+        var papel = Retangulo(raiz, "Papel", Fundo, new Vector2(24, -182), new Vector2(560, 64));
+        painelPapel = papel.GetComponent<Image>();
+        txtPapel = Texto(papel, "Texto", 19, FontStyle.Normal, Color.white, new Vector2(16, -6), new Vector2(528, 52), TextAnchor.MiddleLeft);
+        txtPapel.horizontalOverflow = HorizontalWrapMode.Wrap;
+        txtPapel.supportRichText = true;
 
         // embaixo, no centro: tarefa perto de você
         painelPrompt = Painel(raiz, "Prompt", new Vector2(0.5f, 0), new Vector2(0.5f, 0), new Vector2(-330, 150), new Vector2(660, 96)).gameObject;
@@ -103,7 +123,8 @@ public class HudAmbiental : MonoBehaviour
 
         // vitória
         painelGrande = Painel(raiz, "Vitoria", new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(-520, 90), new Vector2(1040, 180)).gameObject;
-        txtGrande = Texto((RectTransform)painelGrande.transform, "Texto", 54, FontStyle.Bold, Verde, new Vector2(20, -20), new Vector2(1000, 140), TextAnchor.MiddleCenter);
+        txtGrande = Texto((RectTransform)painelGrande.transform, "Texto", 40, FontStyle.Bold, Verde, new Vector2(20, -20), new Vector2(1000, 140), TextAnchor.MiddleCenter);
+        txtGrande.horizontalOverflow = HorizontalWrapMode.Wrap;
         painelGrande.SetActive(false);
     }
 

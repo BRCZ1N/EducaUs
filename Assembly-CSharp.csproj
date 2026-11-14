@@ -65,7 +65,7 @@
     <Compile Include="Assets\Script\BootstrapAutoLoader.cs" />
     <Compile Include="Assets\Photon\PhotonChat\Demos\Demo Chat\Code\Utilities\DestroyOnStart.cs" />
     <Compile Include="Assets\Script\CameraSegue.cs" />
-    <Compile Include="Assets\Script\LuzCrepusculo.cs" />
+    <Compile Include="Assets\Script\MenuPartida.cs" />
     <Compile Include="Assets\Script\HudAmbiental.cs" />
     <Compile Include="Assets\MainMenuScreen\Scripts\JoinRoomScreen.cs" />
     <Compile Include="Assets\Script\PlayerMovement.cs" />
@@ -79,9 +79,11 @@
     <Compile Include="Assets\TutorialInfo\Scripts\Readme.cs" />
     <Compile Include="Assets\Photon\PhotonChat\Demos\Demo Chat\Code\FriendItem.cs" />
     <Compile Include="Assets\Script\SceneLoader.cs" />
+    <Compile Include="Assets\Script\LimiteDoMapa.cs" />
     <Compile Include="Assets\Photon\PhotonChat\Demos\Demo Chat\Code\ChatNewGui.cs" />
     <Compile Include="Assets\Photon\PhotonChat\Demos\Demo Chat\Code\Utilities\TextButtonTransition.cs" />
     <Compile Include="Assets\MainMenuScreen\Scripts\MenuButtonFX.cs" />
+    <Compile Include="Assets\Script\TransparenciaAtras.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
@@ -105,6 +107,7 @@
     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Properties.cginc" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Surface.cginc" />
     <None Include="Assets\Photon\PhotonUnityNetworking\readme.txt" />
+    <None Include="Assets\MainMenuScreen\Fonts\Inter-LICENSE.txt" />
     <None Include="Assets\Photon\PhotonLibs\netstandard2.0\Photon3Unity3D.dll" />
     <None Include="Assets\Photon\PhotonLibs\Photon3Unity3D.dll" />
     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />

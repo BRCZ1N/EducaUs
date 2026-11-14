@@ -24,7 +24,7 @@ public static class MontadorLocal
     [Serializable] class Camada { public string nome, forma; public int ordem; public bool colisao; public string[] tiles; }
     [Serializable] class Prop { public string sprite, tipo, area; public float x, y, cw, ch, coy; }
     [Serializable] class PontoF { public float x, y; }
-    [Serializable] class Tarefa { public string nome; public float x, y; }
+    [Serializable] class Tarefa { public string nome; public float x, y; public int jogadores = 1; }
     [Serializable] class Colisao { public float celula; public int largura, altura; public string[] linhas; }
     [Serializable] class Par { public string p, r; }
     [Serializable] class Area { public string nome; public int x, y, w, h; public Par[] pares; }
@@ -197,7 +197,9 @@ public static class MontadorLocal
             var cc = g.AddComponent<CircleCollider2D>();
             cc.isTrigger = true;
             cc.radius = 1.2f;
-            g.AddComponent<PontoDeTarefa>().nome = t.nome;      // marcador e interação (GerenciadorAmbiental)
+            var pt = g.AddComponent<PontoDeTarefa>();          // marcador e interação (GerenciadorAmbiental)
+            pt.nome = t.nome;
+            pt.jogadores = Mathf.Max(1, t.jogadores);
         }
 
         // ---------- áreas recuperáveis ----------

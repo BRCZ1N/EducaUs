@@ -46,6 +46,7 @@ public class OnlineManager : MonoBehaviourPunCallbacks
 
     private void Start()
     {
+        PhotonNetwork.NickName = PlayerPrefs.GetString("NomeJogador", "Voluntário");
         PhotonNetwork.ConnectUsingSettings();
     }
 
@@ -61,7 +62,10 @@ public class OnlineManager : MonoBehaviourPunCallbacks
     {
         Debug.Log("Desconectado: " + cause);
         Disconnected?.Invoke(cause);
+        if (cause != DisconnectCause.ApplicationQuit)
+            Invoke(nameof(Reconectar), 2f);          // tenta de novo em 2 segundos
     }
+    private void Reconectar() => PhotonNetwork.ConnectUsingSettings();
 
     public void joinLobby()
     {

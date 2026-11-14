@@ -29,9 +29,13 @@ public class GerenciadorAmbiental : MonoBehaviourPunCallbacks
     [Header("Sabotador")]
     [Tooltip("O dono da sala sorteia o sabotador quando a cena Game abre (se ainda não houver um).")]
     [SerializeField] private bool sortearSabotadorAoIniciar = true;
-    [SerializeField] private float recargaSabotagem = 30f;
+    [SerializeField] private float recargaSabotagem = 45f;
     [Tooltip("Só para testar sem Photon: você joga como sabotador.")]
     [SerializeField] private bool sabotadorOffline = false;
+
+    [Header("Partida")]
+    [Tooltip("Duração da partida em minutos. Se o tempo acabar com áreas poluídas, o sabotador vence. 0 = sem limite.")]
+    [SerializeField] private float minutosDePartida = 10f;
 
     [Header("Teste")]
     [Tooltip("1 = conclui todas as tarefas · 2 = desfaz todas · 3 = alterna sabotador (só offline)")]
@@ -60,6 +64,19 @@ public class GerenciadorAmbiental : MonoBehaviourPunCallbacks
 
     private const string PREFIXO = "T|";
     private const string CHAVE_SAB = "SAB";
+    private const string CHAVE_INICIO = "INI";
+
+    /// A sabotagem não é "uma pessoa má": cada aviso mostra a causa política e econômica da degradação.
+    private static readonly Dictionary<string, string> AvisoSabotagem = new Dictionary<string, string>
+    {
+        { "Bacia de rejeitos", "A licença da mineradora foi flexibilizada." },
+        { "Lixão", "O contrato da coleta seletiva foi cancelado." },
+        { "Rio", "A empresa voltou a despejar esgoto no rio." },
+        { "Floresta", "Uma queimada criminosa atingiu a mata." },
+        { "Fazenda", "O agrotóxico proibido voltou à lavoura." },
+        { "Vila", "O bairro ficou de fora do plano de saneamento." },
+        { "Estação", "A verba do saneamento foi cortada." },
+    };
 
     private readonly List<AreaAmbiental> areas = new List<AreaAmbiental>();
     private readonly List<PontoDeTarefa> pontos = new List<PontoDeTarefa>();
@@ -71,6 +88,25 @@ public class GerenciadorAmbiental : MonoBehaviourPunCallbacks
     private float segurando;
     private float proximaSabotagem;
     private bool iniciado;
+    private float inicioOffline;
+    private bool tempoAcabou;
+
+    /// Segundos que faltam na partida (negativo = sem limite).
+    public float TempoRestante
+    {
+        get
+        {
+            if (minutosDePartida <= 0f) return -1f;
+            double decorrido;
+            if (PhotonNetwork.InRoom)
+            {
+                if (!PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue(CHAVE_INICIO, out object v) || !(v is double ini)) return minutosDePartida * 60f;
+                decorrido = PhotonNetwork.Time - ini;
+            }
+            else decorrido = Time.time - inicioOffline;
+            return Mathf.Max(0f, minutosDePartida * 60f - (float)decorrido);
+        }
+    }
 
     // ------------------------------------------------------------------ ciclo de vida
     private void Awake()
@@ -79,6 +115,8 @@ public class GerenciadorAmbiental : MonoBehaviourPunCallbacks
         Instancia = this;
         hud = GetComponent<HudAmbiental>();
         if (hud == null) hud = gameObject.AddComponent<HudAmbiental>();
+        if (GetComponent<MenuPartida>() == null) gameObject.AddComponent<MenuPartida>();   // menu do Esc
+        if (GetComponent<LimiteDoMapa>() == null) gameObject.AddComponent<LimiteDoMapa>(); // parede em volta do mapa
     }
 
     private void OnDestroy()
@@ -92,15 +130,32 @@ public class GerenciadorAmbiental : MonoBehaviourPunCallbacks
         areas.AddRange(FindObjectsByType<AreaAmbiental>(FindObjectsSortMode.None));
         pontos.AddRange(FindObjectsByType<PontoDeTarefa>(FindObjectsSortMode.None).Where(p => !p.EhReuniao));
         LigarTarefasAsAreas();
+        PrepararTransparencia();
 
         if (PhotonNetwork.InRoom && PhotonNetwork.IsMasterClient && sortearSabotadorAoIniciar
             && !PhotonNetwork.CurrentRoom.CustomProperties.ContainsKey(CHAVE_SAB))
             SortearSabotador();
 
+        if (PhotonNetwork.InRoom && PhotonNetwork.IsMasterClient && !PhotonNetwork.CurrentRoom.CustomProperties.ContainsKey(CHAVE_INICIO))
+            PhotonNetwork.CurrentRoom.SetCustomProperties(new Hashtable { { CHAVE_INICIO, PhotonNetwork.Time } });
+        inicioOffline = Time.time;
+
         LerEstadoDaSala();
         iniciado = true;
         Recalcular(silencioso: true);
         Debug.Log($"[Ambiental] {areas.Count} áreas, {pontos.Count} tarefas.");
+    }
+
+    /// Árvores e prédios altos ficam semitransparentes quando o seu personagem passa atrás deles.
+    private static readonly string[] Altos = { "arvore", "palmeira", "ipe", "mangueira", "laranjeira", "celeiro", "igreja", "coreto", "chamine", "caminhao" };
+    private void PrepararTransparencia()
+    {
+        foreach (var sr in FindObjectsByType<SpriteRenderer>(FindObjectsSortMode.None))
+        {
+            if (sr.sprite == null || sr.GetComponent<TransparenciaAtras>() != null) continue;
+            string n = sr.sprite.name.ToLowerInvariant();
+            if (Altos.Any(a => n.Contains(a))) sr.gameObject.AddComponent<TransparenciaAtras>();
+        }
     }
 
     /// Locais montados antes deste script existir: os pontos "Tarefa - X" ainda não têm o componente.
@@ -184,7 +239,8 @@ public class GerenciadorAmbiental : MonoBehaviourPunCallbacks
                 a.SetRecuperada(recuperada);
                 AreaMudou?.Invoke(a.Nome, recuperada);
                 if (!silencioso)
-                    hud.Aviso(recuperada ? $"{a.Nome} foi recuperada!" : $"Sabotagem! {a.Nome} foi poluída de novo.",
+                    hud.Aviso(recuperada ? $"{a.Nome} foi recuperada pela comunidade!"
+                                         : $"Sabotagem! {(AvisoSabotagem.TryGetValue(a.Nome, out var causa) ? causa : a.Nome + " voltou a ser degradada.")}",
                               recuperada ? HudAmbiental.Verde : HudAmbiental.Vermelho);
             }
         }
@@ -198,7 +254,7 @@ public class GerenciadorAmbiental : MonoBehaviourPunCallbacks
         if (venceu && !PartidaVencida)
         {
             PartidaVencida = true;
-            hud.Grande("Os voluntários recuperaram a vila!");
+            hud.Grande("A comunidade organizada recuperou a vila!", HudAmbiental.Verde);
             Vitoria?.Invoke();
         }
         else if (!venceu && PartidaVencida) { PartidaVencida = false; hud.Grande(null); }
@@ -226,10 +282,28 @@ public class GerenciadorAmbiental : MonoBehaviourPunCallbacks
             }
         }
 
-        if (pontoAtual == null) { hud.Prompt(null, -1f); return; }
+        float resta = TempoRestante;
+        hud.Tempo(resta);
+        if (resta == 0f && !PartidaVencida && !tempoAcabou)
+        {
+            tempoAcabou = true;
+            hud.Grande("O tempo acabou: os interesses que lucram com a degradação venceram.", HudAmbiental.Vermelho);
+        }
+
+        if (pontoAtual == null || MenuPartida.Aberto) { hud.Prompt(null, -1f); return; }
 
         if (!pontoAtual.Feita)
         {
+            if (pontoAtual.Coletiva)
+            {
+                int presentes = pontoAtual.ContarJogadores();
+                if (presentes < pontoAtual.jogadores)
+                {
+                    segurando = 0f;
+                    hud.Prompt($"{pontoAtual.nome}: precisa de {pontoAtual.jogadores} pessoas ({presentes}/{pontoAtual.jogadores})", 0f);
+                    return;
+                }
+            }
             segurando = segurandoE ? segurando + Time.deltaTime : 0f;
             hud.Prompt($"Segure E: {pontoAtual.nome}", segurando / segundosPorTarefa);
             if (segurando >= segundosPorTarefa)
@@ -270,10 +344,11 @@ public class GerenciadorAmbiental : MonoBehaviourPunCallbacks
             if (!PhotonNetwork.IsMasterClient) return;
             var limpar = new Hashtable();
             foreach (var p in pontos) limpar[PREFIXO + p.Id] = null;    // null apaga a propriedade
+            limpar[CHAVE_INICIO] = PhotonNetwork.Time;                  // o relógio recomeça
             PhotonNetwork.CurrentRoom.SetCustomProperties(limpar);
             SortearSabotador();
         }
-        else { feitas.Clear(); Recalcular(silencioso: true); }
+        else { feitas.Clear(); inicioOffline = Time.time; tempoAcabou = false; hud.Grande(null); Recalcular(silencioso: true); }
     }
 
     private void DefinirTodas(bool feita)
