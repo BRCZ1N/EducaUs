@@ -47,11 +47,11 @@
     <Analyzer Include="E:\6000.3.26f1\Editor\Data\Tools\BuildPipeline\Unity.SourceGenerators\Unity.SourceGenerators.dll" />
     <Analyzer Include="E:\6000.3.26f1\Editor\Data\Tools\BuildPipeline\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
     <Analyzer Include="E:\6000.3.26f1\Editor\Data\Tools\BuildPipeline\Unity.SourceGenerators\Unity.UIToolkit.SourceGenerator.dll" />
-    <Analyzer Include="C:\Users\Bruno\EDA\Library\PackageCache\com.unity.ai.inference@9a123aee5df7\Runtime\Core\SourceGenerator\SourceGenerators.dll" />
-    <Analyzer Include="C:\Users\Bruno\EDA\Library\PackageCache\com.unity.pipeline@62c08c808737\Runtime\Analyzers\IlInterpreterAnalyzer.dll" />
-    <Analyzer Include="C:\Users\Bruno\EDA\Library\PackageCache\com.unity.dt.app-ui@8606a9847e5b\Runtime\SourceGenerators\netstandard2.0\EnumToLowerCase.dll" />
-    <Analyzer Include="C:\Users\Bruno\EDA\Library\PackageCache\com.unity.dt.app-ui@8606a9847e5b\Runtime\SourceGenerators\netstandard2.0\UxmlCloneTreeGenerator.dll" />
-    <Analyzer Include="C:\Users\Bruno\EDA\Library\PackageCache\com.unity.dt.app-ui@8606a9847e5b\Runtime\MVVM\SourceGenerators\netstandard2.0\MVVMSourceGenerators.dll" />
+    <Analyzer Include="C:\Users\Bruno\OneDrive\Documentos\GitHub\EducaUs\Library\PackageCache\com.unity.ai.inference@9a123aee5df7\Runtime\Core\SourceGenerator\SourceGenerators.dll" />
+    <Analyzer Include="C:\Users\Bruno\OneDrive\Documentos\GitHub\EducaUs\Library\PackageCache\com.unity.pipeline@62c08c808737\Runtime\Analyzers\IlInterpreterAnalyzer.dll" />
+    <Analyzer Include="C:\Users\Bruno\OneDrive\Documentos\GitHub\EducaUs\Library\PackageCache\com.unity.dt.app-ui@8606a9847e5b\Runtime\SourceGenerators\netstandard2.0\EnumToLowerCase.dll" />
+    <Analyzer Include="C:\Users\Bruno\OneDrive\Documentos\GitHub\EducaUs\Library\PackageCache\com.unity.dt.app-ui@8606a9847e5b\Runtime\SourceGenerators\netstandard2.0\UxmlCloneTreeGenerator.dll" />
+    <Analyzer Include="C:\Users\Bruno\OneDrive\Documentos\GitHub\EducaUs\Library\PackageCache\com.unity.dt.app-ui@8606a9847e5b\Runtime\MVVM\SourceGenerators\netstandard2.0\MVVMSourceGenerators.dll" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\MainMenuScreen\Editor\MainMenuBuilder.cs" />
