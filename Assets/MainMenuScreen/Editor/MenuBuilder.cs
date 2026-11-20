@@ -10,7 +10,7 @@ using UnityEngine.UI;
 using UnityEngine.InputSystem.UI;
 #endif
 
-public static class VilaMenuBuilder
+public static class MenuBuilder
 {
     const string Root = "Assets/MainMenuScreen/";
     static readonly Vector4 Border = new Vector4(56, 42, 40, 42); // esquerda, baixo, direita, cima
@@ -68,16 +68,17 @@ public static class VilaMenuBuilder
 
         var rotuloNome = MakeText(menuGO.transform, "RotuloNome", "SEU NOME", 476, 32, 22, Ouro, fBody, false);
         rotuloNome.characterSpacing = 8; rotuloNome.fontStyle = FontStyles.Bold;
-        var nome = MakeInput(menuGO.transform, 396, 76, bN, bH, fBody, "NomeInput", "Ex.: Voluntario", 16, 34, 2);
+        var nome = MakeInput(menuGO.transform, 400, 76, bN, bH, fBody, "NomeInput", "Ex.: Voluntario", 16, 34, 2);
 
         var ctrl = canvasGO.GetComponent<MainMenuController>();
-        var novo = MakeButton(menuGO.transform, "Novo jogo", 290, 84, bN, bH, bP, fBody, 36, Cal);
-        var joinLobby = MakeButton(menuGO.transform, "Juntar-se a partida", 190, 84, bN, bH, bP, fBody, 36, Cal);
+        var novo = MakeButton(menuGO.transform, "Novo jogo", 300, 84, bN, bH, bP, fBody, 36, Cal);
+        var salas = MakeButton(menuGO.transform, "Salas abertas", 210, 84, bN, bH, bP, fBody, 36, Cal);
+        var joinLobby = MakeButton(menuGO.transform, "Entrar com código", 120, 84, bN, bH, bP, fBody, 36, Cal);
         //var cont = MakeButton(menuGO.transform, "Continuar", 312, 84, bN, bH, bP, fBody, 36, Cal);
         //var opc  = MakeButton(menuGO.transform, "Opções", 204, 84, bN, bH, bP, fBody, 36, Cal);
         //var cred = MakeButton(menuGO.transform, "Créditos", 96, 84, bN, bH, bP, fBody, 36, Cal);
-        var exit = MakeButton(menuGO.transform, "Sair", 90, 84, bN, bH, bP, fBody, 36, Cal);
-        var status = MakeText(menuGO.transform, "StatusConexao", "Conectando ao servidor...", 30, 40, 24, Cal, fBody, false);
+        var exit = MakeButton(menuGO.transform, "Sair", 30, 84, bN, bH, bP, fBody, 36, Cal);
+        var status = MakeText(menuGO.transform, "StatusConexao", "Conectando ao servidor...", -36, 40, 24, Cal, fBody, false);
         status.fontStyle = FontStyles.Italic;
 
         // Tela "Juntar-se a partida" (começa fechada; o botão abre ela direto)
@@ -89,6 +90,8 @@ public static class VilaMenuBuilder
         //UnityEventTools.AddPersistentListener(opc.onClick, ctrl.Options);
         //UnityEventTools.AddPersistentListener(cred.onClick, ctrl.Credits);
         UnityEventTools.AddPersistentListener(exit.onClick, ctrl.quit);
+        var listaSalas = BuildListaSalasScreen(canvasGO.transform, menuGO, bN, bH, bP, bM, fTitle, fBody);
+        UnityEventTools.AddPersistentListener(salas.onClick, listaSalas.Open);
 
         // Liga o campo de nome, o texto de conexão e o botão que precisa do servidor
         var cso = new SerializedObject(ctrl);
@@ -100,7 +103,7 @@ public static class VilaMenuBuilder
 
         // Navegação vertical por teclado/controle
         //Selectable[] order = { novo, cont, opc, cred, sair };
-        Selectable[] order = { nome, novo, joinLobby, exit };
+        Selectable[] order = { nome, novo, salas, joinLobby, exit };
         foreach (var s in order)
             s.navigation = new Navigation { mode = Navigation.Mode.Vertical };
 
@@ -178,6 +181,135 @@ public static class VilaMenuBuilder
         so.FindProperty("canvasGroup").objectReferenceValue = root.GetComponent<CanvasGroup>();
         so.FindProperty("previousScreen").objectReferenceValue = menuGO;
         so.FindProperty("infoColor").colorValue = Cal;
+        so.ApplyModifiedPropertiesWithoutUndo();
+
+        root.SetActive(false);
+        return screen;
+    }
+
+    // =====================================================================
+    // Tela "Salas abertas" — painel grande no centro, estilo lista de servidores
+    // =====================================================================
+    static void Ret(RectTransform rt, float x, float y, float w, float h)
+    {
+        rt.anchorMin = rt.anchorMax = Vector2.zero; rt.pivot = Vector2.zero;
+        rt.anchoredPosition = new Vector2(x, y); rt.sizeDelta = new Vector2(w, h);
+    }
+
+    static TextMeshProUGUI Col(Transform pai, string nome, string texto, float x, float w, float h, float tam, Color cor,
+        TMP_FontAsset f, TextAlignmentOptions al = TextAlignmentOptions.MidlineLeft, bool negrito = false)
+    {
+        var t = MakeText(pai, nome, texto, 0, h, tam, cor, f, false);
+        Ret((RectTransform)t.transform, x, 0, w, h);
+        t.alignment = al; if (negrito) t.fontStyle = FontStyles.Bold;
+        t.overflowMode = TextOverflowModes.Ellipsis;
+        return t;
+    }
+
+    static ListaSalasScreen BuildListaSalasScreen(Transform canvas, GameObject menuGO,
+        Sprite bN, Sprite bH, Sprite bP, Sprite bM, TMP_FontAsset fTitle, TMP_FontAsset fBody)
+    {
+        const float PW = 1300, PH = 820;
+        var root = new GameObject("ListaSalasScreen", typeof(RectTransform), typeof(Image), typeof(ListaSalasScreen));
+        root.transform.SetParent(canvas, false);
+        var rrt = (RectTransform)root.transform;
+        rrt.anchorMin = Vector2.zero; rrt.anchorMax = Vector2.one; rrt.offsetMin = rrt.offsetMax = Vector2.zero;
+        root.GetComponent<Image>().color = new Color(0f, 0f, 0f, 0.65f);
+
+        // painel central
+        var panel = new GameObject("Painel", typeof(RectTransform), typeof(Image));
+        panel.transform.SetParent(root.transform, false);
+        var prt = (RectTransform)panel.transform;
+        prt.anchorMin = prt.anchorMax = prt.pivot = new Vector2(0.5f, 0.5f);
+        prt.anchoredPosition = Vector2.zero; prt.sizeDelta = new Vector2(PW, PH);
+        var pimg = panel.GetComponent<Image>();
+        if (campoN) { pimg.sprite = campoN; pimg.type = Image.Type.Sliced; pimg.color = new Color(0.85f, 0.85f, 0.85f, 0.97f); }
+        else pimg.color = new Color(0.08f, 0.12f, 0.1f, 0.95f);
+
+        var titulo = MakeText(panel.transform, "Titulo", "Salas abertas", 0, 90, 72, Ouro, fTitle, true);
+        Ret((RectTransform)titulo.transform, 0, PH - 120, PW, 90); titulo.alignment = TextAlignmentOptions.Center;
+        var sub = MakeText(panel.transform, "Subtitulo", "Escolha uma partida para entrar", 0, 36, 26, Cal, fBody, false);
+        Ret((RectTransform)sub.transform, 0, PH - 160, PW, 36); sub.alignment = TextAlignmentOptions.Center;
+
+        // cabeçalho das colunas
+        var cab = new GameObject("Cabecalho", typeof(RectTransform));
+        cab.transform.SetParent(panel.transform, false);
+        Ret((RectTransform)cab.transform, 50, PH - 225, PW - 100, 40);
+        foreach (var (nome, texto, x, w) in new[] { ("CSala", "SALA", 32f, 520f), ("CAnf", "ANFITRIÃO", 580f, 280f), ("CJog", "JOGADORES", 880f, 180f) })
+        {
+            var c = Col(cab.transform, nome, texto, x, w, 40, 22, Ouro, fBody, TextAlignmentOptions.MidlineLeft, true);
+            c.characterSpacing = 6;
+        }
+
+        // lista com rolagem
+        var scrollGO = new GameObject("Lista", typeof(RectTransform), typeof(Image), typeof(ScrollRect));
+        scrollGO.transform.SetParent(panel.transform, false);
+        Ret((RectTransform)scrollGO.transform, 50, 150, PW - 100, PH - 385);
+        scrollGO.GetComponent<Image>().color = new Color(0f, 0f, 0f, 0.3f);
+
+        var viewport = new GameObject("Viewport", typeof(RectTransform), typeof(RectMask2D));
+        viewport.transform.SetParent(scrollGO.transform, false);
+        var vrt = (RectTransform)viewport.transform;
+        vrt.anchorMin = Vector2.zero; vrt.anchorMax = Vector2.one; vrt.offsetMin = new Vector2(12, 12); vrt.offsetMax = new Vector2(-12, -12);
+
+        var content = new GameObject("Conteudo", typeof(RectTransform), typeof(VerticalLayoutGroup), typeof(ContentSizeFitter));
+        content.transform.SetParent(viewport.transform, false);
+        var crt = (RectTransform)content.transform;
+        crt.anchorMin = new Vector2(0, 1); crt.anchorMax = new Vector2(1, 1); crt.pivot = new Vector2(0.5f, 1);
+        crt.offsetMin = crt.offsetMax = Vector2.zero;
+        var vl = content.GetComponent<VerticalLayoutGroup>();
+        vl.spacing = 10; vl.childControlWidth = true; vl.childControlHeight = true; vl.childForceExpandHeight = false;
+        content.GetComponent<ContentSizeFitter>().verticalFit = ContentSizeFitter.FitMode.PreferredSize;
+
+        var sr = scrollGO.GetComponent<ScrollRect>();
+        sr.viewport = vrt; sr.content = crt; sr.horizontal = false; sr.vertical = true;
+        sr.movementType = ScrollRect.MovementType.Clamped; sr.scrollSensitivity = 30;
+
+        // linha modelo (uma por sala)
+        var linha = new GameObject("Sala", typeof(RectTransform), typeof(Image), typeof(Button), typeof(LayoutElement));
+        linha.transform.SetParent(content.transform, false);
+        linha.GetComponent<LayoutElement>().preferredHeight = 80;
+        var limg = linha.GetComponent<Image>(); limg.sprite = bN; limg.type = Image.Type.Sliced;
+        var lb = linha.GetComponent<Button>(); lb.targetGraphic = limg; lb.transition = Selectable.Transition.SpriteSwap;
+        lb.spriteState = new SpriteState { highlightedSprite = bH, selectedSprite = bH, pressedSprite = bP };
+        foreach (var (nome, x, w, tam, cor, al, neg) in new[]
+        {
+            ("ColNome", 32f, 520f, 32f, Cal, TextAlignmentOptions.MidlineLeft, true),
+            ("ColAnfitriao", 580f, 280f, 28f, Cal, TextAlignmentOptions.MidlineLeft, false),
+            ("ColJogadores", 880f, 180f, 28f, Cal, TextAlignmentOptions.MidlineLeft, false),
+            ("Entrar", 1000f, 160f, 24f, Ouro, TextAlignmentOptions.MidlineRight, true),
+        })
+        {
+            var c = Col(linha.transform, nome, nome == "Entrar" ? "ENTRAR ›" : "", x, w, 80, tam, cor, fBody, al, neg);
+            var crt2 = (RectTransform)c.transform; crt2.anchoredPosition = new Vector2(x, 4);   // na face, acima da espessura
+            c.outlineWidth = 0.12f; c.outlineColor = Ferrugem;
+        }
+        linha.SetActive(false);
+
+        var vazio = MakeText(scrollGO.transform, "Vazio", "Nenhuma sala aberta agora.", 0, 0, 28, Cal, fBody, false);
+        var vzt = (RectTransform)vazio.transform; vzt.anchorMin = Vector2.zero; vzt.anchorMax = Vector2.one;
+        vzt.offsetMin = new Vector2(40, 0); vzt.offsetMax = new Vector2(-40, 0);
+        vazio.alignment = TextAlignmentOptions.Center; vazio.fontStyle = FontStyles.Italic;
+        vazio.textWrappingMode = TextWrappingModes.Normal;
+
+        // rodapé: Voltar, status, Atualizar
+        var voltar = MakeButton(panel.transform, "Voltar", 40, 84, bN, bH, bP, fBody, 36, Cal);
+        Ret((RectTransform)voltar.transform, 50, 40, 320, 84);
+        var atualizar = MakeButton(panel.transform, "Atualizar", 40, 84, bM, bH, bP, fBody, 36, Cal);
+        Ret((RectTransform)atualizar.transform, PW - 370, 40, 320, 84);
+        var status = MakeText(panel.transform, "Status", "", 0, 40, 24, Cal, fBody, false);
+        Ret((RectTransform)status.transform, 380, 62, PW - 760, 40);
+        status.alignment = TextAlignmentOptions.Center; status.fontStyle = FontStyles.Italic;
+
+        var screen = root.GetComponent<ListaSalasScreen>();
+        var so = new SerializedObject(screen);
+        so.FindProperty("conteudo").objectReferenceValue = crt;
+        so.FindProperty("modeloItem").objectReferenceValue = lb;
+        so.FindProperty("textoVazio").objectReferenceValue = vazio;
+        so.FindProperty("statusText").objectReferenceValue = status;
+        so.FindProperty("backButton").objectReferenceValue = voltar;
+        so.FindProperty("atualizarButton").objectReferenceValue = atualizar;
+        so.FindProperty("previousScreen").objectReferenceValue = menuGO;
         so.ApplyModifiedPropertiesWithoutUndo();
 
         root.SetActive(false);

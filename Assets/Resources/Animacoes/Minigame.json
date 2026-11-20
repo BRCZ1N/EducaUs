@@ -1,0 +1,88 @@
+{
+ "arquivo": "Minigame",
+ "tamanho": 128,
+ "margem": 0,
+ "passo": 128,
+ "linhas": 2,
+ "pivo": [
+  0.5,
+  0.5
+ ],
+ "tiles": [
+  {
+   "n": "garrafa",
+   "r": 0,
+   "c": 0
+  },
+  {
+   "n": "lata",
+   "r": 0,
+   "c": 1
+  },
+  {
+   "n": "papel",
+   "r": 0,
+   "c": 2
+  },
+  {
+   "n": "vidro",
+   "r": 0,
+   "c": 3
+  },
+  {
+   "n": "casca",
+   "r": 0,
+   "c": 4
+  },
+  {
+   "n": "sacola",
+   "r": 0,
+   "c": 5
+  },
+  {
+   "n": "chama",
+   "r": 0,
+   "c": 6
+  },
+  {
+   "n": "cova",
+   "r": 0,
+   "c": 7
+  },
+  {
+   "n": "muda",
+   "r": 1,
+   "c": 0
+  },
+  {
+   "n": "canteiro_seco",
+   "r": 1,
+   "c": 1
+  },
+  {
+   "n": "canteiro_ok",
+   "r": 1,
+   "c": 2
+  },
+  {
+   "n": "composto",
+   "r": 1,
+   "c": 3
+  },
+  {
+   "n": "esterco",
+   "r": 1,
+   "c": 4
+  },
+  {
+   "n": "agrotoxico",
+   "r": 1,
+   "c": 5
+  },
+  {
+   "n": "pneu",
+   "r": 1,
+   "c": 6
+  }
+ ]
+}

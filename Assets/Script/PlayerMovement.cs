@@ -67,7 +67,7 @@ public class PlayerMovement : MonoBehaviourPun
 
     private static Vector2 ReadInput()
     {
-        if (MenuPartida.Aberto) return Vector2.zero;   // menu do Esc aberto: o boneco para
+        if (MenuPartida.Aberto || MinigameTarefa.Aberto) return Vector2.zero;   // menu ou minigame aberto: o boneco para
 
         Vector2 v = Vector2.zero;
 

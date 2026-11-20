@@ -39,7 +39,7 @@ public class ControleToque : MonoBehaviour
     {
         Vector2 d = valorJoy;
         if (d == Vector2.zero && andarComMouse) d = DirecaoDoMouse();
-        Direcao = MenuPartida.Aberto ? Vector2.zero : Vector2.ClampMagnitude(d, 1f);
+        Direcao = (MenuPartida.Aberto || MinigameTarefa.Aberto) ? Vector2.zero : Vector2.ClampMagnitude(d, 1f);
     }
 
     // ------------------------------------------------------------------ mouse

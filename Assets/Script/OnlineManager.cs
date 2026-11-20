@@ -1,7 +1,10 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 /// <summary>
 /// Fala com o Photon e avisa o resultado por eventos.
@@ -14,9 +17,21 @@ public class OnlineManager : MonoBehaviourPunCallbacks
 
     [Header("Código da sala")]
     [SerializeField] private int roomCodeLength = 5;
+    [SerializeField] private int maxJogadores = 6;
+    [Tooltip("WebSocket seguro na porta 443: costuma passar por redes que bloqueiam o Photon (ex.: faculdade).")]
+    [SerializeField] private bool usarPorta443 = true;
 
     // Sem 0/O e 1/I, que se confundem quando alguém dita o código
     private const string CodeChars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+    public const string ChaveAnfitriao = "anf";
+    public const string ChaveNomeSala = "nom";
+
+    // nomes de sala mostrados na lista (o código continua existindo, mas não aparece)
+    private static readonly string[] NomesDeSala =
+    {
+        "Mutirão do Rio", "Guardiões da Nascente", "Brigada da Mata", "Cooperativa Unida", "Raízes da Vila",
+        "Bairro em Ação", "Rede Comunitária", "Vila Esperança", "Horta Coletiva", "Água Limpa Já",
+    };
 
     // ------------------------------------------------------------------ eventos
 
@@ -29,8 +44,14 @@ public class OnlineManager : MonoBehaviourPunCallbacks
     public event Action<string> JoinSucceeded;        // código da sala
     public event Action<short, string> JoinFailed;    // código de erro, mensagem
 
+    public event Action<IReadOnlyList<RoomInfo>> SalasAtualizadas;   // lista de salas abertas mudou
+
     /// <summary>True quando dá pra criar/entrar em sala.</summary>
     public bool IsReady => PhotonNetwork.NetworkClientState == ClientState.ConnectedToMasterServer || PhotonNetwork.NetworkClientState == ClientState.JoinedLobby;
+
+    private readonly Dictionary<string, RoomInfo> salas = new Dictionary<string, RoomInfo>();
+    /// <summary>Salas abertas conhecidas (atualizadas enquanto o jogador está no lobby).</summary>
+    public IReadOnlyList<RoomInfo> Salas => salas.Values.ToList();
 
     // ------------------------------------------------------------------ ciclo de vida
 
@@ -42,11 +63,15 @@ public class OnlineManager : MonoBehaviourPunCallbacks
             return;
         }
         Instance = this;
+        PhotonNetwork.SendRate = 30;            // pacotes por segundo
+        PhotonNetwork.SerializationRate = 30;   // atualizações de posição por segundo
     }
 
     private void Start()
     {
         PhotonNetwork.NickName = PlayerPrefs.GetString("NomeJogador", "Voluntário");
+        if (usarPorta443)
+            PhotonNetwork.PhotonServerSettings.AppSettings.Protocol = ExitGames.Client.Photon.ConnectionProtocol.WebSocketSecure;
         PhotonNetwork.ConnectUsingSettings();
     }
 
@@ -56,33 +81,69 @@ public class OnlineManager : MonoBehaviourPunCallbacks
     {
         Debug.Log("Conectado");
         Connected?.Invoke();
+        PedirListaDeSalas();                    // entra no lobby para receber a lista de salas
     }
 
     public override void OnDisconnected(DisconnectCause cause)
     {
         Debug.Log("Desconectado: " + cause);
+        salas.Clear();
+        SalasAtualizadas?.Invoke(Salas);
         Disconnected?.Invoke(cause);
         if (cause != DisconnectCause.ApplicationQuit)
-            Invoke(nameof(Reconectar), 2f);          // tenta de novo em 2 segundos
+            Invoke(nameof(Reconectar), 2f);     // tenta de novo em 2 segundos
     }
+
     private void Reconectar() => PhotonNetwork.ConnectUsingSettings();
 
-    public void joinLobby()
+    public void joinLobby() => PedirListaDeSalas();
+
+    /// <summary>Entra no lobby padrão (se ainda não estiver) para receber a lista de salas.</summary>
+    public void PedirListaDeSalas()
     {
-        PhotonNetwork.JoinLobby();
+        if (PhotonNetwork.NetworkClientState == ClientState.ConnectedToMasterServer && !PhotonNetwork.InLobby)
+            PhotonNetwork.JoinLobby();
+    }
+
+    public override void OnRoomListUpdate(List<RoomInfo> lista)
+    {
+        foreach (var s in lista)
+        {
+            if (s.RemovedFromList || !s.IsOpen || !s.IsVisible) salas.Remove(s.Name);
+            else salas[s.Name] = s;
+        }
+        SalasAtualizadas?.Invoke(Salas);
+    }
+
+    public override void OnLeftLobby()
+    {
+        salas.Clear();
+        SalasAtualizadas?.Invoke(Salas);
     }
 
     // ------------------------------------------------------------------ criar sala
 
     public void createRoom()
     {
-        PhotonNetwork.CreateRoom(GenerateRoomCode());
+        var opcoes = new RoomOptions
+        {
+            MaxPlayers = (byte)maxJogadores,
+            IsVisible = true,                                   // aparece na lista de salas
+            IsOpen = true,
+            CustomRoomProperties = new Hashtable
+            {
+                { ChaveAnfitriao, PhotonNetwork.NickName },
+                { ChaveNomeSala, NomesDeSala[UnityEngine.Random.Range(0, NomesDeSala.Length)] },
+            },
+            CustomRoomPropertiesForLobby = new[] { ChaveAnfitriao, ChaveNomeSala },   // aparecem na lista de salas
+        };
+        PhotonNetwork.CreateRoom(GenerateRoomCode(), opcoes);
     }
 
     public override void OnCreatedRoom()
     {
+        Debug.Log("Sala criada: " + PhotonNetwork.CurrentRoom.Name);
         RoomCreated?.Invoke(PhotonNetwork.CurrentRoom.Name);
-        Debug.Log(PhotonNetwork.CurrentRoom.Name);
     }
 
     public override void OnCreateRoomFailed(short returnCode, string message)

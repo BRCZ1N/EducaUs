@@ -90,6 +90,8 @@ public class GerenciadorAmbiental : MonoBehaviourPunCallbacks
     private Morador moradorAtual;
     private float dicaColetiva;
     private Comunidade comunidade;
+    private MinigameTarefa minigame;
+    private bool usarAntes;
     private float segurando;
     private float proximaSabotagem;
     private bool iniciado;
@@ -124,6 +126,8 @@ public class GerenciadorAmbiental : MonoBehaviourPunCallbacks
         if (GetComponent<LimiteDoMapa>() == null) gameObject.AddComponent<LimiteDoMapa>(); // parede em volta do mapa
         if (GetComponent<AnimarAgua>() == null) gameObject.AddComponent<AnimarAgua>();     // água ondulando
         if (GetComponent<ControleToque>() == null) gameObject.AddComponent<ControleToque>(); // andar com mouse/joystick
+        minigame = GetComponent<MinigameTarefa>();
+        if (minigame == null) minigame = gameObject.AddComponent<MinigameTarefa>();         // minigames das tarefas
         comunidade = GetComponent<Comunidade>();
         if (comunidade == null) comunidade = gameObject.AddComponent<Comunidade>();         // moradores + pressão econômica
     }
@@ -139,7 +143,6 @@ public class GerenciadorAmbiental : MonoBehaviourPunCallbacks
         areas.AddRange(FindObjectsByType<AreaAmbiental>(FindObjectsSortMode.None));
         pontos.AddRange(FindObjectsByType<PontoDeTarefa>(FindObjectsSortMode.None).Where(p => !p.EhReuniao));
         LigarTarefasAsAreas();
-        PrepararTransparencia();
 
         TentarSortearSabotador();
 
@@ -151,18 +154,6 @@ public class GerenciadorAmbiental : MonoBehaviourPunCallbacks
         iniciado = true;
         Recalcular(silencioso: true);
         Debug.Log($"[Ambiental] {areas.Count} áreas, {pontos.Count} tarefas.");
-    }
-
-    /// Árvores e prédios altos ficam semitransparentes quando o seu personagem passa atrás deles.
-    private static readonly string[] Altos = { "arvore", "palmeira", "ipe", "mangueira", "laranjeira", "celeiro", "igreja", "coreto", "chamine", "caminhao" };
-    private void PrepararTransparencia()
-    {
-        foreach (var sr in FindObjectsByType<SpriteRenderer>(FindObjectsSortMode.None))
-        {
-            if (sr.sprite == null || sr.GetComponent<TransparenciaAtras>() != null) continue;
-            string n = sr.sprite.name.ToLowerInvariant();
-            if (Altos.Any(a => n.Contains(a))) sr.gameObject.AddComponent<TransparenciaAtras>();
-        }
     }
 
     /// Locais montados antes deste script existir: os pontos "Tarefa - X" ainda não têm o componente.
@@ -313,7 +304,11 @@ public class GerenciadorAmbiental : MonoBehaviourPunCallbacks
         var kb = Keyboard.current; var gp = Gamepad.current;
         bool segurandoE = (kb != null && kb.eKey.isPressed) || (gp != null && gp.buttonSouth.isPressed);
         bool apertouQ = (kb != null && kb.qKey.wasPressedThisFrame) || (gp != null && gp.buttonWest.wasPressedThisFrame);
-        segurandoE |= hud.UsarSegurado;          // botão USAR da tela (mouse ou toque)
+        bool usarTela = hud.UsarSegurado;
+        bool apertouUsar = (kb != null && kb.eKey.wasPressedThisFrame) || (gp != null && gp.buttonSouth.wasPressedThisFrame)
+                           || (usarTela && !usarAntes);   // clique no botão USAR abre o minigame
+        usarAntes = usarTela;
+        segurandoE |= usarTela;                  // botão USAR da tela (mouse ou toque)
         apertouQ |= hud.ConsumirSabotar();       // botão SABOTAR da tela
         AtualizarBotoes();
 
@@ -336,7 +331,7 @@ public class GerenciadorAmbiental : MonoBehaviourPunCallbacks
             hud.Grande("O tempo acabou: os interesses que lucram com a degradação venceram.", HudAmbiental.Vermelho);
         }
 
-        if (MenuPartida.Aberto) { hud.Prompt(null, -1f); return; }
+        if (MenuPartida.Aberto || MinigameTarefa.Aberto) { hud.Prompt(null, -1f); return; }
         if (pontoAtual == null)
         {
             if (moradorAtual != null) ConversarComMorador(segurandoE);
@@ -364,22 +359,22 @@ public class GerenciadorAmbiental : MonoBehaviourPunCallbacks
                     return;
                 }
             }
-            segurando = segurandoE ? segurando + Time.deltaTime : 0f;
-            hud.Prompt($"Segure USAR (E): {pontoAtual.nome}", segurando / segundosPorTarefa);
-            if (segurando >= segundosPorTarefa)
+            segurando = 0f;
+            hud.Prompt($"USAR (E): {pontoAtual.nome}", -1f);
+            if (apertouUsar)
             {
-                segurando = 0f;
-                if (SouSabotador) hud.Aviso("(você fingiu fazer a tarefa)", HudAmbiental.Cinza);
-                else
+                var ponto = pontoAtual; int apoios = apoiosUsados; bool fingindo = SouSabotador;
+                minigame.Abrir(ponto.nome, () =>
                 {
-                    if (apoiosUsados > 0)
+                    if (fingindo) { hud.Aviso("(você fingiu fazer a tarefa)", HudAmbiental.Cinza); return; }
+                    if (apoios > 0)
                     {
-                        comunidade.Gastar(apoiosUsados);
-                        hud.Aviso($"{apoiosUsados} morador(es) participaram da ação!", HudAmbiental.Verde);
+                        comunidade.Gastar(apoios);
+                        hud.Aviso($"{apoios} morador(es) participaram da ação!", HudAmbiental.Verde);
                     }
-                    DefinirTarefa(pontoAtual.Id, true);
+                    DefinirTarefa(ponto.Id, true);
                     Recalcular(silencioso: true);
-                }
+                });
             }
         }
         else if (SouSabotador)
@@ -404,7 +399,7 @@ public class GerenciadorAmbiental : MonoBehaviourPunCallbacks
         bool usar = false; string rotulo = "USAR"; float prog = 0f;
         if (!menu)
         {
-            if (pontoAtual != null && !pontoAtual.Feita) { usar = true; prog = segurando / segundosPorTarefa; }
+            if (pontoAtual != null && !pontoAtual.Feita) { usar = true; prog = 0f; }
             else if (pontoAtual == null && moradorAtual != null && moradorAtual.Disponivel && comunidade.Apoios < comunidade.MaximoDeApoios)
             { usar = true; rotulo = "FALAR"; prog = segurando / SegundosConversa; }
         }
