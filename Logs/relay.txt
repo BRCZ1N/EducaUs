@@ -4401,3 +4401,18 @@
 [2026-11-20T22:30:43.168Z] [INFO] log Auto-shutdown timer started due to client disconnection
 [2026-11-20T22:33:43.181Z] [INFO] log Auto-shutdown timer fired after 180s inactivity, shutting down: Dedicated client disconnected
 [2026-11-20T22:33:43.182Z] [INFO] log Shutdown: Initiating graceful shutdown: Dedicated client disconnected
+[2026-11-20T22:39:54.044Z] [INFO] relay.startup port=9001 mcpClientPort=9002 editorPid=18744
+[2026-11-20T22:39:54.045Z] [INFO] log === RELAY SERVER STARTED === (unity-ai-relay v1.0.12-build.99)
+[2026-11-20T22:39:54.057Z] [INFO] log TLS trust: NODE_USE_SYSTEM_CA=on systemCAs=102 bundledCAs=145
+[2026-11-20T22:39:54.057Z] [INFO] log Starting relay server...
+[2026-11-20T22:39:54.057Z] [INFO] log Command line arguments: ["bun","B:/~BUN/root/relay_win.exe","--relay","--port","9001","--mcp-client-port","9002","--editor-pid","18744","--shutdown-delay","180","--log-dir","C:\\Users\\Bruno\\OneDrive\\Documentos\\GitHub\\EducaUs\\Logs"]
+[2026-11-20T22:39:54.058Z] [INFO] log Parsed config: {"port":9001,"mcpClientPort":9002,"editorPid":"18744","shutdownDelaySeconds":180}
+[2026-11-20T22:39:54.058Z] [INFO] log Initializing relay components...
+[2026-11-20T22:39:54.059Z] [INFO] log Creating RelayEditor...
+[2026-11-20T22:39:54.063Z] [INFO] log WebSocket server started
+[2026-11-20T22:39:54.064Z] [INFO] log Relay server initialization completed
+[2026-11-20T22:39:54.065Z] [INFO] log MCP Client initialized at port: 9002
+[2026-11-20T22:39:54.074Z] [WARN] log [shell-env] Shell environment did not contain a PATH variable
+[2026-11-20T22:39:54.089Z] [INFO] log Unity MCP Relay server started | Port: 9002 | Endpoints: /mcp/start-server, /mcp/stop-server, /mcp/server-status, /mcp/call-tool
+[2026-11-20T22:39:54.547Z] [INFO] log Unity client connected with ID: editor-18744-etmwbx (relay 1.0.12-build.99)
+[2026-11-20T22:39:54.547Z] [INFO] connection.established clientId=editor-18744-etmwbx port=9001
