@@ -1,0 +1,5440 @@
+fileFormatVersion: 2
+guid: 0d0662ecc49cca7499ad641ec7ec4d1a
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -8498426862306487259
+    second: Agua_Anim_128_0
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 0
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 64
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 0
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 4096
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: agua_f0_C
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 3812
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 513b724de563b6d438a1d2c71585d263
+      internalID: -1983294767
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f0_NW
+      rect:
+        serializedVersion: 2
+        x: 140
+        y: 3812
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 894760368465a2b48b89192e05d19af6
+      internalID: -968367432
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f0_N
+      rect:
+        serializedVersion: 2
+        x: 276
+        y: 3812
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e04c3dc0a73f29d42b514f8913d7ee8c
+      internalID: -2088907481
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f0_NE
+      rect:
+        serializedVersion: 2
+        x: 412
+        y: 3812
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1f75168cd5647ad40a17c0ef5541ae17
+      internalID: 1565529493
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f0_W
+      rect:
+        serializedVersion: 2
+        x: 548
+        y: 3812
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3f393b9ebbc03974ea9621be1e8fc2f9
+      internalID: 578721867
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f0_C
+      rect:
+        serializedVersion: 2
+        x: 684
+        y: 3812
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a4652fc580c93d242ba32c2c9c4ad45f
+      internalID: 809169913
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f0_E
+      rect:
+        serializedVersion: 2
+        x: 820
+        y: 3812
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c64a1fa23fd61c545a4d679bced04ee0
+      internalID: 788335810
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f0_SW
+      rect:
+        serializedVersion: 2
+        x: 956
+        y: 3812
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 29a20652f7effa24f91f71a6bc35c073
+      internalID: -1967583363
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f0_S
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 3676
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ba7a104683c7bde4091d7b4ba70c1918
+      internalID: 246152453
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f0_SE
+      rect:
+        serializedVersion: 2
+        x: 140
+        y: 3676
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3c90956ca337ca54ab0d895c3131565c
+      internalID: 686778420
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f0_iNW
+      rect:
+        serializedVersion: 2
+        x: 276
+        y: 3676
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5eed4c3a0dbe6f349a3986fbb4ea1974
+      internalID: 1540711759
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f0_iNE
+      rect:
+        serializedVersion: 2
+        x: 412
+        y: 3676
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a38260248a3dacc408b0ae2e9cf365af
+      internalID: -2134172125
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f0_iSW
+      rect:
+        serializedVersion: 2
+        x: 548
+        y: 3676
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0c2ce06607467744a9dacd9ddaf46cee
+      internalID: -483680817
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f0_iSE
+      rect:
+        serializedVersion: 2
+        x: 684
+        y: 3676
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: de04da02744d0214db368dc435eab528
+      internalID: -1681973860
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f1_C
+      rect:
+        serializedVersion: 2
+        x: 820
+        y: 3676
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f56abf6dea95d4047bdf90def529c137
+      internalID: -1083156407
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f1_NW
+      rect:
+        serializedVersion: 2
+        x: 956
+        y: 3676
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1457bc11e2dca8b4cacd25783c4e9da0
+      internalID: -1585866260
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f1_N
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 3540
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f5f78269f05cc5b4bbeb63ce03405ead
+      internalID: -915081573
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f1_NE
+      rect:
+        serializedVersion: 2
+        x: 140
+        y: 3540
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0adf7ceec795206448e39047295c2edd
+      internalID: 2146411418
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f1_W
+      rect:
+        serializedVersion: 2
+        x: 276
+        y: 3540
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c18b6bd5c2d9c234399ee1ef20b2c4c9
+      internalID: -407868363
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f1_C
+      rect:
+        serializedVersion: 2
+        x: 412
+        y: 3540
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 812cae9504858924f9c13cf69d8c9182
+      internalID: -1810289022
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f1_E
+      rect:
+        serializedVersion: 2
+        x: 548
+        y: 3540
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f479e39e07fe4314291f8a5bed01503b
+      internalID: 1771973343
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f1_SW
+      rect:
+        serializedVersion: 2
+        x: 684
+        y: 3540
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e93bbbefcdbf6a349b3f703014e59322
+      internalID: 67764590
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f1_S
+      rect:
+        serializedVersion: 2
+        x: 820
+        y: 3540
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fde75e158b2c1304c8a2b86d7d2f46a3
+      internalID: 1573859152
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f1_SE
+      rect:
+        serializedVersion: 2
+        x: 956
+        y: 3540
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 669e878c99b5901429a041b645b9b898
+      internalID: 950010961
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f1_iNW
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 3404
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 77cc566813d617648bec572ded788d3a
+      internalID: 279760796
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f1_iNE
+      rect:
+        serializedVersion: 2
+        x: 140
+        y: 3404
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7abdfd761782ed44ab909b56547d1c42
+      internalID: 965713949
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f1_iSW
+      rect:
+        serializedVersion: 2
+        x: 276
+        y: 3404
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 020ac0c5dd8eab34fa0c46d2da696f77
+      internalID: 135098963
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f1_iSE
+      rect:
+        serializedVersion: 2
+        x: 412
+        y: 3404
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cce7ed968262ae24c9a7ccf0787e4c53
+      internalID: -35760993
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f2_C
+      rect:
+        serializedVersion: 2
+        x: 548
+        y: 3404
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8a542c307f264a4438afa89ac7c53cee
+      internalID: -1059212596
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f2_NW
+      rect:
+        serializedVersion: 2
+        x: 684
+        y: 3404
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e2619c2ae71967c47be3777be3b81751
+      internalID: -781017331
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f2_N
+      rect:
+        serializedVersion: 2
+        x: 820
+        y: 3404
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2ce4bb1018205274eac1148ed342b1ef
+      internalID: 1660627776
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f2_NE
+      rect:
+        serializedVersion: 2
+        x: 956
+        y: 3404
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8578f7df2b14b8d459341aec86b9abfe
+      internalID: -886364669
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f2_W
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 3268
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e5e95bb5f8f3d974f9691e8ebd88b77a
+      internalID: 886874745
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f2_C
+      rect:
+        serializedVersion: 2
+        x: 140
+        y: 3268
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 57dd0fdc0eca77d47a374c8d1846d821
+      internalID: -2131749197
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f2_E
+      rect:
+        serializedVersion: 2
+        x: 276
+        y: 3268
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 02db323cea5eacd43860e180c1b36dd5
+      internalID: -895712467
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f2_SW
+      rect:
+        serializedVersion: 2
+        x: 412
+        y: 3268
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bf02437fa6d36954f93091a2ead92a5e
+      internalID: -936489640
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f2_S
+      rect:
+        serializedVersion: 2
+        x: 548
+        y: 3268
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 26ac799422042e34ca332b72cd6f3fc6
+      internalID: -1436724072
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f2_SE
+      rect:
+        serializedVersion: 2
+        x: 684
+        y: 3268
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 68e1a3a82f0326747a981b6a6c666d93
+      internalID: 43381481
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f2_iNW
+      rect:
+        serializedVersion: 2
+        x: 820
+        y: 3268
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 516850b0d32f4e74c85dfc2f11a1100d
+      internalID: -925824159
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f2_iNE
+      rect:
+        serializedVersion: 2
+        x: 956
+        y: 3268
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d03969ec3f05e4b42a1c56833c9beda1
+      internalID: -334776013
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f2_iSW
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 3132
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8f13988a9d5a7684ebad6173a71366cd
+      internalID: 433631533
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f2_iSE
+      rect:
+        serializedVersion: 2
+        x: 140
+        y: 3132
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9372c8618de371b43ba2625f4d50d461
+      internalID: -2091663754
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f3_C
+      rect:
+        serializedVersion: 2
+        x: 276
+        y: 3132
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7806e7b16bb88c54cb2bbcd0a95b53b2
+      internalID: 1343831211
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f3_NW
+      rect:
+        serializedVersion: 2
+        x: 412
+        y: 3132
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0b5cddb50175e074783bed0519825c33
+      internalID: -433631062
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f3_N
+      rect:
+        serializedVersion: 2
+        x: 548
+        y: 3132
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f8556f0ce64d9614ebc9fb13a0f6862f
+      internalID: 1452201473
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f3_NE
+      rect:
+        serializedVersion: 2
+        x: 684
+        y: 3132
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7584898d836a0cd4f90261b640f3860d
+      internalID: 611481740
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f3_W
+      rect:
+        serializedVersion: 2
+        x: 820
+        y: 3132
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dc5efdef2afa46e4a85eec3b7bde9d47
+      internalID: 730404918
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f3_C
+      rect:
+        serializedVersion: 2
+        x: 956
+        y: 3132
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 21dd5cbe86f7a6b40ac2599f8ff7eb36
+      internalID: -1180016118
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f3_E
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 2996
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2dcc62c646104a349aceec8b90d06654
+      internalID: -679019046
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f3_SW
+      rect:
+        serializedVersion: 2
+        x: 140
+        y: 2996
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ed178364ffab6c94babd6908c94882f5
+      internalID: -1592258966
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f3_S
+      rect:
+        serializedVersion: 2
+        x: 276
+        y: 2996
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fa02a805123cefe49b4737e8a55226e1
+      internalID: 1826216797
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f3_SE
+      rect:
+        serializedVersion: 2
+        x: 412
+        y: 2996
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 30e39905ae78d1b49bd8bbc6bbc470d2
+      internalID: -414390485
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f3_iNW
+      rect:
+        serializedVersion: 2
+        x: 548
+        y: 2996
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a40955ba577134b4299cbcef9efa935d
+      internalID: -1284717332
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f3_iNE
+      rect:
+        serializedVersion: 2
+        x: 684
+        y: 2996
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2324ee9df700f954f9ef649001eb4ddc
+      internalID: -119001978
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f3_iSW
+      rect:
+        serializedVersion: 2
+        x: 820
+        y: 2996
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fd2179276cb781540adc6abe1a232033
+      internalID: -418361764
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f3_iSE
+      rect:
+        serializedVersion: 2
+        x: 956
+        y: 2996
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7439a2b90703c1847a60c60e013902d1
+      internalID: -2030007112
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f4_C
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 2860
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 68cdb839279366f4c840e2faf5367c04
+      internalID: -888125857
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f4_NW
+      rect:
+        serializedVersion: 2
+        x: 140
+        y: 2860
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 788f517f372ad034d87b1563258fac6c
+      internalID: 687781907
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f4_N
+      rect:
+        serializedVersion: 2
+        x: 276
+        y: 2860
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 478d7ac870993c84b94b50c98c928555
+      internalID: -419914204
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f4_NE
+      rect:
+        serializedVersion: 2
+        x: 412
+        y: 2860
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f45779594e302f0478fd93d1bbfb209c
+      internalID: -49411401
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f4_W
+      rect:
+        serializedVersion: 2
+        x: 548
+        y: 2860
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f79a97367abed704399ede1a69509acc
+      internalID: -1709675523
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f4_C
+      rect:
+        serializedVersion: 2
+        x: 684
+        y: 2860
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5b6e52302a4fc4e499fb3bcbddcfcdcf
+      internalID: 992892363
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f4_E
+      rect:
+        serializedVersion: 2
+        x: 820
+        y: 2860
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 874fae15a0c969b419c429394af02af2
+      internalID: 1889987611
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f4_SW
+      rect:
+        serializedVersion: 2
+        x: 956
+        y: 2860
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 18a6544279eb42a46b4ffb37cd53b4ab
+      internalID: -1329046328
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f4_S
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 2724
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ccb990f69d35b584497ed23de1f5f3c5
+      internalID: -1943340977
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f4_SE
+      rect:
+        serializedVersion: 2
+        x: 140
+        y: 2724
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 41ab9f3ec53a53e4abef8fed36e06291
+      internalID: -459594055
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f4_iNW
+      rect:
+        serializedVersion: 2
+        x: 276
+        y: 2724
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 612b873785ad6f5478b75359a0e5478b
+      internalID: -400116481
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f4_iNE
+      rect:
+        serializedVersion: 2
+        x: 412
+        y: 2724
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 041f55d48c498d94785dd19941216f15
+      internalID: 1526194487
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f4_iSW
+      rect:
+        serializedVersion: 2
+        x: 548
+        y: 2724
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bb76dc9fbc3ac6a4b850376b58025a99
+      internalID: 1155069542
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f4_iSE
+      rect:
+        serializedVersion: 2
+        x: 684
+        y: 2724
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2774ebfac8d7f6247973aff92646854c
+      internalID: -1956447321
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f5_C
+      rect:
+        serializedVersion: 2
+        x: 820
+        y: 2724
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 047052e351a04424696c6ad78f22d916
+      internalID: 793606627
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f5_NW
+      rect:
+        serializedVersion: 2
+        x: 956
+        y: 2724
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 76ccdce8f65ae0e4fae65b00a880f9e1
+      internalID: 1195347301
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f5_N
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 2588
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 363af1cea3b078c41bfe666253612b3e
+      internalID: -1239919171
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f5_NE
+      rect:
+        serializedVersion: 2
+        x: 140
+        y: 2588
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 592b0005da872b642ae5ae101361935c
+      internalID: -965655705
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f5_W
+      rect:
+        serializedVersion: 2
+        x: 276
+        y: 2588
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: aec870e1db29ee44e8e3319e754ffcad
+      internalID: 1260363758
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f5_C
+      rect:
+        serializedVersion: 2
+        x: 412
+        y: 2588
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0e5ef2073b2f8db4ca9e9a9bb4be9268
+      internalID: -1136484588
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f5_E
+      rect:
+        serializedVersion: 2
+        x: 548
+        y: 2588
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e8a8b6956395a4844ac6cb96a0c4eadf
+      internalID: -1477442210
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f5_SW
+      rect:
+        serializedVersion: 2
+        x: 684
+        y: 2588
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4d954364551f8a648b00d11a9f47b57f
+      internalID: 569994328
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f5_S
+      rect:
+        serializedVersion: 2
+        x: 820
+        y: 2588
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ff2370fe258729f4aa41f6490c62b6d8
+      internalID: -1329594469
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f5_SE
+      rect:
+        serializedVersion: 2
+        x: 956
+        y: 2588
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8b4c68a59fc6d80469bf7288f99f27e6
+      internalID: 2115766752
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f5_iNW
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 2452
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a806dd6fc25d27a4e8571b67ebdef66a
+      internalID: 1212719174
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f5_iNE
+      rect:
+        serializedVersion: 2
+        x: 140
+        y: 2452
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b0fc134fbbb5c29478e2943876601ba7
+      internalID: -354081120
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f5_iSW
+      rect:
+        serializedVersion: 2
+        x: 276
+        y: 2452
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3caaa8d4d6ead7540ac04066655be95d
+      internalID: 182676716
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f5_iSE
+      rect:
+        serializedVersion: 2
+        x: 412
+        y: 2452
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5dfca2f89a0698342add502739d09ef8
+      internalID: -2116038559
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f6_C
+      rect:
+        serializedVersion: 2
+        x: 548
+        y: 2452
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3e2f12916edca1d49b23cc55bc7dfa0a
+      internalID: 1256076431
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f6_NW
+      rect:
+        serializedVersion: 2
+        x: 684
+        y: 2452
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1f5e608b6e0caac4b93e443964c266b8
+      internalID: -1051453198
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f6_N
+      rect:
+        serializedVersion: 2
+        x: 820
+        y: 2452
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e90c2c35a0cdfe842b494268b7f5804c
+      internalID: 116113709
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f6_NE
+      rect:
+        serializedVersion: 2
+        x: 956
+        y: 2452
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cab8b750e15f1304185fb545a93a0fd2
+      internalID: 1002641509
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f6_W
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 2316
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 34d4c5d2f26de9442b742e0760602d54
+      internalID: 1554928596
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f6_C
+      rect:
+        serializedVersion: 2
+        x: 140
+        y: 2316
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 071f8f79900cbcb4da880efede6c28f8
+      internalID: 1774702917
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f6_E
+      rect:
+        serializedVersion: 2
+        x: 276
+        y: 2316
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3b8af40b64127ea4d88add8a774a0dd8
+      internalID: 878465831
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f6_SW
+      rect:
+        serializedVersion: 2
+        x: 412
+        y: 2316
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9eb58deae29529348a08660d0d496274
+      internalID: 180737659
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f6_S
+      rect:
+        serializedVersion: 2
+        x: 548
+        y: 2316
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f0e5d422c507ca2408362cdc75a4903f
+      internalID: 666402720
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f6_SE
+      rect:
+        serializedVersion: 2
+        x: 684
+        y: 2316
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2ae9fe54880fcfc45aa88ae768b4758c
+      internalID: 1486251493
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f6_iNW
+      rect:
+        serializedVersion: 2
+        x: 820
+        y: 2316
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6846e4291d77e2c4d9519ebd0b1a8901
+      internalID: 1898915974
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f6_iNE
+      rect:
+        serializedVersion: 2
+        x: 956
+        y: 2316
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 89bc04de636c98742b77cd02fbe2d86a
+      internalID: -1720569589
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f6_iSW
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 2180
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f0b2e8ff58125d1438bdf284a99329b5
+      internalID: -583093709
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f6_iSE
+      rect:
+        serializedVersion: 2
+        x: 140
+        y: 2180
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dbea260fe92ca9344baad56d0b13e30f
+      internalID: -1882755309
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f7_C
+      rect:
+        serializedVersion: 2
+        x: 276
+        y: 2180
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e48e897edcc675c49a7236db205fa8ee
+      internalID: -1505440036
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f7_NW
+      rect:
+        serializedVersion: 2
+        x: 412
+        y: 2180
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b5fccea8c44a79448b341245b3e5bf5a
+      internalID: 1739754616
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f7_N
+      rect:
+        serializedVersion: 2
+        x: 548
+        y: 2180
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: db6987d2354a68b44b40c308fefd4b48
+      internalID: -59796463
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f7_NE
+      rect:
+        serializedVersion: 2
+        x: 684
+        y: 2180
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7386ce9705e930244b6361191a063e9a
+      internalID: 2050110286
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f7_W
+      rect:
+        serializedVersion: 2
+        x: 820
+        y: 2180
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 571611a42a2e2f34886cb018a2e28b8e
+      internalID: -179414247
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f7_C
+      rect:
+        serializedVersion: 2
+        x: 956
+        y: 2180
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 29afa095cb4043c43bb8ab624de5d607
+      internalID: 549726173
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f7_E
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 2044
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9eb202f8aa3882c44839bb589c945877
+      internalID: 968781250
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f7_SW
+      rect:
+        serializedVersion: 2
+        x: 140
+        y: 2044
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 417d5eba3a1726c4fb64fda7e3a07e0b
+      internalID: -1316794806
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f7_S
+      rect:
+        serializedVersion: 2
+        x: 276
+        y: 2044
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4c4c236c996608347a956ce45d68065d
+      internalID: 819290627
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f7_SE
+      rect:
+        serializedVersion: 2
+        x: 412
+        y: 2044
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ab452e72208e0e244a298a23d7aa405f
+      internalID: -1766091655
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f7_iNW
+      rect:
+        serializedVersion: 2
+        x: 548
+        y: 2044
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a1f5fec7a0c2f04448b785b791081f7f
+      internalID: -457150763
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f7_iNE
+      rect:
+        serializedVersion: 2
+        x: 684
+        y: 2044
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e2dc451a234a9f74882baa507aaaeecb
+      internalID: 666800203
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f7_iSW
+      rect:
+        serializedVersion: 2
+        x: 820
+        y: 2044
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 61e996032c488d047952c3e84e847ec1
+      internalID: 1853132059
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_f7_iSE
+      rect:
+        serializedVersion: 2
+        x: 956
+        y: 2044
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 26eff36bb537dc146be96faeeea2a624
+      internalID: 1968573489
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f0_C
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 1908
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6f49e5bc49d59244eb6edd91927f126a
+      internalID: -1617409659
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f0_NW
+      rect:
+        serializedVersion: 2
+        x: 140
+        y: 1908
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1e62b92c812e3dc4597a6a8f20d7c6f2
+      internalID: 873107990
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f0_N
+      rect:
+        serializedVersion: 2
+        x: 276
+        y: 1908
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1fd75984a2e6bc04fac732c4e0d22e8a
+      internalID: 978216890
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f0_NE
+      rect:
+        serializedVersion: 2
+        x: 412
+        y: 1908
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 126d36a152cfc984eb504a5a8289e398
+      internalID: 1627390966
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f0_W
+      rect:
+        serializedVersion: 2
+        x: 548
+        y: 1908
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 135bf8be17572ed49973aeeefcec9766
+      internalID: 1748352398
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f0_C
+      rect:
+        serializedVersion: 2
+        x: 684
+        y: 1908
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1737ff9a67465244a972d5f46fcfe00a
+      internalID: -849181785
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f0_E
+      rect:
+        serializedVersion: 2
+        x: 820
+        y: 1908
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bb89d2757fc65784f8cf07ed8b87fc3b
+      internalID: -769569917
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f0_SW
+      rect:
+        serializedVersion: 2
+        x: 956
+        y: 1908
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 96de5caf348e1144c932b6b8d29f5b4b
+      internalID: -644970953
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f0_S
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 1772
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 227bf2d91b6d8ec4d87588268772bb70
+      internalID: 981246434
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f0_SE
+      rect:
+        serializedVersion: 2
+        x: 140
+        y: 1772
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4a6fca960e2cdd645a343e485d52f563
+      internalID: 1103662040
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f0_iNW
+      rect:
+        serializedVersion: 2
+        x: 276
+        y: 1772
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c7af724cb0d6a2649a0cbfc5bc10888f
+      internalID: -903880511
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f0_iNE
+      rect:
+        serializedVersion: 2
+        x: 412
+        y: 1772
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c3b4318db397c744680019829556d22b
+      internalID: 817614512
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f0_iSW
+      rect:
+        serializedVersion: 2
+        x: 548
+        y: 1772
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a516138973ae89d41aaa150819a0a659
+      internalID: 1592803537
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f0_iSE
+      rect:
+        serializedVersion: 2
+        x: 684
+        y: 1772
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 30fca58ee2b58c0438aa276fa024c417
+      internalID: 1390599540
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f1_C
+      rect:
+        serializedVersion: 2
+        x: 820
+        y: 1772
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dbd9319b30b06ec488a5c4ffee2cd620
+      internalID: 11213820
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f1_NW
+      rect:
+        serializedVersion: 2
+        x: 956
+        y: 1772
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d5d77b59ffe6b0f40938c5e3c2afb93b
+      internalID: 1748132906
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f1_N
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 1636
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b546a947655584c429972539489077d8
+      internalID: 385333119
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f1_NE
+      rect:
+        serializedVersion: 2
+        x: 140
+        y: 1636
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6158d13d84d57c94dbb1fbc977dc9b66
+      internalID: 1297915248
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f1_W
+      rect:
+        serializedVersion: 2
+        x: 276
+        y: 1636
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1672dd7c598ba724ea4065934c1e8507
+      internalID: 772460922
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f1_C
+      rect:
+        serializedVersion: 2
+        x: 412
+        y: 1636
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1ee53bf9066209b4a83142d7e5e73075
+      internalID: -1671081703
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f1_E
+      rect:
+        serializedVersion: 2
+        x: 548
+        y: 1636
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f7381e12111e74b49b98f79d67b3af43
+      internalID: 545929233
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f1_SW
+      rect:
+        serializedVersion: 2
+        x: 684
+        y: 1636
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: da6e77b8a43fb6f4aa16f1b4cad7428c
+      internalID: 162525573
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f1_S
+      rect:
+        serializedVersion: 2
+        x: 820
+        y: 1636
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3c1e162ace8a61b4e9fa83bae223fe15
+      internalID: 1272534387
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f1_SE
+      rect:
+        serializedVersion: 2
+        x: 956
+        y: 1636
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 17539ae67c0078343a538231226e6b7a
+      internalID: 1434001023
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f1_iNW
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 1500
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2a94a405bc8d51d40a0544b647ccfebf
+      internalID: 1757215117
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f1_iNE
+      rect:
+        serializedVersion: 2
+        x: 140
+        y: 1500
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 26865a121cca01348972dae6927fbcbe
+      internalID: 1437499410
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f1_iSW
+      rect:
+        serializedVersion: 2
+        x: 276
+        y: 1500
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ddddea7b204a8b0428410f07b31359c1
+      internalID: 1266091234
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f1_iSE
+      rect:
+        serializedVersion: 2
+        x: 412
+        y: 1500
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 69fde9aae78c021418d98a4b29e31371
+      internalID: 777519487
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f2_C
+      rect:
+        serializedVersion: 2
+        x: 548
+        y: 1500
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2db120150ce10ab4b88ae838abfba4d6
+      internalID: 1947742447
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f2_NW
+      rect:
+        serializedVersion: 2
+        x: 684
+        y: 1500
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: afae7416c6b8be64cb8c37c7486be72a
+      internalID: -536525002
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f2_N
+      rect:
+        serializedVersion: 2
+        x: 820
+        y: 1500
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4e009d72d8c27c242b9eda6be41f083f
+      internalID: 376641477
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f2_NE
+      rect:
+        serializedVersion: 2
+        x: 956
+        y: 1500
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c4f03de7d348ea8488dbbb3c21678ce2
+      internalID: 314809267
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f2_W
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 1364
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6d5d589dad034c94fb0a9ff639d1ba83
+      internalID: -95630308
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f2_C
+      rect:
+        serializedVersion: 2
+        x: 140
+        y: 1364
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a2bc3eaeff3eba043b6236ec484fc35a
+      internalID: 2029120006
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f2_E
+      rect:
+        serializedVersion: 2
+        x: 276
+        y: 1364
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2265f093ac28f2d4a983577d922adb2a
+      internalID: -182067189
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f2_SW
+      rect:
+        serializedVersion: 2
+        x: 412
+        y: 1364
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fc311c429f1f34846a258909c95efd22
+      internalID: -2042960744
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f2_S
+      rect:
+        serializedVersion: 2
+        x: 548
+        y: 1364
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3d91ce4764932684b90afa8adac5e243
+      internalID: -1396105789
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f2_SE
+      rect:
+        serializedVersion: 2
+        x: 684
+        y: 1364
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fa03a9688b9af0940aa1fefa1fdbf3a8
+      internalID: 788835650
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f2_iNW
+      rect:
+        serializedVersion: 2
+        x: 820
+        y: 1364
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d7d7a7871f8cd8e45aaecd0dd6205755
+      internalID: 85435428
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f2_iNE
+      rect:
+        serializedVersion: 2
+        x: 956
+        y: 1364
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 516128fe974eb064ca213565c0efae11
+      internalID: 1558541336
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f2_iSW
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 1228
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 953e281d15997bf43804906fd2d31553
+      internalID: -2096763978
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f2_iSE
+      rect:
+        serializedVersion: 2
+        x: 140
+        y: 1228
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4da926a2dbdd65442a01a6592aaf480e
+      internalID: 2082431609
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f3_C
+      rect:
+        serializedVersion: 2
+        x: 276
+        y: 1228
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9ef2bc88a2e8f814db9b137161073952
+      internalID: -1031961632
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f3_NW
+      rect:
+        serializedVersion: 2
+        x: 412
+        y: 1228
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f6f7c2160d6dea948bb5f35f44330f75
+      internalID: 1016076647
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f3_N
+      rect:
+        serializedVersion: 2
+        x: 548
+        y: 1228
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 094bb8630dcf0ce4b85f02fd8c1c6f95
+      internalID: 1996598471
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f3_NE
+      rect:
+        serializedVersion: 2
+        x: 684
+        y: 1228
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 24322100b3e602c4dbb474d5a6ef8281
+      internalID: 1742241530
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f3_W
+      rect:
+        serializedVersion: 2
+        x: 820
+        y: 1228
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8b73a648af8305d4aa82a9fc0cf05092
+      internalID: 823077264
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f3_C
+      rect:
+        serializedVersion: 2
+        x: 956
+        y: 1228
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6e1e09ebfad46d64a87fcf2a1d43355e
+      internalID: -999102454
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f3_E
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 1092
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 791286d9c37964449a696a3d661f5ca8
+      internalID: -1893874308
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f3_SW
+      rect:
+        serializedVersion: 2
+        x: 140
+        y: 1092
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bd81d7d725e034447a470efecd9ccc07
+      internalID: 331494186
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f3_S
+      rect:
+        serializedVersion: 2
+        x: 276
+        y: 1092
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b1be53e1721439541940758cf07c6ff6
+      internalID: 228744698
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f3_SE
+      rect:
+        serializedVersion: 2
+        x: 412
+        y: 1092
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5bd76179e750f6d489ee22f80bf79423
+      internalID: 162021615
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f3_iNW
+      rect:
+        serializedVersion: 2
+        x: 548
+        y: 1092
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ce65166f8e11ccc4ea6e184d8624df18
+      internalID: -1862324022
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f3_iNE
+      rect:
+        serializedVersion: 2
+        x: 684
+        y: 1092
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e6a2349e3f9153c4e9b9fea87a949eee
+      internalID: -1768286700
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f3_iSW
+      rect:
+        serializedVersion: 2
+        x: 820
+        y: 1092
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2ccb60b4924a6704e976c7892230ed28
+      internalID: 1642699543
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f3_iSE
+      rect:
+        serializedVersion: 2
+        x: 956
+        y: 1092
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 390c7d54b2a6df64da7686bad1992d8b
+      internalID: -852735984
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f4_C
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 956
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cd310d14be6dafc4391257e9d509ba29
+      internalID: -1550805195
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f4_NW
+      rect:
+        serializedVersion: 2
+        x: 140
+        y: 956
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 40bd8c6699e997e4da383721e01f4d68
+      internalID: -1592117094
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f4_N
+      rect:
+        serializedVersion: 2
+        x: 276
+        y: 956
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 512d996b20d520e4091baadc147866c8
+      internalID: 816535034
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f4_NE
+      rect:
+        serializedVersion: 2
+        x: 412
+        y: 956
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d6bf310f818a71349b42dfa818d3fca8
+      internalID: -697763307
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f4_W
+      rect:
+        serializedVersion: 2
+        x: 548
+        y: 956
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ea734acc5eefa8b42bb85be610b37870
+      internalID: 199198432
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f4_C
+      rect:
+        serializedVersion: 2
+        x: 684
+        y: 956
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 16384ac1c2856af42afbc0bb1fc731bf
+      internalID: 400417490
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f4_E
+      rect:
+        serializedVersion: 2
+        x: 820
+        y: 956
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 43c9d12bf45e4454eb4a175ae643135b
+      internalID: -1875435149
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f4_SW
+      rect:
+        serializedVersion: 2
+        x: 956
+        y: 956
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 035315e3b3ef8d949a33a8ac17c8e664
+      internalID: 1755758303
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f4_S
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 820
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 66fffef713c2c5c4fb7e4d467eb01eef
+      internalID: -1454085285
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f4_SE
+      rect:
+        serializedVersion: 2
+        x: 140
+        y: 820
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f5dea1f2969f34b41b95e556dbcc1a7b
+      internalID: -483564966
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f4_iNW
+      rect:
+        serializedVersion: 2
+        x: 276
+        y: 820
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e86d4f12140b56b48bcb9f2c77772692
+      internalID: -890607008
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f4_iNE
+      rect:
+        serializedVersion: 2
+        x: 412
+        y: 820
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cbc3a5175af602442a7b3c19885722e0
+      internalID: 1082394819
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f4_iSW
+      rect:
+        serializedVersion: 2
+        x: 548
+        y: 820
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4f86b02c9c5450e46a3968a8b78da70b
+      internalID: -917434664
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f4_iSE
+      rect:
+        serializedVersion: 2
+        x: 684
+        y: 820
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 94524ccaebf4d8c4ab3419829d0c1fae
+      internalID: 565119464
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f5_C
+      rect:
+        serializedVersion: 2
+        x: 820
+        y: 820
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 674aa9d06a4d79949b8a094b5f61c839
+      internalID: -837726280
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f5_NW
+      rect:
+        serializedVersion: 2
+        x: 956
+        y: 820
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2aa868cbc8f45104288519222f2ced51
+      internalID: 733392254
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f5_N
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 684
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fb831f51e1c4647488f11d94b829d058
+      internalID: -366929850
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f5_NE
+      rect:
+        serializedVersion: 2
+        x: 140
+        y: 684
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: df76f740fdfe71e48ac3153a17ffb047
+      internalID: 1252562527
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f5_W
+      rect:
+        serializedVersion: 2
+        x: 276
+        y: 684
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6e5994a73d1f4fc46bf547fb43792f92
+      internalID: 124606743
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f5_C
+      rect:
+        serializedVersion: 2
+        x: 412
+        y: 684
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 843ff6d311840c344bb6ec783edf4dc3
+      internalID: 118508926
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f5_E
+      rect:
+        serializedVersion: 2
+        x: 548
+        y: 684
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 36a05bce43c6eb64cbe872524cc6e544
+      internalID: 1569256555
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f5_SW
+      rect:
+        serializedVersion: 2
+        x: 684
+        y: 684
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8c8387e663826b546a777289d1651946
+      internalID: 867006141
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f5_S
+      rect:
+        serializedVersion: 2
+        x: 820
+        y: 684
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3fb32415c29961b42844ebe9769de7cf
+      internalID: 723558782
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f5_SE
+      rect:
+        serializedVersion: 2
+        x: 956
+        y: 684
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d4cf64d512f5d254ca2f6c0c0ccd6c33
+      internalID: -1123661836
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f5_iNW
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 548
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 95ea1db23f6b5d34285626e80c5c0bb8
+      internalID: -28415732
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f5_iNE
+      rect:
+        serializedVersion: 2
+        x: 140
+        y: 548
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b79c1f464f912cc409fe6d4507fc453e
+      internalID: 1089106339
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f5_iSW
+      rect:
+        serializedVersion: 2
+        x: 276
+        y: 548
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9a340ccefbf2e6049bee6ebb94a839dc
+      internalID: -37493098
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f5_iSE
+      rect:
+        serializedVersion: 2
+        x: 412
+        y: 548
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c08ec301fb8e22248916a2bc43736f84
+      internalID: -62049817
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f6_C
+      rect:
+        serializedVersion: 2
+        x: 548
+        y: 548
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1105b13849d10db419d28b4f60995a2a
+      internalID: -387120174
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f6_NW
+      rect:
+        serializedVersion: 2
+        x: 684
+        y: 548
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c789c0f0af5b83048ad3cf0b1eddc8c2
+      internalID: -350956673
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f6_N
+      rect:
+        serializedVersion: 2
+        x: 820
+        y: 548
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 180ad9f6bc2d1c841afe0a1e727573dd
+      internalID: 1939736132
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f6_NE
+      rect:
+        serializedVersion: 2
+        x: 956
+        y: 548
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e9070feca195666408eb390ad3e929f0
+      internalID: -1505149759
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f6_W
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 412
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 852b2f35a337ccc4783320b25165b2b3
+      internalID: -1002676052
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f6_C
+      rect:
+        serializedVersion: 2
+        x: 140
+        y: 412
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b6f1e3fa016cb95439c0fe65a72ef62d
+      internalID: 730617370
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f6_E
+      rect:
+        serializedVersion: 2
+        x: 276
+        y: 412
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c5430af6eedb86d4899b11d57d5645d2
+      internalID: 566106381
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f6_SW
+      rect:
+        serializedVersion: 2
+        x: 412
+        y: 412
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dd4062816aa803e46a82946c638517d4
+      internalID: 943655047
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f6_S
+      rect:
+        serializedVersion: 2
+        x: 548
+        y: 412
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9e1c4ab7259eda343a5ebe64b5c43eb1
+      internalID: -1173725629
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f6_SE
+      rect:
+        serializedVersion: 2
+        x: 684
+        y: 412
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 807a16b76b1be0542afe09b53d80e3cf
+      internalID: 119803463
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f6_iNW
+      rect:
+        serializedVersion: 2
+        x: 820
+        y: 412
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a4f096f0cc34c824681f55cc72a673a7
+      internalID: 1010249303
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f6_iNE
+      rect:
+        serializedVersion: 2
+        x: 956
+        y: 412
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2591af747981e684aae7386137c0f6dd
+      internalID: -1862634268
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f6_iSW
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 276
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: aa6eaf06f8687514ea06c00b01ee7998
+      internalID: -1357691477
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f6_iSE
+      rect:
+        serializedVersion: 2
+        x: 140
+        y: 276
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e53f7eccba68cde4db0ed464c3d3efde
+      internalID: 1309038360
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f7_C
+      rect:
+        serializedVersion: 2
+        x: 276
+        y: 276
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 92586e81e4b063548800b498d6eabaf0
+      internalID: -1328532538
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f7_NW
+      rect:
+        serializedVersion: 2
+        x: 412
+        y: 276
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bd519f2cce8fd1443b6c36a0a28bd39f
+      internalID: -1150950978
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f7_N
+      rect:
+        serializedVersion: 2
+        x: 548
+        y: 276
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d4514cb0c547a2947b44409ba496f0c3
+      internalID: 47351940
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f7_NE
+      rect:
+        serializedVersion: 2
+        x: 684
+        y: 276
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6e70df442b2bc4c45ae9aa46c142b52b
+      internalID: -944775767
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f7_W
+      rect:
+        serializedVersion: 2
+        x: 820
+        y: 276
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: da0cea69b8d9a0e45be4656520078e90
+      internalID: 1524135713
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f7_C
+      rect:
+        serializedVersion: 2
+        x: 956
+        y: 276
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3c0008a5a5f2edb48966213665a97b50
+      internalID: 1205809371
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f7_E
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 140
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ba6b66736313ca041b4f044bc6a1b2a6
+      internalID: 63986056
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f7_SW
+      rect:
+        serializedVersion: 2
+        x: 140
+        y: 140
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 37e2da613edb8494391820f5445b8a33
+      internalID: 2130109839
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f7_S
+      rect:
+        serializedVersion: 2
+        x: 276
+        y: 140
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ca136df516ded524badf85809c22b939
+      internalID: 1612758563
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f7_SE
+      rect:
+        serializedVersion: 2
+        x: 412
+        y: 140
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6909afdf23b54cb479f888249019236e
+      internalID: -51619418
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f7_iNW
+      rect:
+        serializedVersion: 2
+        x: 548
+        y: 140
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 54113725b63cde744883490a4a0399b0
+      internalID: -667630838
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f7_iNE
+      rect:
+        serializedVersion: 2
+        x: 684
+        y: 140
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e1097caef40304848b4d00c05e9f244d
+      internalID: -2118336308
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f7_iSW
+      rect:
+        serializedVersion: 2
+        x: 820
+        y: 140
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2f5bbcba16635cb4db08cfd3ba26cbce
+      internalID: 699507009
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_f7_iSE
+      rect:
+        serializedVersion: 2
+        x: 956
+        y: 140
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fb8a2f6434e4e544c8579378f9caf480
+      internalID: -1411078253
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_oleo_f0_C
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 4
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b7bf3a7a4bc3885418626cb9659b361a
+      internalID: -1638118048
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_oleo_f1_C
+      rect:
+        serializedVersion: 2
+        x: 140
+        y: 4
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 79418474f65cd2f469814965a774ec73
+      internalID: -1280304896
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_oleo_f2_C
+      rect:
+        serializedVersion: 2
+        x: 276
+        y: 4
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d6bb10c24207ca14183dbd0ed377a527
+      internalID: 224457365
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_oleo_f3_C
+      rect:
+        serializedVersion: 2
+        x: 412
+        y: 4
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 801bb8b1bd465604cb8afa5eb61c3124
+      internalID: -2110733884
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_oleo_f4_C
+      rect:
+        serializedVersion: 2
+        x: 548
+        y: 4
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b4f5f03c1915447448e89ce28e287ae1
+      internalID: 53134898
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_oleo_f5_C
+      rect:
+        serializedVersion: 2
+        x: 684
+        y: 4
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c5d11c8ca52489946b014ed4553e317d
+      internalID: -368464003
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_oleo_f6_C
+      rect:
+        serializedVersion: 2
+        x: 820
+        y: 4
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 22ef168a31dfd1543a3821c6b904bcc2
+      internalID: -729303899
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agua_poluida_oleo_f7_C
+      rect:
+        serializedVersion: 2
+        x: 956
+        y: 4
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d223675375045ec4094866c2f84aff00
+      internalID: 1022906385
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 8fe0cd08bfa3a4c43bb8f609bfb6ba28
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      agua_f0_C: -1983294767
+      agua_f0_E: 788335810
+      agua_f0_N: -2088907481
+      agua_f0_NE: 1565529493
+      agua_f0_NW: -968367432
+      agua_f0_S: 246152453
+      agua_f0_SE: 686778420
+      agua_f0_SW: -1967583363
+      agua_f0_W: 578721867
+      agua_f0_iNE: -2134172125
+      agua_f0_iNW: 1540711759
+      agua_f0_iSE: -1681973860
+      agua_f0_iSW: -483680817
+      agua_f1_C: -1083156407
+      agua_f1_E: 1771973343
+      agua_f1_N: -915081573
+      agua_f1_NE: 2146411418
+      agua_f1_NW: -1585866260
+      agua_f1_S: 1573859152
+      agua_f1_SE: 950010961
+      agua_f1_SW: 67764590
+      agua_f1_W: -407868363
+      agua_f1_iNE: 965713949
+      agua_f1_iNW: 279760796
+      agua_f1_iSE: -35760993
+      agua_f1_iSW: 135098963
+      agua_f2_C: -1059212596
+      agua_f2_E: -895712467
+      agua_f2_N: 1660627776
+      agua_f2_NE: -886364669
+      agua_f2_NW: -781017331
+      agua_f2_S: -1436724072
+      agua_f2_SE: 43381481
+      agua_f2_SW: -936489640
+      agua_f2_W: 886874745
+      agua_f2_iNE: -334776013
+      agua_f2_iNW: -925824159
+      agua_f2_iSE: -2091663754
+      agua_f2_iSW: 433631533
+      agua_f3_C: 1343831211
+      agua_f3_E: -679019046
+      agua_f3_N: 1452201473
+      agua_f3_NE: 611481740
+      agua_f3_NW: -433631062
+      agua_f3_S: 1826216797
+      agua_f3_SE: -414390485
+      agua_f3_SW: -1592258966
+      agua_f3_W: 730404918
+      agua_f3_iNE: -119001978
+      agua_f3_iNW: -1284717332
+      agua_f3_iSE: -2030007112
+      agua_f3_iSW: -418361764
+      agua_f4_C: -888125857
+      agua_f4_E: 1889987611
+      agua_f4_N: -419914204
+      agua_f4_NE: -49411401
+      agua_f4_NW: 687781907
+      agua_f4_S: -1943340977
+      agua_f4_SE: -459594055
+      agua_f4_SW: -1329046328
+      agua_f4_W: -1709675523
+      agua_f4_iNE: 1526194487
+      agua_f4_iNW: -400116481
+      agua_f4_iSE: -1956447321
+      agua_f4_iSW: 1155069542
+      agua_f5_C: 793606627
+      agua_f5_E: -1477442210
+      agua_f5_N: -1239919171
+      agua_f5_NE: -965655705
+      agua_f5_NW: 1195347301
+      agua_f5_S: -1329594469
+      agua_f5_SE: 2115766752
+      agua_f5_SW: 569994328
+      agua_f5_W: 1260363758
+      agua_f5_iNE: -354081120
+      agua_f5_iNW: 1212719174
+      agua_f5_iSE: -2116038559
+      agua_f5_iSW: 182676716
+      agua_f6_C: 1256076431
+      agua_f6_E: 878465831
+      agua_f6_N: 116113709
+      agua_f6_NE: 1002641509
+      agua_f6_NW: -1051453198
+      agua_f6_S: 666402720
+      agua_f6_SE: 1486251493
+      agua_f6_SW: 180737659
+      agua_f6_W: 1554928596
+      agua_f6_iNE: -1720569589
+      agua_f6_iNW: 1898915974
+      agua_f6_iSE: -1882755309
+      agua_f6_iSW: -583093709
+      agua_f7_C: -1505440036
+      agua_f7_E: 968781250
+      agua_f7_N: -59796463
+      agua_f7_NE: 2050110286
+      agua_f7_NW: 1739754616
+      agua_f7_S: 819290627
+      agua_f7_SE: -1766091655
+      agua_f7_SW: -1316794806
+      agua_f7_W: -179414247
+      agua_f7_iNE: 666800203
+      agua_f7_iNW: -457150763
+      agua_f7_iSE: 1968573489
+      agua_f7_iSW: 1853132059
+      agua_poluida_f0_C: -1617409659
+      agua_poluida_f0_E: -769569917
+      agua_poluida_f0_N: 978216890
+      agua_poluida_f0_NE: 1627390966
+      agua_poluida_f0_NW: 873107990
+      agua_poluida_f0_S: 981246434
+      agua_poluida_f0_SE: 1103662040
+      agua_poluida_f0_SW: -644970953
+      agua_poluida_f0_W: 1748352398
+      agua_poluida_f0_iNE: 817614512
+      agua_poluida_f0_iNW: -903880511
+      agua_poluida_f0_iSE: 1390599540
+      agua_poluida_f0_iSW: 1592803537
+      agua_poluida_f1_C: 11213820
+      agua_poluida_f1_E: 545929233
+      agua_poluida_f1_N: 385333119
+      agua_poluida_f1_NE: 1297915248
+      agua_poluida_f1_NW: 1748132906
+      agua_poluida_f1_S: 1272534387
+      agua_poluida_f1_SE: 1434001023
+      agua_poluida_f1_SW: 162525573
+      agua_poluida_f1_W: 772460922
+      agua_poluida_f1_iNE: 1437499410
+      agua_poluida_f1_iNW: 1757215117
+      agua_poluida_f1_iSE: 777519487
+      agua_poluida_f1_iSW: 1266091234
+      agua_poluida_f2_C: 1947742447
+      agua_poluida_f2_E: -182067189
+      agua_poluida_f2_N: 376641477
+      agua_poluida_f2_NE: 314809267
+      agua_poluida_f2_NW: -536525002
+      agua_poluida_f2_S: -1396105789
+      agua_poluida_f2_SE: 788835650
+      agua_poluida_f2_SW: -2042960744
+      agua_poluida_f2_W: -95630308
+      agua_poluida_f2_iNE: 1558541336
+      agua_poluida_f2_iNW: 85435428
+      agua_poluida_f2_iSE: 2082431609
+      agua_poluida_f2_iSW: -2096763978
+      agua_poluida_f3_C: -1031961632
+      agua_poluida_f3_E: -1893874308
+      agua_poluida_f3_N: 1996598471
+      agua_poluida_f3_NE: 1742241530
+      agua_poluida_f3_NW: 1016076647
+      agua_poluida_f3_S: 228744698
+      agua_poluida_f3_SE: 162021615
+      agua_poluida_f3_SW: 331494186
+      agua_poluida_f3_W: 823077264
+      agua_poluida_f3_iNE: -1768286700
+      agua_poluida_f3_iNW: -1862324022
+      agua_poluida_f3_iSE: -852735984
+      agua_poluida_f3_iSW: 1642699543
+      agua_poluida_f4_C: -1550805195
+      agua_poluida_f4_E: -1875435149
+      agua_poluida_f4_N: 816535034
+      agua_poluida_f4_NE: -697763307
+      agua_poluida_f4_NW: -1592117094
+      agua_poluida_f4_S: -1454085285
+      agua_poluida_f4_SE: -483564966
+      agua_poluida_f4_SW: 1755758303
+      agua_poluida_f4_W: 199198432
+      agua_poluida_f4_iNE: 1082394819
+      agua_poluida_f4_iNW: -890607008
+      agua_poluida_f4_iSE: 565119464
+      agua_poluida_f4_iSW: -917434664
+      agua_poluida_f5_C: -837726280
+      agua_poluida_f5_E: 1569256555
+      agua_poluida_f5_N: -366929850
+      agua_poluida_f5_NE: 1252562527
+      agua_poluida_f5_NW: 733392254
+      agua_poluida_f5_S: 723558782
+      agua_poluida_f5_SE: -1123661836
+      agua_poluida_f5_SW: 867006141
+      agua_poluida_f5_W: 124606743
+      agua_poluida_f5_iNE: 1089106339
+      agua_poluida_f5_iNW: -28415732
+      agua_poluida_f5_iSE: -62049817
+      agua_poluida_f5_iSW: -37493098
+      agua_poluida_f6_C: -387120174
+      agua_poluida_f6_E: 566106381
+      agua_poluida_f6_N: 1939736132
+      agua_poluida_f6_NE: -1505149759
+      agua_poluida_f6_NW: -350956673
+      agua_poluida_f6_S: -1173725629
+      agua_poluida_f6_SE: 119803463
+      agua_poluida_f6_SW: 943655047
+      agua_poluida_f6_W: -1002676052
+      agua_poluida_f6_iNE: -1862634268
+      agua_poluida_f6_iNW: 1010249303
+      agua_poluida_f6_iSE: 1309038360
+      agua_poluida_f6_iSW: -1357691477
+      agua_poluida_f7_C: -1328532538
+      agua_poluida_f7_E: 63986056
+      agua_poluida_f7_N: 47351940
+      agua_poluida_f7_NE: -944775767
+      agua_poluida_f7_NW: -1150950978
+      agua_poluida_f7_S: 1612758563
+      agua_poluida_f7_SE: -51619418
+      agua_poluida_f7_SW: 2130109839
+      agua_poluida_f7_W: 1524135713
+      agua_poluida_f7_iNE: -2118336308
+      agua_poluida_f7_iNW: -667630838
+      agua_poluida_f7_iSE: -1411078253
+      agua_poluida_f7_iSW: 699507009
+      agua_poluida_oleo_f0_C: -1638118048
+      agua_poluida_oleo_f1_C: -1280304896
+      agua_poluida_oleo_f2_C: 224457365
+      agua_poluida_oleo_f3_C: -2110733884
+      agua_poluida_oleo_f4_C: 53134898
+      agua_poluida_oleo_f5_C: -368464003
+      agua_poluida_oleo_f6_C: -729303899
+      agua_poluida_oleo_f7_C: 1022906385
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

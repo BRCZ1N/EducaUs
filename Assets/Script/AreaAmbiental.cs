@@ -95,7 +95,7 @@ public class AreaAmbiental : MonoBehaviour
             originais.Clear();
             foreach (var pos in area.allPositionsWithin)
             {
-                TileBase atual = tilemap.GetTile(pos);
+                TileBase atual = AnimarAgua.Original(tilemap.GetTile(pos));   // a água pode estar mostrando um quadro da animação
                 if (atual != null && paraLimpo.TryGetValue(atual, out TileBase limpo))
                 {
                     originais[pos] = atual;

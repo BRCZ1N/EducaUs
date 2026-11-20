@@ -1,0 +1,1173 @@
+{
+ "arquivo": "Agua_Anim_128",
+ "tamanho": 128,
+ "margem": 4,
+ "passo": 136,
+ "linhas": 29,
+ "pivo": [
+  0.5,
+  0.5
+ ],
+ "tiles": [
+  {
+   "n": "agua_f0_C",
+   "r": 0,
+   "c": 0
+  },
+  {
+   "n": "agua_f0_NW",
+   "r": 0,
+   "c": 1
+  },
+  {
+   "n": "agua_f0_N",
+   "r": 0,
+   "c": 2
+  },
+  {
+   "n": "agua_f0_NE",
+   "r": 0,
+   "c": 3
+  },
+  {
+   "n": "agua_f0_W",
+   "r": 0,
+   "c": 4
+  },
+  {
+   "n": "agua_f0_C",
+   "r": 0,
+   "c": 5
+  },
+  {
+   "n": "agua_f0_E",
+   "r": 0,
+   "c": 6
+  },
+  {
+   "n": "agua_f0_SW",
+   "r": 0,
+   "c": 7
+  },
+  {
+   "n": "agua_f0_S",
+   "r": 1,
+   "c": 0
+  },
+  {
+   "n": "agua_f0_SE",
+   "r": 1,
+   "c": 1
+  },
+  {
+   "n": "agua_f0_iNW",
+   "r": 1,
+   "c": 2
+  },
+  {
+   "n": "agua_f0_iNE",
+   "r": 1,
+   "c": 3
+  },
+  {
+   "n": "agua_f0_iSW",
+   "r": 1,
+   "c": 4
+  },
+  {
+   "n": "agua_f0_iSE",
+   "r": 1,
+   "c": 5
+  },
+  {
+   "n": "agua_f1_C",
+   "r": 1,
+   "c": 6
+  },
+  {
+   "n": "agua_f1_NW",
+   "r": 1,
+   "c": 7
+  },
+  {
+   "n": "agua_f1_N",
+   "r": 2,
+   "c": 0
+  },
+  {
+   "n": "agua_f1_NE",
+   "r": 2,
+   "c": 1
+  },
+  {
+   "n": "agua_f1_W",
+   "r": 2,
+   "c": 2
+  },
+  {
+   "n": "agua_f1_C",
+   "r": 2,
+   "c": 3
+  },
+  {
+   "n": "agua_f1_E",
+   "r": 2,
+   "c": 4
+  },
+  {
+   "n": "agua_f1_SW",
+   "r": 2,
+   "c": 5
+  },
+  {
+   "n": "agua_f1_S",
+   "r": 2,
+   "c": 6
+  },
+  {
+   "n": "agua_f1_SE",
+   "r": 2,
+   "c": 7
+  },
+  {
+   "n": "agua_f1_iNW",
+   "r": 3,
+   "c": 0
+  },
+  {
+   "n": "agua_f1_iNE",
+   "r": 3,
+   "c": 1
+  },
+  {
+   "n": "agua_f1_iSW",
+   "r": 3,
+   "c": 2
+  },
+  {
+   "n": "agua_f1_iSE",
+   "r": 3,
+   "c": 3
+  },
+  {
+   "n": "agua_f2_C",
+   "r": 3,
+   "c": 4
+  },
+  {
+   "n": "agua_f2_NW",
+   "r": 3,
+   "c": 5
+  },
+  {
+   "n": "agua_f2_N",
+   "r": 3,
+   "c": 6
+  },
+  {
+   "n": "agua_f2_NE",
+   "r": 3,
+   "c": 7
+  },
+  {
+   "n": "agua_f2_W",
+   "r": 4,
+   "c": 0
+  },
+  {
+   "n": "agua_f2_C",
+   "r": 4,
+   "c": 1
+  },
+  {
+   "n": "agua_f2_E",
+   "r": 4,
+   "c": 2
+  },
+  {
+   "n": "agua_f2_SW",
+   "r": 4,
+   "c": 3
+  },
+  {
+   "n": "agua_f2_S",
+   "r": 4,
+   "c": 4
+  },
+  {
+   "n": "agua_f2_SE",
+   "r": 4,
+   "c": 5
+  },
+  {
+   "n": "agua_f2_iNW",
+   "r": 4,
+   "c": 6
+  },
+  {
+   "n": "agua_f2_iNE",
+   "r": 4,
+   "c": 7
+  },
+  {
+   "n": "agua_f2_iSW",
+   "r": 5,
+   "c": 0
+  },
+  {
+   "n": "agua_f2_iSE",
+   "r": 5,
+   "c": 1
+  },
+  {
+   "n": "agua_f3_C",
+   "r": 5,
+   "c": 2
+  },
+  {
+   "n": "agua_f3_NW",
+   "r": 5,
+   "c": 3
+  },
+  {
+   "n": "agua_f3_N",
+   "r": 5,
+   "c": 4
+  },
+  {
+   "n": "agua_f3_NE",
+   "r": 5,
+   "c": 5
+  },
+  {
+   "n": "agua_f3_W",
+   "r": 5,
+   "c": 6
+  },
+  {
+   "n": "agua_f3_C",
+   "r": 5,
+   "c": 7
+  },
+  {
+   "n": "agua_f3_E",
+   "r": 6,
+   "c": 0
+  },
+  {
+   "n": "agua_f3_SW",
+   "r": 6,
+   "c": 1
+  },
+  {
+   "n": "agua_f3_S",
+   "r": 6,
+   "c": 2
+  },
+  {
+   "n": "agua_f3_SE",
+   "r": 6,
+   "c": 3
+  },
+  {
+   "n": "agua_f3_iNW",
+   "r": 6,
+   "c": 4
+  },
+  {
+   "n": "agua_f3_iNE",
+   "r": 6,
+   "c": 5
+  },
+  {
+   "n": "agua_f3_iSW",
+   "r": 6,
+   "c": 6
+  },
+  {
+   "n": "agua_f3_iSE",
+   "r": 6,
+   "c": 7
+  },
+  {
+   "n": "agua_f4_C",
+   "r": 7,
+   "c": 0
+  },
+  {
+   "n": "agua_f4_NW",
+   "r": 7,
+   "c": 1
+  },
+  {
+   "n": "agua_f4_N",
+   "r": 7,
+   "c": 2
+  },
+  {
+   "n": "agua_f4_NE",
+   "r": 7,
+   "c": 3
+  },
+  {
+   "n": "agua_f4_W",
+   "r": 7,
+   "c": 4
+  },
+  {
+   "n": "agua_f4_C",
+   "r": 7,
+   "c": 5
+  },
+  {
+   "n": "agua_f4_E",
+   "r": 7,
+   "c": 6
+  },
+  {
+   "n": "agua_f4_SW",
+   "r": 7,
+   "c": 7
+  },
+  {
+   "n": "agua_f4_S",
+   "r": 8,
+   "c": 0
+  },
+  {
+   "n": "agua_f4_SE",
+   "r": 8,
+   "c": 1
+  },
+  {
+   "n": "agua_f4_iNW",
+   "r": 8,
+   "c": 2
+  },
+  {
+   "n": "agua_f4_iNE",
+   "r": 8,
+   "c": 3
+  },
+  {
+   "n": "agua_f4_iSW",
+   "r": 8,
+   "c": 4
+  },
+  {
+   "n": "agua_f4_iSE",
+   "r": 8,
+   "c": 5
+  },
+  {
+   "n": "agua_f5_C",
+   "r": 8,
+   "c": 6
+  },
+  {
+   "n": "agua_f5_NW",
+   "r": 8,
+   "c": 7
+  },
+  {
+   "n": "agua_f5_N",
+   "r": 9,
+   "c": 0
+  },
+  {
+   "n": "agua_f5_NE",
+   "r": 9,
+   "c": 1
+  },
+  {
+   "n": "agua_f5_W",
+   "r": 9,
+   "c": 2
+  },
+  {
+   "n": "agua_f5_C",
+   "r": 9,
+   "c": 3
+  },
+  {
+   "n": "agua_f5_E",
+   "r": 9,
+   "c": 4
+  },
+  {
+   "n": "agua_f5_SW",
+   "r": 9,
+   "c": 5
+  },
+  {
+   "n": "agua_f5_S",
+   "r": 9,
+   "c": 6
+  },
+  {
+   "n": "agua_f5_SE",
+   "r": 9,
+   "c": 7
+  },
+  {
+   "n": "agua_f5_iNW",
+   "r": 10,
+   "c": 0
+  },
+  {
+   "n": "agua_f5_iNE",
+   "r": 10,
+   "c": 1
+  },
+  {
+   "n": "agua_f5_iSW",
+   "r": 10,
+   "c": 2
+  },
+  {
+   "n": "agua_f5_iSE",
+   "r": 10,
+   "c": 3
+  },
+  {
+   "n": "agua_f6_C",
+   "r": 10,
+   "c": 4
+  },
+  {
+   "n": "agua_f6_NW",
+   "r": 10,
+   "c": 5
+  },
+  {
+   "n": "agua_f6_N",
+   "r": 10,
+   "c": 6
+  },
+  {
+   "n": "agua_f6_NE",
+   "r": 10,
+   "c": 7
+  },
+  {
+   "n": "agua_f6_W",
+   "r": 11,
+   "c": 0
+  },
+  {
+   "n": "agua_f6_C",
+   "r": 11,
+   "c": 1
+  },
+  {
+   "n": "agua_f6_E",
+   "r": 11,
+   "c": 2
+  },
+  {
+   "n": "agua_f6_SW",
+   "r": 11,
+   "c": 3
+  },
+  {
+   "n": "agua_f6_S",
+   "r": 11,
+   "c": 4
+  },
+  {
+   "n": "agua_f6_SE",
+   "r": 11,
+   "c": 5
+  },
+  {
+   "n": "agua_f6_iNW",
+   "r": 11,
+   "c": 6
+  },
+  {
+   "n": "agua_f6_iNE",
+   "r": 11,
+   "c": 7
+  },
+  {
+   "n": "agua_f6_iSW",
+   "r": 12,
+   "c": 0
+  },
+  {
+   "n": "agua_f6_iSE",
+   "r": 12,
+   "c": 1
+  },
+  {
+   "n": "agua_f7_C",
+   "r": 12,
+   "c": 2
+  },
+  {
+   "n": "agua_f7_NW",
+   "r": 12,
+   "c": 3
+  },
+  {
+   "n": "agua_f7_N",
+   "r": 12,
+   "c": 4
+  },
+  {
+   "n": "agua_f7_NE",
+   "r": 12,
+   "c": 5
+  },
+  {
+   "n": "agua_f7_W",
+   "r": 12,
+   "c": 6
+  },
+  {
+   "n": "agua_f7_C",
+   "r": 12,
+   "c": 7
+  },
+  {
+   "n": "agua_f7_E",
+   "r": 13,
+   "c": 0
+  },
+  {
+   "n": "agua_f7_SW",
+   "r": 13,
+   "c": 1
+  },
+  {
+   "n": "agua_f7_S",
+   "r": 13,
+   "c": 2
+  },
+  {
+   "n": "agua_f7_SE",
+   "r": 13,
+   "c": 3
+  },
+  {
+   "n": "agua_f7_iNW",
+   "r": 13,
+   "c": 4
+  },
+  {
+   "n": "agua_f7_iNE",
+   "r": 13,
+   "c": 5
+  },
+  {
+   "n": "agua_f7_iSW",
+   "r": 13,
+   "c": 6
+  },
+  {
+   "n": "agua_f7_iSE",
+   "r": 13,
+   "c": 7
+  },
+  {
+   "n": "agua_poluida_f0_C",
+   "r": 14,
+   "c": 0
+  },
+  {
+   "n": "agua_poluida_f0_NW",
+   "r": 14,
+   "c": 1
+  },
+  {
+   "n": "agua_poluida_f0_N",
+   "r": 14,
+   "c": 2
+  },
+  {
+   "n": "agua_poluida_f0_NE",
+   "r": 14,
+   "c": 3
+  },
+  {
+   "n": "agua_poluida_f0_W",
+   "r": 14,
+   "c": 4
+  },
+  {
+   "n": "agua_poluida_f0_C",
+   "r": 14,
+   "c": 5
+  },
+  {
+   "n": "agua_poluida_f0_E",
+   "r": 14,
+   "c": 6
+  },
+  {
+   "n": "agua_poluida_f0_SW",
+   "r": 14,
+   "c": 7
+  },
+  {
+   "n": "agua_poluida_f0_S",
+   "r": 15,
+   "c": 0
+  },
+  {
+   "n": "agua_poluida_f0_SE",
+   "r": 15,
+   "c": 1
+  },
+  {
+   "n": "agua_poluida_f0_iNW",
+   "r": 15,
+   "c": 2
+  },
+  {
+   "n": "agua_poluida_f0_iNE",
+   "r": 15,
+   "c": 3
+  },
+  {
+   "n": "agua_poluida_f0_iSW",
+   "r": 15,
+   "c": 4
+  },
+  {
+   "n": "agua_poluida_f0_iSE",
+   "r": 15,
+   "c": 5
+  },
+  {
+   "n": "agua_poluida_f1_C",
+   "r": 15,
+   "c": 6
+  },
+  {
+   "n": "agua_poluida_f1_NW",
+   "r": 15,
+   "c": 7
+  },
+  {
+   "n": "agua_poluida_f1_N",
+   "r": 16,
+   "c": 0
+  },
+  {
+   "n": "agua_poluida_f1_NE",
+   "r": 16,
+   "c": 1
+  },
+  {
+   "n": "agua_poluida_f1_W",
+   "r": 16,
+   "c": 2
+  },
+  {
+   "n": "agua_poluida_f1_C",
+   "r": 16,
+   "c": 3
+  },
+  {
+   "n": "agua_poluida_f1_E",
+   "r": 16,
+   "c": 4
+  },
+  {
+   "n": "agua_poluida_f1_SW",
+   "r": 16,
+   "c": 5
+  },
+  {
+   "n": "agua_poluida_f1_S",
+   "r": 16,
+   "c": 6
+  },
+  {
+   "n": "agua_poluida_f1_SE",
+   "r": 16,
+   "c": 7
+  },
+  {
+   "n": "agua_poluida_f1_iNW",
+   "r": 17,
+   "c": 0
+  },
+  {
+   "n": "agua_poluida_f1_iNE",
+   "r": 17,
+   "c": 1
+  },
+  {
+   "n": "agua_poluida_f1_iSW",
+   "r": 17,
+   "c": 2
+  },
+  {
+   "n": "agua_poluida_f1_iSE",
+   "r": 17,
+   "c": 3
+  },
+  {
+   "n": "agua_poluida_f2_C",
+   "r": 17,
+   "c": 4
+  },
+  {
+   "n": "agua_poluida_f2_NW",
+   "r": 17,
+   "c": 5
+  },
+  {
+   "n": "agua_poluida_f2_N",
+   "r": 17,
+   "c": 6
+  },
+  {
+   "n": "agua_poluida_f2_NE",
+   "r": 17,
+   "c": 7
+  },
+  {
+   "n": "agua_poluida_f2_W",
+   "r": 18,
+   "c": 0
+  },
+  {
+   "n": "agua_poluida_f2_C",
+   "r": 18,
+   "c": 1
+  },
+  {
+   "n": "agua_poluida_f2_E",
+   "r": 18,
+   "c": 2
+  },
+  {
+   "n": "agua_poluida_f2_SW",
+   "r": 18,
+   "c": 3
+  },
+  {
+   "n": "agua_poluida_f2_S",
+   "r": 18,
+   "c": 4
+  },
+  {
+   "n": "agua_poluida_f2_SE",
+   "r": 18,
+   "c": 5
+  },
+  {
+   "n": "agua_poluida_f2_iNW",
+   "r": 18,
+   "c": 6
+  },
+  {
+   "n": "agua_poluida_f2_iNE",
+   "r": 18,
+   "c": 7
+  },
+  {
+   "n": "agua_poluida_f2_iSW",
+   "r": 19,
+   "c": 0
+  },
+  {
+   "n": "agua_poluida_f2_iSE",
+   "r": 19,
+   "c": 1
+  },
+  {
+   "n": "agua_poluida_f3_C",
+   "r": 19,
+   "c": 2
+  },
+  {
+   "n": "agua_poluida_f3_NW",
+   "r": 19,
+   "c": 3
+  },
+  {
+   "n": "agua_poluida_f3_N",
+   "r": 19,
+   "c": 4
+  },
+  {
+   "n": "agua_poluida_f3_NE",
+   "r": 19,
+   "c": 5
+  },
+  {
+   "n": "agua_poluida_f3_W",
+   "r": 19,
+   "c": 6
+  },
+  {
+   "n": "agua_poluida_f3_C",
+   "r": 19,
+   "c": 7
+  },
+  {
+   "n": "agua_poluida_f3_E",
+   "r": 20,
+   "c": 0
+  },
+  {
+   "n": "agua_poluida_f3_SW",
+   "r": 20,
+   "c": 1
+  },
+  {
+   "n": "agua_poluida_f3_S",
+   "r": 20,
+   "c": 2
+  },
+  {
+   "n": "agua_poluida_f3_SE",
+   "r": 20,
+   "c": 3
+  },
+  {
+   "n": "agua_poluida_f3_iNW",
+   "r": 20,
+   "c": 4
+  },
+  {
+   "n": "agua_poluida_f3_iNE",
+   "r": 20,
+   "c": 5
+  },
+  {
+   "n": "agua_poluida_f3_iSW",
+   "r": 20,
+   "c": 6
+  },
+  {
+   "n": "agua_poluida_f3_iSE",
+   "r": 20,
+   "c": 7
+  },
+  {
+   "n": "agua_poluida_f4_C",
+   "r": 21,
+   "c": 0
+  },
+  {
+   "n": "agua_poluida_f4_NW",
+   "r": 21,
+   "c": 1
+  },
+  {
+   "n": "agua_poluida_f4_N",
+   "r": 21,
+   "c": 2
+  },
+  {
+   "n": "agua_poluida_f4_NE",
+   "r": 21,
+   "c": 3
+  },
+  {
+   "n": "agua_poluida_f4_W",
+   "r": 21,
+   "c": 4
+  },
+  {
+   "n": "agua_poluida_f4_C",
+   "r": 21,
+   "c": 5
+  },
+  {
+   "n": "agua_poluida_f4_E",
+   "r": 21,
+   "c": 6
+  },
+  {
+   "n": "agua_poluida_f4_SW",
+   "r": 21,
+   "c": 7
+  },
+  {
+   "n": "agua_poluida_f4_S",
+   "r": 22,
+   "c": 0
+  },
+  {
+   "n": "agua_poluida_f4_SE",
+   "r": 22,
+   "c": 1
+  },
+  {
+   "n": "agua_poluida_f4_iNW",
+   "r": 22,
+   "c": 2
+  },
+  {
+   "n": "agua_poluida_f4_iNE",
+   "r": 22,
+   "c": 3
+  },
+  {
+   "n": "agua_poluida_f4_iSW",
+   "r": 22,
+   "c": 4
+  },
+  {
+   "n": "agua_poluida_f4_iSE",
+   "r": 22,
+   "c": 5
+  },
+  {
+   "n": "agua_poluida_f5_C",
+   "r": 22,
+   "c": 6
+  },
+  {
+   "n": "agua_poluida_f5_NW",
+   "r": 22,
+   "c": 7
+  },
+  {
+   "n": "agua_poluida_f5_N",
+   "r": 23,
+   "c": 0
+  },
+  {
+   "n": "agua_poluida_f5_NE",
+   "r": 23,
+   "c": 1
+  },
+  {
+   "n": "agua_poluida_f5_W",
+   "r": 23,
+   "c": 2
+  },
+  {
+   "n": "agua_poluida_f5_C",
+   "r": 23,
+   "c": 3
+  },
+  {
+   "n": "agua_poluida_f5_E",
+   "r": 23,
+   "c": 4
+  },
+  {
+   "n": "agua_poluida_f5_SW",
+   "r": 23,
+   "c": 5
+  },
+  {
+   "n": "agua_poluida_f5_S",
+   "r": 23,
+   "c": 6
+  },
+  {
+   "n": "agua_poluida_f5_SE",
+   "r": 23,
+   "c": 7
+  },
+  {
+   "n": "agua_poluida_f5_iNW",
+   "r": 24,
+   "c": 0
+  },
+  {
+   "n": "agua_poluida_f5_iNE",
+   "r": 24,
+   "c": 1
+  },
+  {
+   "n": "agua_poluida_f5_iSW",
+   "r": 24,
+   "c": 2
+  },
+  {
+   "n": "agua_poluida_f5_iSE",
+   "r": 24,
+   "c": 3
+  },
+  {
+   "n": "agua_poluida_f6_C",
+   "r": 24,
+   "c": 4
+  },
+  {
+   "n": "agua_poluida_f6_NW",
+   "r": 24,
+   "c": 5
+  },
+  {
+   "n": "agua_poluida_f6_N",
+   "r": 24,
+   "c": 6
+  },
+  {
+   "n": "agua_poluida_f6_NE",
+   "r": 24,
+   "c": 7
+  },
+  {
+   "n": "agua_poluida_f6_W",
+   "r": 25,
+   "c": 0
+  },
+  {
+   "n": "agua_poluida_f6_C",
+   "r": 25,
+   "c": 1
+  },
+  {
+   "n": "agua_poluida_f6_E",
+   "r": 25,
+   "c": 2
+  },
+  {
+   "n": "agua_poluida_f6_SW",
+   "r": 25,
+   "c": 3
+  },
+  {
+   "n": "agua_poluida_f6_S",
+   "r": 25,
+   "c": 4
+  },
+  {
+   "n": "agua_poluida_f6_SE",
+   "r": 25,
+   "c": 5
+  },
+  {
+   "n": "agua_poluida_f6_iNW",
+   "r": 25,
+   "c": 6
+  },
+  {
+   "n": "agua_poluida_f6_iNE",
+   "r": 25,
+   "c": 7
+  },
+  {
+   "n": "agua_poluida_f6_iSW",
+   "r": 26,
+   "c": 0
+  },
+  {
+   "n": "agua_poluida_f6_iSE",
+   "r": 26,
+   "c": 1
+  },
+  {
+   "n": "agua_poluida_f7_C",
+   "r": 26,
+   "c": 2
+  },
+  {
+   "n": "agua_poluida_f7_NW",
+   "r": 26,
+   "c": 3
+  },
+  {
+   "n": "agua_poluida_f7_N",
+   "r": 26,
+   "c": 4
+  },
+  {
+   "n": "agua_poluida_f7_NE",
+   "r": 26,
+   "c": 5
+  },
+  {
+   "n": "agua_poluida_f7_W",
+   "r": 26,
+   "c": 6
+  },
+  {
+   "n": "agua_poluida_f7_C",
+   "r": 26,
+   "c": 7
+  },
+  {
+   "n": "agua_poluida_f7_E",
+   "r": 27,
+   "c": 0
+  },
+  {
+   "n": "agua_poluida_f7_SW",
+   "r": 27,
+   "c": 1
+  },
+  {
+   "n": "agua_poluida_f7_S",
+   "r": 27,
+   "c": 2
+  },
+  {
+   "n": "agua_poluida_f7_SE",
+   "r": 27,
+   "c": 3
+  },
+  {
+   "n": "agua_poluida_f7_iNW",
+   "r": 27,
+   "c": 4
+  },
+  {
+   "n": "agua_poluida_f7_iNE",
+   "r": 27,
+   "c": 5
+  },
+  {
+   "n": "agua_poluida_f7_iSW",
+   "r": 27,
+   "c": 6
+  },
+  {
+   "n": "agua_poluida_f7_iSE",
+   "r": 27,
+   "c": 7
+  },
+  {
+   "n": "agua_poluida_oleo_f0_C",
+   "r": 28,
+   "c": 0
+  },
+  {
+   "n": "agua_poluida_oleo_f1_C",
+   "r": 28,
+   "c": 1
+  },
+  {
+   "n": "agua_poluida_oleo_f2_C",
+   "r": 28,
+   "c": 2
+  },
+  {
+   "n": "agua_poluida_oleo_f3_C",
+   "r": 28,
+   "c": 3
+  },
+  {
+   "n": "agua_poluida_oleo_f4_C",
+   "r": 28,
+   "c": 4
+  },
+  {
+   "n": "agua_poluida_oleo_f5_C",
+   "r": 28,
+   "c": 5
+  },
+  {
+   "n": "agua_poluida_oleo_f6_C",
+   "r": 28,
+   "c": 6
+  },
+  {
+   "n": "agua_poluida_oleo_f7_C",
+   "r": 28,
+   "c": 7
+  }
+ ]
+}

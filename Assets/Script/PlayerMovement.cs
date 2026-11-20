@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 /// <summary>
-/// Movimento top-down (WASD / setas / analógico).
+/// Movimento top-down: teclado (WASD / setas), controle, mouse (segurar no mapa) ou joystick de toque.
 /// Offline ou fora de sala: você controla. Dentro de uma sala do Photon: só o dono do personagem controla.
 /// </summary>
 [RequireComponent(typeof(Rigidbody2D))]
@@ -17,6 +17,17 @@ public class PlayerMovement : MonoBehaviourPun
     private Vector2 input;
 
     private bool PodeControlar => !PhotonNetwork.InRoom || photonView == null || photonView.IsMine;
+
+    private void Awake()
+    {
+        rb = GetComponent<Rigidbody2D>();
+        rb.gravityScale = 0f;
+        rb.freezeRotation = true;
+        rb.interpolation = RigidbodyInterpolation2D.Interpolate;              // movimento liso na tela
+        rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
+        if (sprite == null) sprite = GetComponent<SpriteRenderer>();
+        if (sprite != null) sprite.spriteSortPoint = SpriteSortPoint.Pivot;
+    }
 
     private void Start()
     {
@@ -33,17 +44,6 @@ public class PlayerMovement : MonoBehaviourPun
                 foreach (var b in outro.GetComponentsInChildren<Collider2D>())
                     Physics2D.IgnoreCollision(a, b, true);
         }
-    }
-
-    private void Awake()
-    {
-        rb = GetComponent<Rigidbody2D>();
-        rb.gravityScale = 0f;
-        rb.freezeRotation = true;
-        rb.interpolation = RigidbodyInterpolation2D.Interpolate;              // movimento liso na tela
-        rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
-        if (sprite == null) sprite = GetComponent<SpriteRenderer>();
-        if (sprite != null) sprite.spriteSortPoint = SpriteSortPoint.Pivot;
     }
 
     private void Update()
@@ -67,6 +67,8 @@ public class PlayerMovement : MonoBehaviourPun
 
     private static Vector2 ReadInput()
     {
+        if (MenuPartida.Aberto) return Vector2.zero;   // menu do Esc aberto: o boneco para
+
         Vector2 v = Vector2.zero;
 
         var kb = Keyboard.current;
@@ -81,6 +83,8 @@ public class PlayerMovement : MonoBehaviourPun
         var pad = Gamepad.current;
         if (pad != null && pad.leftStick.ReadValue().sqrMagnitude > 0.04f)
             v = pad.leftStick.ReadValue();
+
+        if (v == Vector2.zero) v = ControleToque.Direcao;   // mouse (segurar no mapa) ou joystick de toque
 
         return Vector2.ClampMagnitude(v, 1f); // diagonal não fica mais rápida
     }

@@ -54,6 +54,7 @@
     <Analyzer Include="C:\Users\Bruno\OneDrive\Documentos\GitHub\EducaUs\Library\PackageCache\com.unity.dt.app-ui@8606a9847e5b\Runtime\MVVM\SourceGenerators\netstandard2.0\MVVMSourceGenerators.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Resources\Editor\PrepararAnimacoes.cs" />
     <Compile Include="Assets\TutorialInfo\Scripts\Editor\ReadmeEditor.cs" />
     <Compile Include="Assets\Art\Vila\Editor\MontadorLocal.cs" />
     <Compile Include="Assets\MainMenuScreen\Editor\VilaMenuBuilder.cs" />

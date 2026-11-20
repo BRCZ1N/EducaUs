@@ -68,7 +68,7 @@ public static class VilaMenuBuilder
 
         var rotuloNome = MakeText(menuGO.transform, "RotuloNome", "SEU NOME", 476, 32, 22, Ouro, fBody, false);
         rotuloNome.characterSpacing = 8; rotuloNome.fontStyle = FontStyles.Bold;
-        var nome = MakeInput(menuGO.transform, 396, 76, bN, bH, fBody, "NomeInput", "Ex.: Bruno", 16, 34, 2);
+        var nome = MakeInput(menuGO.transform, 396, 76, bN, bH, fBody, "NomeInput", "Ex.: Voluntario", 16, 34, 2);
 
         var ctrl = canvasGO.GetComponent<MainMenuController>();
         var novo = MakeButton(menuGO.transform, "Novo jogo", 290, 84, bN, bH, bP, fBody, 36, Cal);
@@ -325,7 +325,7 @@ public static class VilaMenuBuilder
         var txt = MakeText(go.transform, "Texto", label, 0, 0, size, color, font, false);
         var trt = (RectTransform)txt.transform;
         trt.anchorMin = Vector2.zero; trt.anchorMax = Vector2.one;
-        trt.offsetMin = new Vector2(76, 7); trt.offsetMax = new Vector2(-24, 0);   // centraliza na face (acima da espessura)
+        trt.offsetMin = new Vector2(32, 7); trt.offsetMax = new Vector2(-24, 0);   // texto alinhado à esquerda, na face (acima da espessura)
         txt.characterSpacing = 2;
         txt.outlineWidth = 0.12f; txt.outlineColor = Ferrugem;                    // contorno leve: lê bem no verde e no laranja
         return b;

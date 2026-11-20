@@ -52,7 +52,7 @@ public class MenuPartida : MonoBehaviourPunCallbacks
         {
             if (Aberto) Fechar(); else Abrir();
         }
-        txtCanto.text = PhotonNetwork.InRoom ? $"Sala {PhotonNetwork.CurrentRoom.Name}   ·   Esc: menu" : "Offline   ·   Esc: menu";
+        txtCanto.text = PhotonNetwork.InRoom ? $"Sala {PhotonNetwork.CurrentRoom.Name}" : "Offline";
     }
 
     public void Abrir()

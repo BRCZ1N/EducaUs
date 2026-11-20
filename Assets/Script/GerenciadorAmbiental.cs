@@ -29,6 +29,8 @@ public class GerenciadorAmbiental : MonoBehaviourPunCallbacks
     [Header("Sabotador")]
     [Tooltip("O dono da sala sorteia o sabotador quando a cena Game abre (se ainda não houver um).")]
     [SerializeField] private bool sortearSabotadorAoIniciar = true;
+    [Tooltip("Com menos jogadores que isso não há sabotador humano: a 'pressão econômica' sabota sozinha.")]
+    [SerializeField] private int jogadoresParaSabotador = 3;
     [SerializeField] private float recargaSabotagem = 45f;
     [Tooltip("Só para testar sem Photon: você joga como sabotador.")]
     [SerializeField] private bool sabotadorOffline = false;
@@ -85,6 +87,9 @@ public class GerenciadorAmbiental : MonoBehaviourPunCallbacks
 
     private HudAmbiental hud;
     private PontoDeTarefa pontoAtual;
+    private Morador moradorAtual;
+    private float dicaColetiva;
+    private Comunidade comunidade;
     private float segurando;
     private float proximaSabotagem;
     private bool iniciado;
@@ -117,6 +122,10 @@ public class GerenciadorAmbiental : MonoBehaviourPunCallbacks
         if (hud == null) hud = gameObject.AddComponent<HudAmbiental>();
         if (GetComponent<MenuPartida>() == null) gameObject.AddComponent<MenuPartida>();   // menu do Esc
         if (GetComponent<LimiteDoMapa>() == null) gameObject.AddComponent<LimiteDoMapa>(); // parede em volta do mapa
+        if (GetComponent<AnimarAgua>() == null) gameObject.AddComponent<AnimarAgua>();     // água ondulando
+        if (GetComponent<ControleToque>() == null) gameObject.AddComponent<ControleToque>(); // andar com mouse/joystick
+        comunidade = GetComponent<Comunidade>();
+        if (comunidade == null) comunidade = gameObject.AddComponent<Comunidade>();         // moradores + pressão econômica
     }
 
     private void OnDestroy()
@@ -132,9 +141,7 @@ public class GerenciadorAmbiental : MonoBehaviourPunCallbacks
         LigarTarefasAsAreas();
         PrepararTransparencia();
 
-        if (PhotonNetwork.InRoom && PhotonNetwork.IsMasterClient && sortearSabotadorAoIniciar
-            && !PhotonNetwork.CurrentRoom.CustomProperties.ContainsKey(CHAVE_SAB))
-            SortearSabotador();
+        TentarSortearSabotador();
 
         if (PhotonNetwork.InRoom && PhotonNetwork.IsMasterClient && !PhotonNetwork.CurrentRoom.CustomProperties.ContainsKey(CHAVE_INICIO))
             PhotonNetwork.CurrentRoom.SetCustomProperties(new Hashtable { { CHAVE_INICIO, PhotonNetwork.Time } });
@@ -212,9 +219,43 @@ public class GerenciadorAmbiental : MonoBehaviourPunCallbacks
 
     public override void OnRoomPropertiesUpdate(Hashtable mudou)
     {
+        if (iniciado && mudou.ContainsKey(CHAVE_SAB) && mudou[CHAVE_SAB] != null)
+            hud.Aviso("Agora há um sabotador entre vocês. Fiquem atentos!", HudAmbiental.Vermelho, 5f);
         foreach (var kv in mudou) AplicarChave(kv.Key as string, kv.Value);
         if (iniciado) Recalcular(silencioso: false);
     }
+
+    /// Dono da sala: quando a sala chega ao número mínimo de jogadores, sorteia o sabotador (uma vez).
+    private void TentarSortearSabotador()
+    {
+        if (PhotonNetwork.InRoom && PhotonNetwork.IsMasterClient && sortearSabotadorAoIniciar
+            && PhotonNetwork.CurrentRoom.PlayerCount >= jogadoresParaSabotador
+            && !TemSabotadorNaSala)
+            SortearSabotador();
+    }
+
+    /// Há um sabotador humano presente na sala? (sem ele, a pressão econômica da Comunidade sabota sozinha)
+    public bool TemSabotadorNaSala
+    {
+        get
+        {
+            if (!PhotonNetwork.InRoom) return sabotadorOffline;
+            if (!PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue(CHAVE_SAB, out object v) || !(v is int ator)) return false;
+            return PhotonNetwork.PlayerList.Any(p => p.ActorNumber == ator);
+        }
+    }
+
+    /// Pressão econômica: desfaz uma conquista ao acaso (de preferência numa área já recuperada).
+    public void SabotarAleatoria()
+    {
+        var feitasAgora = pontos.Where(p => p.Feita).ToList();
+        if (feitasAgora.Count == 0) return;
+        var preferidas = feitasAgora.Where(p => p.Area != null && p.Area.Recuperada).ToList();
+        var lista = preferidas.Count > 0 ? preferidas : feitasAgora;
+        DefinirTarefa(lista[UnityEngine.Random.Range(0, lista.Count)].Id, false);
+    }
+
+    public override void OnPlayerEnteredRoom(Player novo) => TentarSortearSabotador();
 
     public override void OnPlayerLeftRoom(Player saiu)
     {
@@ -248,7 +289,7 @@ public class GerenciadorAmbiental : MonoBehaviourPunCallbacks
         TarefasFeitas = pontos.Count(p => p.Feita); TotalTarefas = pontos.Count;
         ProgressoAreas = total > 0 ? (float)rec / total : 0f;
         ProgressoMudou?.Invoke(ProgressoAreas);
-        hud.Atualizar(rec, total, TarefasFeitas, TotalTarefas, SouSabotador);
+        hud.Atualizar(rec, total, TarefasFeitas, TotalTarefas, SouSabotador, TemSabotadorNaSala, comunidade != null ? comunidade.Apoios : 0);
 
         bool venceu = total > 0 && rec == total;
         if (venceu && !PartidaVencida)
@@ -262,6 +303,8 @@ public class GerenciadorAmbiental : MonoBehaviourPunCallbacks
 
     // ------------------------------------------------------------------ jogador local
     public void Entrou(PontoDeTarefa p) { pontoAtual = p; segurando = 0f; }
+    public void Entrou(Morador m) { moradorAtual = m; segurando = 0f; }
+    public void Saiu(Morador m) { if (moradorAtual == m) { moradorAtual = null; segurando = 0f; } }
     public void Saiu(PontoDeTarefa p) { if (pontoAtual == p) { pontoAtual = null; segurando = 0f; } }
 
     private void Update()
@@ -270,6 +313,9 @@ public class GerenciadorAmbiental : MonoBehaviourPunCallbacks
         var kb = Keyboard.current; var gp = Gamepad.current;
         bool segurandoE = (kb != null && kb.eKey.isPressed) || (gp != null && gp.buttonSouth.isPressed);
         bool apertouQ = (kb != null && kb.qKey.wasPressedThisFrame) || (gp != null && gp.buttonWest.wasPressedThisFrame);
+        segurandoE |= hud.UsarSegurado;          // botão USAR da tela (mouse ou toque)
+        apertouQ |= hud.ConsumirSabotar();       // botão SABOTAR da tela
+        AtualizarBotoes();
 
         if (atalhosDeTeste && kb != null)
         {
@@ -290,33 +336,56 @@ public class GerenciadorAmbiental : MonoBehaviourPunCallbacks
             hud.Grande("O tempo acabou: os interesses que lucram com a degradação venceram.", HudAmbiental.Vermelho);
         }
 
-        if (pontoAtual == null || MenuPartida.Aberto) { hud.Prompt(null, -1f); return; }
+        if (MenuPartida.Aberto) { hud.Prompt(null, -1f); return; }
+        if (pontoAtual == null)
+        {
+            if (moradorAtual != null) ConversarComMorador(segurandoE);
+            else hud.Prompt(null, -1f);
+            return;
+        }
 
         if (!pontoAtual.Feita)
         {
+            int apoiosUsados = 0;
             if (pontoAtual.Coletiva)
             {
                 int presentes = pontoAtual.ContarJogadores();
-                if (presentes < pontoAtual.jogadores)
+                int faltam = pontoAtual.jogadores - presentes;
+                apoiosUsados = Mathf.Clamp(faltam, 0, comunidade.Apoios);   // moradores mobilizados contam como pessoas
+                if (faltam > apoiosUsados)
                 {
                     segurando = 0f;
-                    hud.Prompt($"{pontoAtual.nome}: precisa de {pontoAtual.jogadores} pessoas ({presentes}/{pontoAtual.jogadores})", 0f);
+                    hud.Prompt($"{pontoAtual.nome}: precisa de {pontoAtual.jogadores} pessoas ({presentes} aqui + {comunidade.Apoios} apoio)", 0f);
+                    if (dicaColetiva < Time.time)
+                    {
+                        hud.Aviso("Chame outros jogadores ou converse com moradores (balão) para ganhar apoios.", HudAmbiental.Cinza, 4f);
+                        dicaColetiva = Time.time + 12f;
+                    }
                     return;
                 }
             }
             segurando = segurandoE ? segurando + Time.deltaTime : 0f;
-            hud.Prompt($"Segure E: {pontoAtual.nome}", segurando / segundosPorTarefa);
+            hud.Prompt($"Segure USAR (E): {pontoAtual.nome}", segurando / segundosPorTarefa);
             if (segurando >= segundosPorTarefa)
             {
                 segurando = 0f;
                 if (SouSabotador) hud.Aviso("(você fingiu fazer a tarefa)", HudAmbiental.Cinza);
-                else DefinirTarefa(pontoAtual.Id, true);
+                else
+                {
+                    if (apoiosUsados > 0)
+                    {
+                        comunidade.Gastar(apoiosUsados);
+                        hud.Aviso($"{apoiosUsados} morador(es) participaram da ação!", HudAmbiental.Verde);
+                    }
+                    DefinirTarefa(pontoAtual.Id, true);
+                    Recalcular(silencioso: true);
+                }
             }
         }
         else if (SouSabotador)
         {
             float falta = proximaSabotagem - Time.time;
-            hud.Prompt(falta > 0 ? $"Sabotar em {Mathf.CeilToInt(falta)}s" : $"Q: sabotar \"{pontoAtual.nome}\"", -1f);
+            hud.Prompt(falta > 0 ? $"Sabotar em {Mathf.CeilToInt(falta)}s" : $"SABOTAR (Q): \"{pontoAtual.nome}\"", -1f);
             if (apertouQ && falta <= 0)
             {
                 DefinirTarefa(pontoAtual.Id, false);
@@ -324,6 +393,46 @@ public class GerenciadorAmbiental : MonoBehaviourPunCallbacks
             }
         }
         else hud.Prompt($"Concluída: {pontoAtual.nome}", -1f);
+    }
+
+    private const float SegundosConversa = 1.5f;
+
+    /// Acende/apaga os botões redondos da tela conforme o que está perto do jogador.
+    private void AtualizarBotoes()
+    {
+        bool menu = MenuPartida.Aberto;
+        bool usar = false; string rotulo = "USAR"; float prog = 0f;
+        if (!menu)
+        {
+            if (pontoAtual != null && !pontoAtual.Feita) { usar = true; prog = segurando / segundosPorTarefa; }
+            else if (pontoAtual == null && moradorAtual != null && moradorAtual.Disponivel && comunidade.Apoios < comunidade.MaximoDeApoios)
+            { usar = true; rotulo = "FALAR"; prog = segurando / SegundosConversa; }
+        }
+        hud.BotaoUsar(usar, rotulo, prog);
+        float falta = proximaSabotagem - Time.time;
+        hud.BotaoSabotar(SouSabotador, !menu && pontoAtual != null && pontoAtual.Feita && falta <= 0, Mathf.CeilToInt(Mathf.Max(0f, falta)));
+    }
+    private void ConversarComMorador(bool segurandoE)
+    {
+        var m = moradorAtual;
+        if (!m.Disponivel) { segurando = 0f; hud.Prompt($"{m.Nome} já está mobilizado(a). Volte daqui a pouco.", -1f); return; }
+        if (comunidade.Apoios >= comunidade.MaximoDeApoios)
+        {
+            segurando = 0f;
+            hud.Prompt($"Você já tem {comunidade.Apoios} apoios: leve-os a uma tarefa coletiva.", -1f);
+            return;
+        }
+        segurando = segurandoE ? segurando + Time.deltaTime : 0f;
+        hud.Prompt($"Segure FALAR (E): {m.Nome}, {m.Papel}", segurando / SegundosConversa);
+        if (segurando >= SegundosConversa)
+        {
+            segurando = 0f;
+            if (comunidade.Convidar(m))
+            {
+                hud.Aviso($"{m.Nome} vai apoiar a mobilização! Apoios: {comunidade.Apoios}", HudAmbiental.Verde);
+                Recalcular(silencioso: true);
+            }
+        }
     }
 
     // ------------------------------------------------------------------ partida
