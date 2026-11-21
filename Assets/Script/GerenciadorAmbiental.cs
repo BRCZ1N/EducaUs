@@ -38,8 +38,8 @@ public class GerenciadorAmbiental : MonoBehaviourPunCallbacks
     [SerializeField] private bool sabotadorOffline = false;
 
     [Header("Partida")]
-    [Tooltip("Duração da partida em minutos. Se o tempo acabar com áreas poluídas, o sabotador vence. 0 = sem limite.")]
-    [SerializeField] private float minutosDePartida = 10f;
+    [Tooltip("Duração da partida em minutos (padrão 20). Se o tempo acabar com áreas atingidas, a empresa vence. 0 = sem limite.")]
+    [SerializeField] private float duracaoEmMinutos = 20f;
 
     [Header("Teste")]
     [Tooltip("1 = conclui todas as tarefas · 2 = desfaz todas · 3 = alterna sabotador (só offline)")]
@@ -116,7 +116,26 @@ public class GerenciadorAmbiental : MonoBehaviourPunCallbacks
     private readonly float[] dimensoes = new float[4];
 
     /// A partida acabou (vitória da comunidade ou fim do tempo).
-    public bool PartidaEncerrada => PartidaVencida || tempoAcabou;
+    public bool PartidaEncerrada => PartidaVencida || tempoAcabou || fimAssembleia;
+    private bool fimAssembleia;
+    private string tituloFim;
+
+    /// Última vez (Time.time) que uma conquista foi desfeita, e onde: a Assembleia usa para liberar o DENUNCIAR.
+    public float UltimaSabotagem { get; private set; } = -999f;
+    public string UltimaAreaSabotada { get; private set; } = "";
+
+    /// Ator do infiltrado (0 = nenhum).
+    public int AtorSabotador =>
+        PhotonNetwork.InRoom && PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue(CHAVE_SAB, out object v) && v is int a ? a : 0;
+
+    /// Fim decidido na assembleia: o infiltrado foi descoberto (comunidade vence) ou a comunidade se desarticulou.
+    public void EncerrarPorAssembleia(bool comunidadeVenceu, string titulo)
+    {
+        if (PartidaEncerrada) return;
+        fimAssembleia = true; tituloFim = titulo;
+        hud.Grande(titulo, comunidadeVenceu ? HudAmbiental.Verde : HudAmbiental.Vermelho);
+        Invoke(comunidadeVenceu ? nameof(RodaVitoria) : nameof(RodaDerrota), 3f);
+    }
     public bool SaberConhecido(string morador) => saberes.Contains(morador);
     public int Saberes => saberes.Count;
 
@@ -131,6 +150,15 @@ public class GerenciadorAmbiental : MonoBehaviourPunCallbacks
     private float proximaSabotagem;
     private bool iniciado;
     private float inicioOffline;
+    private bool iniciadaOffline;
+
+    /// A partida só começa quando o dono da sala usa o painel INICIAR no meio do barracão.
+    public bool PartidaIniciada => PhotonNetwork.InRoom ? PhotonNetwork.CurrentRoom.CustomProperties.ContainsKey(CHAVE_INICIO) : iniciadaOffline;
+    private static bool SouDono => !PhotonNetwork.InRoom || PhotonNetwork.IsMasterClient;
+    private static readonly Vector2 PosicaoInicio = new Vector2(50f, 70.6f);   // recepção do barracão (centro da ONG)
+    private SpriteRenderer srInicio; private Sprite[] sprInicio;
+    private bool pertoDoInicio; private float segurandoInicio;
+    private const float SegundosInicio = 1.5f;
     private bool tempoAcabou;
     private float tempoCongelado = -1f;     // o relógio para quando a comunidade vence
 
@@ -139,15 +167,15 @@ public class GerenciadorAmbiental : MonoBehaviourPunCallbacks
     {
         get
         {
-            if (minutosDePartida <= 0f) return -1f;
+            if (duracaoEmMinutos <= 0f) return -1f;
             double decorrido;
             if (PhotonNetwork.InRoom)
             {
-                if (!PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue(CHAVE_INICIO, out object v) || !(v is double ini)) return minutosDePartida * 60f;
+                if (!PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue(CHAVE_INICIO, out object v) || !(v is double ini)) return duracaoEmMinutos * 60f;
                 decorrido = PhotonNetwork.Time - ini;
             }
-            else decorrido = Time.time - inicioOffline;
-            return Mathf.Max(0f, minutosDePartida * 60f - (float)decorrido);
+            else { if (!iniciadaOffline) return duracaoEmMinutos * 60f; decorrido = Time.time - inicioOffline; }
+            return Mathf.Max(0f, duracaoEmMinutos * 60f - (float)decorrido);
         }
     }
 
@@ -165,7 +193,8 @@ public class GerenciadorAmbiental : MonoBehaviourPunCallbacks
         minigame = GetComponent<MinigameTarefa>();
         if (minigame == null) minigame = gameObject.AddComponent<MinigameTarefa>();         // minigames das tarefas
         comunidade = GetComponent<Comunidade>();
-        if (comunidade == null) comunidade = gameObject.AddComponent<Comunidade>();         // moradores + pressão econômica
+        if (comunidade == null) comunidade = gameObject.AddComponent<Comunidade>();
+        if (GetComponent<Assembleia>() == null) gameObject.AddComponent<Assembleia>();      // assembleia e votação (multiplayer)         // moradores + pressão econômica
     }
 
     private void OnDestroy()
@@ -180,11 +209,8 @@ public class GerenciadorAmbiental : MonoBehaviourPunCallbacks
         pontos.AddRange(FindObjectsByType<PontoDeTarefa>(FindObjectsSortMode.None).Where(p => !p.EhReuniao));
         LigarTarefasAsAreas();
 
-        TentarSortearSabotador();
-
-        if (PhotonNetwork.InRoom && PhotonNetwork.IsMasterClient && !PhotonNetwork.CurrentRoom.CustomProperties.ContainsKey(CHAVE_INICIO))
-            PhotonNetwork.CurrentRoom.SetCustomProperties(new Hashtable { { CHAVE_INICIO, PhotonNetwork.Time } });
-        inicioOffline = Time.time;
+        if (PartidaIniciada) TentarSortearSabotador();       // (a partida só começa pelo painel INICIAR)
+        CriarPainelInicio();
 
         LerEstadoDaSala();
         iniciado = true;
@@ -204,7 +230,8 @@ public class GerenciadorAmbiental : MonoBehaviourPunCallbacks
             "•  <b>Converse com os vizinhos</b> (balão amarelo). Cada um tem uma pista que libera tarefas para todos.\n" +
             "•  <b>Ações coletivas</b> (marca azul) precisam de mais gente: chame outros jogadores ou mobilize moradores.\n" +
             "•  Cuide dos <b>recursos</b> da comunidade: água, saúde, terra e comida.\n" +
-            "•  A <b>Rádio Progresso</b> e um possível infiltrado da empresa vão tentar desfazer o que vocês conquistarem.",
+            "•  A <b>Rádio Progresso</b> e um possível infiltrado da empresa vão tentar desfazer o que vocês conquistarem.\n\n" +
+            "Quando todos estiverem prontos, o <b>dono da sala</b> inicia a partida no painel <b>INICIAR</b>, no meio do barracão.",
             null, "COMEÇAR");
     }
 
@@ -255,7 +282,13 @@ public class GerenciadorAmbiental : MonoBehaviourPunCallbacks
         if (valor is bool b && b) feitas.Add(id);
         else
         {
-            if (iniciado && valor is bool && feitas.Contains(id)) sabotagens++;     // false = desfeita (null = reinício)
+            if (iniciado && valor is bool && feitas.Contains(id))                   // false = desfeita (null = reinício)
+            {
+                sabotagens++;
+                var pt = pontos.FirstOrDefault(x => x.Id == id);
+                UltimaSabotagem = Time.time;
+                UltimaAreaSabotada = pt != null && pt.Area != null ? pt.Area.Nome : "algum lugar";
+            }
             feitas.Remove(id);
         }
     }
@@ -287,8 +320,9 @@ public class GerenciadorAmbiental : MonoBehaviourPunCallbacks
             hud.Aviso("Um infiltrado da empresa está entre vocês. Fiquem atentos!", HudAmbiental.Vermelho, 5f);
         if (iniciado && mudou.ContainsKey(CHAVE_REINICIO))
         {   // o dono da sala reiniciou a partida
-            sabotagens = 0; rodaMostrada = false; tempoAcabou = false; hud.Grande(null);
+            sabotagens = 0; rodaMostrada = false; tempoAcabou = false; fimAssembleia = false; tituloFim = null; hud.Grande(null);
             CancelInvoke(); if (HudAmbiental.PainelAberto) hud.FecharInfo();
+            hud.Aviso("A partida começou! Converse com os vizinhos e protejam a vila.", HudAmbiental.Verde, 5f);
         }
         foreach (var kv in mudou) AplicarChave(kv.Key as string, kv.Value);
         if (iniciado && mudou.ContainsKey(CHAVE_REINICIO)) sabotagens = 0;
@@ -298,7 +332,7 @@ public class GerenciadorAmbiental : MonoBehaviourPunCallbacks
     /// Dono da sala: quando a sala chega ao número mínimo de jogadores, sorteia o sabotador (uma vez).
     private void TentarSortearSabotador()
     {
-        if (PhotonNetwork.InRoom && PhotonNetwork.IsMasterClient && sortearSabotadorAoIniciar
+        if (PhotonNetwork.InRoom && PhotonNetwork.IsMasterClient && sortearSabotadorAoIniciar && PartidaIniciada
             && PhotonNetwork.CurrentRoom.PlayerCount >= jogadoresParaSabotador
             && !TemSabotadorNaSala)
             SortearSabotador();
@@ -427,7 +461,33 @@ public class GerenciadorAmbiental : MonoBehaviourPunCallbacks
             Invoke(nameof(RodaDerrota), 3f);
         }
 
-        if (MenuPartida.Aberto || MinigameTarefa.Aberto || HudAmbiental.PainelAberto) { hud.Prompt(null, -1f); return; }
+        if (MenuPartida.Aberto || MinigameTarefa.Aberto || HudAmbiental.PainelAberto || Assembleia.Aberto) { hud.Prompt(null, -1f); AtualizarBotoes(); return; }
+        if (Assembleia.LocalDispensado)
+        {   // dispensado na assembleia: só acompanha a partida
+            hud.Prompt("Você foi dispensado(a) pela assembleia: acompanhe e torça pela comunidade.", -1f);
+            hud.BotaoSabotar(false, false, 0);
+            return;
+        }
+        // painel INICIAR / REINICIAR no meio do barracão (só o dono da sala usa)
+        pertoDoInicio = PertoDoPainelInicio();
+        if (srInicio != null && sprInicio[1] != null) srInicio.sprite = PartidaIniciada ? sprInicio[1] : sprInicio[0];
+        if (pertoDoInicio && pontoAtual == null)
+        {
+            if (!SouDono) { segurandoInicio = 0f; hud.Prompt("Só o dono da sala pode iniciar ou reiniciar a partida.", -1f); return; }
+            segurandoInicio = segurandoE ? segurandoInicio + Time.deltaTime : 0f;
+            hud.Prompt(PartidaIniciada ? "Segure USAR (E): REINICIAR a partida (tudo volta ao começo)" : "Segure USAR (E): INICIAR a partida",
+                       segurandoInicio / SegundosInicio);
+            if (segurandoInicio >= SegundosInicio) { segurandoInicio = 0f; IniciarPartida(); }
+            return;
+        }
+        segurandoInicio = 0f;
+        if (!PartidaIniciada)
+        {   // antes de começar dá para andar e conhecer o mapa, mas sem tarefas, conversas ou sabotagem
+            hud.Prompt(SouDono ? "Quando todos estiverem prontos, vá ao painel INICIAR no meio do barracão."
+                               : "Aguardando o dono da sala iniciar a partida no barracão...", -1f);
+            hud.BotaoSabotar(false, false, 0);
+            return;
+        }
         if (pontoAtual == null)
         {
             if (moradorAtual != null) ConversarComMorador(segurandoE);
@@ -504,7 +564,10 @@ public class GerenciadorAmbiental : MonoBehaviourPunCallbacks
     {
         bool menu = MenuPartida.Aberto;
         bool usar = false; string rotulo = "USAR"; float prog = 0f;
-        if (!menu)
+        if (!menu && pertoDoInicio && pontoAtual == null && SouDono)
+        { usar = true; rotulo = PartidaIniciada ? "REINICIAR" : "INICIAR"; prog = segurandoInicio / SegundosInicio; }
+        else if (!menu && !PartidaIniciada) { }
+        else if (!menu)
         {
             if (pontoAtual != null && !pontoAtual.Feita) { usar = true; prog = 0f; }
             else if (pontoAtual == null && moradorAtual != null)
@@ -573,7 +636,7 @@ public class GerenciadorAmbiental : MonoBehaviourPunCallbacks
         float media = dimensoes.Average();
         int estrelas = vitoria ? 3 : media >= 0.6f ? 2 : media >= 0.25f ? 1 : 0;
         string nota = new string('★', estrelas) + new string('☆', 3 - estrelas);
-        hud.PainelInfo((vitoria ? "A comunidade unida protegeu a vila!" : "A empresa passou por cima da vila") + "   " + nota,
+        hud.PainelInfo((tituloFim ?? (vitoria ? "A comunidade unida protegeu a vila!" : "A empresa passou por cima da vila")) + "   " + nota,
             vitoria ? "Ninguém veio de fora salvar a vila: foram os próprios moradores, juntos. Agora, a roda de conversa:"
                     : "O tempo acabou antes de a comunidade se organizar. Antes de jogar de novo, a roda de conversa:",
             new[] { ("O QUE ACONTECEU", aconteceu), ("QUEM GANHOU, QUEM PERDEU", quemGanhou), ("O QUE A COMUNIDADE FEZ", fizemos) },
@@ -590,6 +653,38 @@ public class GerenciadorAmbiental : MonoBehaviourPunCallbacks
         PhotonNetwork.CurrentRoom.SetCustomProperties(new Hashtable { { CHAVE_SAB, ator } });
     }
 
+    // ------------------------------------------------------------------ painel de início (barracão)
+    private void CriarPainelInicio()
+    {
+        sprInicio = new Sprite[2];
+        foreach (var sp in Resources.LoadAll<Sprite>("Animacoes/Inicio"))
+            if (sp.name == "inicio_0") sprInicio[0] = sp; else if (sp.name == "inicio_1") sprInicio[1] = sp;
+        if (sprInicio[0] == null) Debug.LogWarning("[Ambiental] Sprite do painel INICIAR não encontrado. Rode Tools → Vila → Preparar animações.");
+        var go = new GameObject("Painel de início");
+        go.transform.SetParent(transform, false);
+        go.transform.position = PosicaoInicio;
+        srInicio = go.AddComponent<SpriteRenderer>();
+        srInicio.sprite = sprInicio[0]; srInicio.sortingOrder = 10; srInicio.spriteSortPoint = SpriteSortPoint.Pivot;
+    }
+
+    private bool PertoDoPainelInicio()
+    {
+        foreach (var pm in FindObjectsByType<PlayerMovement>(FindObjectsSortMode.None))
+        {
+            if (PhotonNetwork.InRoom && pm.GetComponent<PhotonView>() is PhotonView v && !v.IsMine) continue;
+            return Vector2.Distance(pm.transform.position, PosicaoInicio + new Vector2(0, 0.4f)) <= 1.8f;
+        }
+        return false;
+    }
+
+    /// Começa a partida (relógio, sorteio do infiltrado). Só o dono da sala.
+    public void IniciarPartida()
+    {
+        if (!SouDono) return;
+        ReiniciarPartida();
+        if (!PhotonNetwork.InRoom) hud.Aviso("A partida começou! Converse com os vizinhos e protejam a vila.", HudAmbiental.Verde, 5f);
+    }
+
     /// Dono da sala: zera todas as tarefas e sorteia outro sabotador (nova rodada).
     public void ReiniciarPartida()
     {
@@ -601,11 +696,15 @@ public class GerenciadorAmbiental : MonoBehaviourPunCallbacks
             foreach (var sb in saberes) limpar[PREFIXO_SABER + sb] = null;
             limpar[CHAVE_INICIO] = PhotonNetwork.Time;                  // o relógio recomeça
             limpar[CHAVE_REINICIO] = PhotonNetwork.Time;                // avisa todos que é uma nova rodada
+            foreach (var k in new[] { Assembleia.CH_ATIVA, Assembleia.CH_DISPENSADOS, Assembleia.CH_USOU, Assembleia.CH_RESULTADO, Assembleia.CH_FIM })
+                limpar[k] = null;                                        // a assembleia também recomeça
+            var lista = PhotonNetwork.PlayerList;
+            limpar[CHAVE_SAB] = sortearSabotadorAoIniciar && lista.Length >= jogadoresParaSabotador
+                ? (object)lista[UnityEngine.Random.Range(0, lista.Length)].ActorNumber : null;
             PhotonNetwork.CurrentRoom.SetCustomProperties(limpar);
-            SortearSabotador();
         }
-        else { feitas.Clear(); saberes.Clear(); inicioOffline = Time.time; tempoAcabou = false; hud.Grande(null); Recalcular(silencioso: true); }
-        sabotagens = 0; rodaMostrada = false;
+        else { iniciadaOffline = true; feitas.Clear(); saberes.Clear(); inicioOffline = Time.time; tempoAcabou = false; hud.Grande(null); Recalcular(silencioso: true); }
+        sabotagens = 0; rodaMostrada = false; fimAssembleia = false; tituloFim = null;
     }
 
     private void DefinirTodas(bool feita)

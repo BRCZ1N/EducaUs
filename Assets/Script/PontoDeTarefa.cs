@@ -70,7 +70,8 @@ public class PontoDeTarefa : MonoBehaviour
         float raio = GetComponent<CircleCollider2D>() is CircleCollider2D cc ? cc.radius * transform.lossyScale.x : RaioColetivo;
         int n = 0;
         foreach (var pm in FindObjectsByType<PlayerMovement>(FindObjectsSortMode.None))
-            if (Vector2.Distance(pm.transform.position, transform.position) <= raio + 0.3f) n++;
+            if (Vector2.Distance(pm.transform.position, transform.position) <= raio + 0.3f &&
+                !(pm.GetComponent<Photon.Pun.PhotonView>() is Photon.Pun.PhotonView pv && Assembleia.Dispensado(pv.OwnerActorNr))) n++;   // dispensado não conta
         return n;
     }
 

@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 
 /// <summary>
-/// Faz a água dos lagos, da nascente e do rio ondular (8 quadros em loop), inclusive nas bordas.
+/// Faz a água do rio ondular e a da lagoa cintilar (8 quadros em loop), inclusive nas bordas.
 /// Troca os tiles de água por quadros animados de Resources/Animacoes/Agua_Anim_128.
 /// Funciona junto com a AreaAmbiental: quando o rio é recuperado, a água poluída vira água limpa e continua animada.
 /// O GerenciadorAmbiental adiciona este componente sozinho.
@@ -55,7 +55,9 @@ public class AnimarAgua : MonoBehaviour
         {
             chaveDoNome["agua_" + tipo] = "agua|" + tipo;
             chaveDoNome["agua_poluida_" + tipo] = "agua_poluida|" + tipo;
+            chaveDoNome["lago_" + tipo] = "lago|" + tipo;              // lagoa: água parada que só cintila
         }
+        chaveDoNome["lago_1"] = chaveDoNome["lago_2"] = "lago|C";
         chaveDoNome["agua_1"] = chaveDoNome["agua_2"] = "agua|C";
         chaveDoNome["agua_poluida_1"] = "agua_poluida|C";
         chaveDoNome["agua_poluida_oleo"] = "agua_poluida_oleo|C";

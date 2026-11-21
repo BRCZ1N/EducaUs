@@ -66,6 +66,11 @@ public class AnimacaoPersonagem : MonoBehaviour
 
     private void LateUpdate()
     {
+        if (sr != null && pv != null)                                    // dispensado pela assembleia fica transparente
+        {
+            float alvo = Assembleia.Dispensado(pv.OwnerActorNr) ? 0.4f : 1f;
+            if (!Mathf.Approximately(sr.color.a, alvo)) sr.color = new Color(1f, 1f, 1f, alvo);
+        }
         if (quadros.Count == 0) return;
         float dt = Mathf.Max(Time.deltaTime, 0.0001f);
         Vector3 delta = transform.position - ultimaPos;

@@ -66,7 +66,7 @@ public class PlayerMovement : MonoBehaviourPun
 
     private static Vector2 ReadInput()
     {
-        if (MenuPartida.Aberto || MinigameTarefa.Aberto || HudAmbiental.PainelAberto) return Vector2.zero;   // menu ou minigame aberto: o boneco para
+        if (MenuPartida.Aberto || MinigameTarefa.Aberto || HudAmbiental.PainelAberto || Assembleia.Aberto) return Vector2.zero;   // menu ou minigame aberto: o boneco para
 
         Vector2 v = Vector2.zero;
 

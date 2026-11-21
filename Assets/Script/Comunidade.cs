@@ -177,7 +177,7 @@ public class Comunidade : MonoBehaviour
         int i = Random.Range(0, Radio.Length);
         while (true)
         {
-            if (hud != null && gm != null && !gm.PartidaEncerrada)
+            if (hud != null && gm != null && gm.PartidaIniciada && !gm.PartidaEncerrada)
             {
                 var r = Radio[i % Radio.Length]; i++;
                 hud.Fala("RÁDIO PROGRESSO (da empresa)", r.empresa, HudAmbiental.Vermelho, 6f);
@@ -195,7 +195,7 @@ public class Comunidade : MonoBehaviour
         while (true)
         {
             bool souQuemDecide = !PhotonNetwork.InRoom || PhotonNetwork.IsMasterClient;   // só um computador sabota
-            if (souQuemDecide && gm != null && !gm.TemSabotadorNaSala && !gm.PartidaEncerrada)
+            if (souQuemDecide && gm != null && gm.PartidaIniciada && !gm.TemSabotadorNaSala && !gm.PartidaEncerrada)
                 gm.SabotarAleatoria();
             yield return new WaitForSeconds(Random.Range(intervaloPressao.x, intervaloPressao.y));
         }

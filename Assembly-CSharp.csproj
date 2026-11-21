@@ -69,6 +69,7 @@
     <Compile Include="Assets\Script\CameraSegue.cs" />
     <Compile Include="Assets\Script\MenuPartida.cs" />
     <Compile Include="Assets\Script\HudAmbiental.cs" />
+    <Compile Include="Assets\Script\Assembleia.cs" />
     <Compile Include="Assets\MainMenuScreen\Scripts\JoinRoomScreen.cs" />
     <Compile Include="Assets\Script\AnimacaoPersonagem.cs" />
     <Compile Include="Assets\Script\PlayerMovement.cs" />
@@ -88,7 +89,6 @@
     <Compile Include="Assets\Photon\PhotonChat\Demos\Demo Chat\Code\ChatNewGui.cs" />
     <Compile Include="Assets\Photon\PhotonChat\Demos\Demo Chat\Code\Utilities\TextButtonTransition.cs" />
     <Compile Include="Assets\MainMenuScreen\Scripts\MenuButtonFX.cs" />
-    <Compile Include="Assets\Script\TransparenciaAtras.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

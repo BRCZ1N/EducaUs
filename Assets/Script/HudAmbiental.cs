@@ -14,9 +14,9 @@ public class HudAmbiental : MonoBehaviour
     public static readonly Color Verde = new Color32(123, 192, 74, 255);
     public static readonly Color Vermelho = new Color32(217, 72, 59, 255);
     public static readonly Color Cinza = new Color32(200, 200, 200, 255);
-    private static readonly Color Amarelo = new Color32(255, 210, 90, 255);
+    public static readonly Color Amarelo = new Color32(255, 210, 90, 255);
     private static readonly Color Fundo = new Color(0.08f, 0.06f, 0.05f, 0.72f);
-    private static readonly Color Cal = new Color32(241, 227, 200, 255);
+    public static readonly Color Cal = new Color32(241, 227, 200, 255);
 
     /// Recursos da comunidade (ícones em Resources/Animacoes/Recursos).
     public static readonly string[] NomesRecursos = { "ÁGUA", "SAÚDE", "TERRA", "COMIDA" };
