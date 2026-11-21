@@ -20,6 +20,33 @@ public class PontoDeTarefa : MonoBehaviour
     public bool EhReuniao => nome != null && nome.StartsWith("Reunião de emergência");
     public bool Coletiva => jogadores > 1;
 
+    /// Locais montados com os nomes antigos das tarefas continuam funcionando: o nome é trocado ao iniciar
+    /// (assim não é preciso remontar os locais no Unity).
+    public static readonly System.Collections.Generic.Dictionary<string, string> NomesNovos = new System.Collections.Generic.Dictionary<string, string>
+    {
+        { "Mapear os problemas com os moradores", "Roda de conversa com os moradores" },
+        { "Coletar amostra da lama para o laudo", "Laudo da comunidade" },
+        { "Protesto na entrada da mineradora", "Ato cultural na portaria da mineradora" },
+        { "Separar recicláveis", "Rastrear o lixo industrial da empresa" },
+        { "Organizar a cooperativa de catadores", "Cooperativa de catadores" },
+        { "Denunciar o esgoto despejado no rio", "Denúncia ao Ministério Público" },
+        { "Mutirão de limpeza do rio", "Monitoramento comunitário da água" },
+        { "Plantar mudas nativas", "Demarcar as terras da comunidade" },
+        { "Formar a brigada comunitária", "Brigada comunitária" },
+        { "Trocar o agrotóxico por adubo orgânico", "Banco de sementes crioulas" },
+        { "Criar a cooperativa de agricultores", "Cooperativa agroecológica" },
+        { "Regar a horta comunitária", "Rádio comunitária" },
+        { "Reunião da associação de moradores", "Assembleia da associação de moradores" },
+        { "Fiscalizar a obra pelo conselho popular", "Fiscalizar a obra de saneamento" },
+        { "Cobrar saneamento na Câmara de Vereadores", "Audiência pública com as comunidades vizinhas" },
+        { "Roda de educação popular", "Roda de conversa com os moradores" },
+        { "Laudo popular da lama", "Laudo da comunidade" },
+        { "Assembleia da associação quilombola", "Assembleia da associação de moradores" },
+        { "Demarcar o território tradicional", "Demarcar as terras da comunidade" },
+        { "Fiscalização popular da obra", "Fiscalizar a obra de saneamento" },
+        { "Audiência pública com a rede de atingidos", "Audiência pública com as comunidades vizinhas" },
+    };
+
     private SpriteRenderer marca;
     private static Sprite spriteMarca;
 
@@ -27,6 +54,7 @@ public class PontoDeTarefa : MonoBehaviour
     {
         if (string.IsNullOrEmpty(nome))
             nome = name.StartsWith("Tarefa - ") ? name.Substring("Tarefa - ".Length) : name;
+        if (NomesNovos.TryGetValue(nome, out var novo)) { nome = novo; name = "Tarefa - " + novo; }
         Id = RaizDoLocal(transform).name + "/" + nome;
         var col = GetComponent<Collider2D>();
         col.isTrigger = true;

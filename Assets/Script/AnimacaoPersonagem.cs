@@ -8,8 +8,9 @@ using UnityEngine;
 /// Funciona igual no seu boneco e na cópia dos outros: a direção vem do movimento na tela,
 /// então não precisa sincronizar nada a mais pela rede.
 /// Os quadros vêm de Resources/Animacoes/Personagem_0..5 (rode Tools → Vila → Preparar animações uma vez).
+/// O PlayerMovement adiciona este componente sozinho se ele não estiver no prefab.
+/// O SpriteRenderer pode estar no próprio objeto ou num filho.
 /// </summary>
-[RequireComponent(typeof(SpriteRenderer))]
 public class AnimacaoPersonagem : MonoBehaviour
 {
     [SerializeField] private float quadrosPorSegundo = 9f;
@@ -32,7 +33,20 @@ public class AnimacaoPersonagem : MonoBehaviour
     private void Awake()
     {
         sr = GetComponent<SpriteRenderer>();
-        pv = GetComponent<PhotonView>();
+        if (sr == null || sr.sprite == null)
+        {
+            var filho = GetComponentInChildren<SpriteRenderer>();
+            if (filho != null) sr = filho;
+        }
+        if (sr == null) sr = gameObject.AddComponent<SpriteRenderer>();
+        pv = GetComponentInParent<PhotonView>();
+
+        // Um Animator antigo (sem as animações certas) trocaria o sprite todo quadro: desliga.
+        foreach (var an in GetComponentsInChildren<Animator>())
+        {
+            an.enabled = false;
+            Debug.Log("[AnimacaoPersonagem] Animator desligado: a animação agora vem dos quadros em Resources/Animacoes.");
+        }
     }
 
     private void Start()
@@ -43,7 +57,10 @@ public class AnimacaoPersonagem : MonoBehaviour
 
         foreach (var s in Resources.LoadAll<Sprite>("Animacoes/Personagem_" + Cor)) quadros[s.name] = s;
         if (quadros.Count == 0)
-            Debug.LogWarning("[AnimacaoPersonagem] Quadros não encontrados. Rode Tools → Vila → Preparar animações.");
+            Debug.LogError("[AnimacaoPersonagem] Nenhum quadro em Resources/Animacoes/Personagem_" + Cor +
+                           ". Confira se a pasta Resources/Animacoes está em Assets e rode Tools → Vila → Preparar animações.");
+        else if (!quadros.ContainsKey("andar_frente_0"))
+            Debug.LogError("[AnimacaoPersonagem] A folha Personagem_" + Cor + " não está fatiada com os nomes certos. Rode Tools → Vila → Preparar animações.");
         ultimaPos = transform.position;
     }
 

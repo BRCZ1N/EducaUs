@@ -1,0 +1,33 @@
+{
+ "arquivo": "Recursos",
+ "tamanho": 128,
+ "margem": 0,
+ "passo": 128,
+ "linhas": 1,
+ "pivo": [
+  0.5,
+  0.5
+ ],
+ "tiles": [
+  {
+   "n": "agua",
+   "r": 0,
+   "c": 0
+  },
+  {
+   "n": "saude",
+   "r": 0,
+   "c": 1
+  },
+  {
+   "n": "terra",
+   "r": 0,
+   "c": 2
+  },
+  {
+   "n": "comida",
+   "r": 0,
+   "c": 3
+  }
+ ]
+}

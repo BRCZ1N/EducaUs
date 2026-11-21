@@ -26,7 +26,11 @@ public class PlayerMovement : MonoBehaviourPun
         rb.interpolation = RigidbodyInterpolation2D.Interpolate;              // movimento liso na tela
         rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
         if (sprite == null) sprite = GetComponent<SpriteRenderer>();
+        if (sprite == null) sprite = GetComponentInChildren<SpriteRenderer>();
         if (sprite != null) sprite.spriteSortPoint = SpriteSortPoint.Pivot;
+        // a animação de andar (frente, costas, lados) e a cor de cada jogador
+        if (GetComponentInChildren<AnimacaoPersonagem>() == null) gameObject.AddComponent<AnimacaoPersonagem>();
+        animator = null;      // quem anima agora é o AnimacaoPersonagem
     }
 
     private void Start()
@@ -52,11 +56,6 @@ public class PlayerMovement : MonoBehaviourPun
 
         input = ReadInput();
 
-        if (sprite != null && input.x != 0f)
-            sprite.flipX = input.x < 0f;
-
-        if (animator != null)
-            animator.SetFloat("Speed", input.sqrMagnitude);
     }
 
     private void FixedUpdate()
@@ -67,7 +66,7 @@ public class PlayerMovement : MonoBehaviourPun
 
     private static Vector2 ReadInput()
     {
-        if (MenuPartida.Aberto || MinigameTarefa.Aberto) return Vector2.zero;   // menu ou minigame aberto: o boneco para
+        if (MenuPartida.Aberto || MinigameTarefa.Aberto || HudAmbiental.PainelAberto) return Vector2.zero;   // menu ou minigame aberto: o boneco para
 
         Vector2 v = Vector2.zero;
 

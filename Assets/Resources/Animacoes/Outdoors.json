@@ -1,0 +1,43 @@
+{
+ "arquivo": "Outdoors",
+ "tamanho": 256,
+ "margem": 0,
+ "passo": 256,
+ "linhas": 1,
+ "pivo": [
+  0.5,
+  0.0
+ ],
+ "tiles": [
+  {
+   "n": "outdoor0_0",
+   "r": 0,
+   "c": 0
+  },
+  {
+   "n": "outdoor0_1",
+   "r": 0,
+   "c": 1
+  },
+  {
+   "n": "outdoor1_0",
+   "r": 0,
+   "c": 2
+  },
+  {
+   "n": "outdoor1_1",
+   "r": 0,
+   "c": 3
+  },
+  {
+   "n": "outdoor2_0",
+   "r": 0,
+   "c": 4
+  },
+  {
+   "n": "outdoor2_1",
+   "r": 0,
+   "c": 5
+  }
+ ]
+}

@@ -8,7 +8,7 @@ using UnityEngine.InputSystem;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 /// <summary>
-/// Cérebro da partida ambiental. Coloque UM na cena Game (objeto vazio "GerenciadorAmbiental").
+/// Cérebro da partida ambiental (versão decolonial: a comunidade atingida defende o próprio território). Coloque UM na cena Game (objeto vazio "GerenciadorAmbiental").
 ///
 /// • Acha sozinho todas as AreaAmbiental e todos os pontos "Tarefa - ..." montados pelo MontadorLocal.
 /// • Cada tarefa pertence à área do mesmo local (a que contém o ponto ou a mais próxima).
@@ -17,6 +17,8 @@ using Hashtable = ExitGames.Client.Photon.Hashtable;
 /// • Progresso = áreas recuperadas / total de áreas  →  a LuzCrepusculo lê esse valor e vai clareando.
 /// • Tudo fica nas Room Custom Properties do Photon ("T|Local_X/Nome da tarefa" = true, "SAB" = actor do sabotador),
 ///   então quem entra no meio da partida já recebe o estado certo. Fora de sala (teste offline) funciona igual, só local.
+/// • Saberes dos moradores ("S|Nome do morador" = true) são da comunidade inteira: um escuta, todos podem usar.
+/// • No fim (vitória ou tempo), abre a roda de conversa no ciclo de Paulo Freire: Realidade → Consciência crítica → Práxis.
 /// </summary>
 public class GerenciadorAmbiental : MonoBehaviourPunCallbacks
 {
@@ -67,23 +69,56 @@ public class GerenciadorAmbiental : MonoBehaviourPunCallbacks
     private const string PREFIXO = "T|";
     private const string CHAVE_SAB = "SAB";
     private const string CHAVE_INICIO = "INI";
+    private const string PREFIXO_SABER = "S|";
+    private const string CHAVE_REINICIO = "REI";
 
-    /// A sabotagem não é "uma pessoa má": cada aviso mostra a causa política e econômica da degradação.
-    private static readonly Dictionary<string, string> AvisoSabotagem = new Dictionary<string, string>
+    /// A sabotagem não é "uma pessoa má": cada aviso mostra como a colonialidade opera no território,
+    /// nas três dimensões (Quijano): PODER (terra, água, trabalho), SABER (quem pode dizer o que é verdade) e SER (quem é desumanizado).
+    private static readonly Dictionary<string, string[]> AvisoSabotagem = new Dictionary<string, string[]>
     {
-        { "Bacia de rejeitos", "A licença da mineradora foi flexibilizada." },
-        { "Lixão", "O contrato da coleta seletiva foi cancelado." },
-        { "Rio", "A empresa voltou a despejar esgoto no rio." },
-        { "Floresta", "Uma queimada criminosa atingiu a mata." },
-        { "Fazenda", "O agrotóxico proibido voltou à lavoura." },
-        { "Vila", "O bairro ficou de fora do plano de saneamento." },
-        { "Estação", "A verba do saneamento foi cortada." },
+        { "Bacia de rejeitos", new[] { "A licença da barragem foi renovada sem consultar a comunidade.",
+                                       "O laudo da empresa chamou a lama de \"inerte\" e ignorou as marisqueiras.",
+                                       "Na TV, os moradores foram chamados de invasores da área da empresa." } },
+        { "Lixão", new[] { "Os caminhões da empresa voltaram a despejar rejeito no lixão de madrugada.",
+                           "Uma campanha culpou a \"falta de educação\" dos moradores pelo lixo da indústria.",
+                           "Os catadores foram tratados como lixo e expulsos do galpão." } },
+        { "Rio", new[] { "O porto ganhou a outorga da água: o rio virou \"área da empresa\".",
+                         "O órgão ambiental só aceitou o laudo da empresa: \"água dentro do padrão\".",
+                         "Os pescadores foram chamados de atraso para o progresso." } },
+        { "Floresta", new[] { "A cerca da empresa avançou sobre a mata da comunidade.",
+                              "O mapa oficial apagou os nomes que os mais velhos dão aos lugares.",
+                              "Disseram que a comunidade \"não usa\" a terra e por isso não tem direito a ela." } },
+        { "Fazenda", new[] { "O crédito agrícola só sai para quem compra semente patenteada e veneno.",
+                             "O técnico de fora disse que a semente crioula é \"atrasada\".",
+                             "Os agricultores ouviram que \"pobre não sabe plantar\"." } },
+        { "Vila", new[] { "A empresa comprou o horário da rádio comunitária.",
+                          "Uma reportagem disse que os moradores \"exageram\" os problemas.",
+                          "Chamaram a vila de \"atrasada\" para justificar a remoção." } },
+        { "Estação", new[] { "A verba do saneamento foi desviada para a estrada do minério.",
+                             "A audiência pública foi marcada longe e em linguagem técnica: ninguém entendeu.",
+                             "Disseram que o bairro \"não precisa\" de saneamento porque \"sempre foi assim\"." } },
+    };
+
+    /// Recursos da comunidade no HUD: 0 Água, 1 Saúde, 2 Terra, 3 Comida (no relatório: os danos que atravessam a vida).
+    private static readonly Dictionary<string, int[]> DimensoesDaArea = new Dictionary<string, int[]>
+    {
+        { "Bacia de rejeitos", new[] { 0, 1 } }, { "Lixão", new[] { 1, 2 } }, { "Rio", new[] { 0, 3 } },
+        { "Floresta", new[] { 2 } }, { "Fazenda", new[] { 3, 2 } }, { "Vila", new[] { 2, 1 } }, { "Estação", new[] { 0, 1 } },
     };
 
     private readonly List<AreaAmbiental> areas = new List<AreaAmbiental>();
     private readonly List<PontoDeTarefa> pontos = new List<PontoDeTarefa>();
     private readonly Dictionary<AreaAmbiental, List<PontoDeTarefa>> tarefasDaArea = new Dictionary<AreaAmbiental, List<PontoDeTarefa>>();
     private readonly HashSet<string> feitas = new HashSet<string>();
+    private readonly HashSet<string> saberes = new HashSet<string>();
+    private int sabotagens;
+    private bool rodaMostrada;
+    private readonly float[] dimensoes = new float[4];
+
+    /// A partida acabou (vitória da comunidade ou fim do tempo).
+    public bool PartidaEncerrada => PartidaVencida || tempoAcabou;
+    public bool SaberConhecido(string morador) => saberes.Contains(morador);
+    public int Saberes => saberes.Count;
 
     private HudAmbiental hud;
     private PontoDeTarefa pontoAtual;
@@ -97,6 +132,7 @@ public class GerenciadorAmbiental : MonoBehaviourPunCallbacks
     private bool iniciado;
     private float inicioOffline;
     private bool tempoAcabou;
+    private float tempoCongelado = -1f;     // o relógio para quando a comunidade vence
 
     /// Segundos que faltam na partida (negativo = sem limite).
     public float TempoRestante
@@ -154,6 +190,22 @@ public class GerenciadorAmbiental : MonoBehaviourPunCallbacks
         iniciado = true;
         Recalcular(silencioso: true);
         Debug.Log($"[Ambiental] {areas.Count} áreas, {pontos.Count} tarefas.");
+        MostrarApresentacao();
+    }
+
+    /// Apresentação do território ao entrar na partida.
+    private void MostrarApresentacao()
+    {
+        hud.PainelInfo("Vila Beira-Rio",
+            "Na Vila Beira-Rio vivem pescadores, marisqueiras, agricultores e catadores. A família de muita gente mora aqui " +
+            "há gerações. Um dia chegaram a mineradora e o porto, prometendo progresso e emprego. Hoje a água está suja, " +
+            "o peixe sumiu, a roça foi cercada e as crianças vivem doentes.\n\n" +
+            "Vocês são moradores da vila e vão lutar por ela juntos.\n\n" +
+            "•  <b>Converse com os vizinhos</b> (balão amarelo). Cada um tem uma pista que libera tarefas para todos.\n" +
+            "•  <b>Ações coletivas</b> (marca azul) precisam de mais gente: chame outros jogadores ou mobilize moradores.\n" +
+            "•  Cuide dos <b>recursos</b> da comunidade: água, saúde, terra e comida.\n" +
+            "•  A <b>Rádio Progresso</b> e um possível infiltrado da empresa vão tentar desfazer o que vocês conquistarem.",
+            null, "COMEÇAR");
     }
 
     /// Locais montados antes deste script existir: os pontos "Tarefa - X" ainda não têm o componente.
@@ -191,9 +243,29 @@ public class GerenciadorAmbiental : MonoBehaviourPunCallbacks
 
     private void AplicarChave(string chave, object valor)
     {
-        if (chave == null || !chave.StartsWith(PREFIXO)) return;
+        if (chave == null) return;
+        if (chave.StartsWith(PREFIXO_SABER))
+        {
+            string quem = chave.Substring(PREFIXO_SABER.Length);
+            if (valor is bool sb && sb) saberes.Add(quem); else saberes.Remove(quem);
+            return;
+        }
+        if (!chave.StartsWith(PREFIXO)) return;
         string id = chave.Substring(PREFIXO.Length);
-        if (valor is bool b && b) feitas.Add(id); else feitas.Remove(id);
+        if (valor is bool b && b) feitas.Add(id);
+        else
+        {
+            if (iniciado && valor is bool && feitas.Contains(id)) sabotagens++;     // false = desfeita (null = reinício)
+            feitas.Remove(id);
+        }
+    }
+
+    /// Um morador contou o seu saber: ele passa a ser de toda a comunidade (todos os jogadores).
+    public void RegistrarSaber(string morador)
+    {
+        if (PhotonNetwork.InRoom) { PhotonNetwork.CurrentRoom.SetCustomProperties(new Hashtable { { PREFIXO_SABER + morador, true } }); return; }
+        saberes.Add(morador);
+        Recalcular(silencioso: true);
     }
 
     /// Marca uma tarefa como feita (true) ou desfeita (false) para todos os jogadores.
@@ -204,15 +276,22 @@ public class GerenciadorAmbiental : MonoBehaviourPunCallbacks
             PhotonNetwork.CurrentRoom.SetCustomProperties(new Hashtable { { PREFIXO + id, feita } });
             return;                                                   // OnRoomPropertiesUpdate aplica (inclusive aqui)
         }
-        if (feita) feitas.Add(id); else feitas.Remove(id);
+        if (feita) feitas.Add(id);
+        else { if (feitas.Contains(id)) sabotagens++; feitas.Remove(id); }
         Recalcular(silencioso: false);
     }
 
     public override void OnRoomPropertiesUpdate(Hashtable mudou)
     {
         if (iniciado && mudou.ContainsKey(CHAVE_SAB) && mudou[CHAVE_SAB] != null)
-            hud.Aviso("Agora há um sabotador entre vocês. Fiquem atentos!", HudAmbiental.Vermelho, 5f);
+            hud.Aviso("Um infiltrado da empresa está entre vocês. Fiquem atentos!", HudAmbiental.Vermelho, 5f);
+        if (iniciado && mudou.ContainsKey(CHAVE_REINICIO))
+        {   // o dono da sala reiniciou a partida
+            sabotagens = 0; rodaMostrada = false; tempoAcabou = false; hud.Grande(null);
+            CancelInvoke(); if (HudAmbiental.PainelAberto) hud.FecharInfo();
+        }
         foreach (var kv in mudou) AplicarChave(kv.Key as string, kv.Value);
+        if (iniciado && mudou.ContainsKey(CHAVE_REINICIO)) sabotagens = 0;
         if (iniciado) Recalcular(silencioso: false);
     }
 
@@ -251,7 +330,7 @@ public class GerenciadorAmbiental : MonoBehaviourPunCallbacks
     public override void OnPlayerLeftRoom(Player saiu)
     {
         if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue(CHAVE_SAB, out object v) && v is int a && a == saiu.ActorNumber)
-            hud.Aviso("O sabotador saiu da partida!");
+            hud.Aviso("O infiltrado da empresa saiu da partida!");
     }
 
     private void Recalcular(bool silencioso)
@@ -259,11 +338,14 @@ public class GerenciadorAmbiental : MonoBehaviourPunCallbacks
         foreach (var p in pontos) p.SetFeita(feitas.Contains(p.Id));
 
         int rec = 0, total = 0;
+        var somaDim = new float[4]; var contaDim = new int[4];
         foreach (var a in areas)
         {
             var ts = tarefasDaArea[a];
             if (ts.Count == 0) continue;
             total++;
+            if (DimensoesDaArea.TryGetValue(a.Nome, out var dims))
+                foreach (int d in dims) { somaDim[d] += (float)ts.Count(t => t.Feita) / ts.Count; contaDim[d]++; }
             bool recuperada = ts.All(t => t.Feita);
             if (recuperada) rec++;
             if (recuperada != a.Recuperada)
@@ -271,23 +353,34 @@ public class GerenciadorAmbiental : MonoBehaviourPunCallbacks
                 a.SetRecuperada(recuperada);
                 AreaMudou?.Invoke(a.Nome, recuperada);
                 if (!silencioso)
-                    hud.Aviso(recuperada ? $"{a.Nome} foi recuperada pela comunidade!"
-                                         : $"Sabotagem! {(AvisoSabotagem.TryGetValue(a.Nome, out var causa) ? causa : a.Nome + " voltou a ser degradada.")}",
-                              recuperada ? HudAmbiental.Verde : HudAmbiental.Vermelho);
+                {
+                    if (recuperada) hud.Aviso($"{a.Nome} foi protegida pela comunidade!", HudAmbiental.Verde);
+                    else
+                    {
+                        int k = Mathf.Abs(sabotagens) % 3;     // igual em todos os computadores
+                        string causa = AvisoSabotagem.TryGetValue(a.Nome, out var lista) ? lista[k] : a.Nome + " voltou a ser degradada.";
+                        hud.Aviso($"Sabotagem! {causa}", HudAmbiental.Vermelho, 6f);
+                    }
+                }
             }
         }
+        for (int d = 0; d < 4; d++) dimensoes[d] = contaDim[d] > 0 ? somaDim[d] / contaDim[d] : 0f;
+        hud.Recursos(dimensoes);
+        if (comunidade != null) comunidade.AtualizarOutdoors(nome => areas.Any(x => x.Nome == nome && x.Recuperada));
         AreasRecuperadas = rec; TotalAreas = total;
         TarefasFeitas = pontos.Count(p => p.Feita); TotalTarefas = pontos.Count;
         ProgressoAreas = total > 0 ? (float)rec / total : 0f;
         ProgressoMudou?.Invoke(ProgressoAreas);
-        hud.Atualizar(rec, total, TarefasFeitas, TotalTarefas, SouSabotador, TemSabotadorNaSala, comunidade != null ? comunidade.Apoios : 0);
+        hud.Atualizar(rec, total, TarefasFeitas, TotalTarefas, SouSabotador, TemSabotadorNaSala, comunidade != null ? comunidade.Apoios : 0,
+                      saberes.Count, comunidade != null ? comunidade.TotalDeSaberes : 6);
 
         bool venceu = total > 0 && rec == total;
         if (venceu && !PartidaVencida)
         {
             PartidaVencida = true;
-            hud.Grande("A comunidade organizada recuperou a vila!", HudAmbiental.Verde);
+            hud.Grande("A comunidade unida protegeu a vila!", HudAmbiental.Verde);
             Vitoria?.Invoke();
+            if (!silencioso) Invoke(nameof(RodaVitoria), 3f);
         }
         else if (!venceu && PartidaVencida) { PartidaVencida = false; hud.Grande(null); }
     }
@@ -324,14 +417,17 @@ public class GerenciadorAmbiental : MonoBehaviourPunCallbacks
         }
 
         float resta = TempoRestante;
-        hud.Tempo(resta);
+        if (!PartidaVencida) tempoCongelado = -1f;
+        else if (tempoCongelado < 0f) tempoCongelado = resta;
+        hud.Tempo(PartidaVencida ? tempoCongelado : resta);
         if (resta == 0f && !PartidaVencida && !tempoAcabou)
         {
             tempoAcabou = true;
-            hud.Grande("O tempo acabou: os interesses que lucram com a degradação venceram.", HudAmbiental.Vermelho);
+            hud.Grande("O tempo acabou: a empresa passou por cima da vila.", HudAmbiental.Vermelho);
+            Invoke(nameof(RodaDerrota), 3f);
         }
 
-        if (MenuPartida.Aberto || MinigameTarefa.Aberto) { hud.Prompt(null, -1f); return; }
+        if (MenuPartida.Aberto || MinigameTarefa.Aberto || HudAmbiental.PainelAberto) { hud.Prompt(null, -1f); return; }
         if (pontoAtual == null)
         {
             if (moradorAtual != null) ConversarComMorador(segurandoE);
@@ -360,6 +456,17 @@ public class GerenciadorAmbiental : MonoBehaviourPunCallbacks
                 }
             }
             segurando = 0f;
+            var precisa = comunidade.SaberNecessario(pontoAtual.nome);
+            if (precisa != null && !SaberConhecido(precisa.Nome))
+            {
+                hud.Prompt($"{pontoAtual.nome}: falta uma pista de {precisa.Nome} ({precisa.Papel})", -1f);
+                if (apertouUsar || dicaColetiva < Time.time)
+                {
+                    hud.Aviso($"Converse primeiro com {precisa.Nome} ({precisa.Papel}): ela/ele sabe o que fazer aqui.", HudAmbiental.Cinza, 4f);
+                    dicaColetiva = Time.time + 12f;
+                }
+                return;
+            }
             hud.Prompt($"USAR (E): {pontoAtual.nome}", -1f);
             if (apertouUsar)
             {
@@ -400,8 +507,12 @@ public class GerenciadorAmbiental : MonoBehaviourPunCallbacks
         if (!menu)
         {
             if (pontoAtual != null && !pontoAtual.Feita) { usar = true; prog = 0f; }
-            else if (pontoAtual == null && moradorAtual != null && moradorAtual.Disponivel && comunidade.Apoios < comunidade.MaximoDeApoios)
-            { usar = true; rotulo = "FALAR"; prog = segurando / SegundosConversa; }
+            else if (pontoAtual == null && moradorAtual != null)
+            {
+                bool novo = !SaberConhecido(moradorAtual.Nome);
+                if (novo || (moradorAtual.Disponivel && comunidade.Apoios < comunidade.MaximoDeApoios))
+                { usar = true; rotulo = novo ? "ESCUTAR" : "FALAR"; prog = segurando / SegundosConversa; }
+            }
         }
         hud.BotaoUsar(usar, rotulo, prog);
         float falta = proximaSabotagem - Time.time;
@@ -410,24 +521,63 @@ public class GerenciadorAmbiental : MonoBehaviourPunCallbacks
     private void ConversarComMorador(bool segurandoE)
     {
         var m = moradorAtual;
-        if (!m.Disponivel) { segurando = 0f; hud.Prompt($"{m.Nome} já está mobilizado(a). Volte daqui a pouco.", -1f); return; }
-        if (comunidade.Apoios >= comunidade.MaximoDeApoios)
+        bool novo = !SaberConhecido(m.Nome);
+        bool podeApoiar = m.Disponivel && comunidade.Apoios < comunidade.MaximoDeApoios;
+        if (!novo && !podeApoiar)
         {
             segurando = 0f;
-            hud.Prompt($"Você já tem {comunidade.Apoios} apoios: leve-os a uma tarefa coletiva.", -1f);
+            hud.Prompt(!m.Disponivel ? $"{m.Nome} já está mobilizado(a). Volte daqui a pouco."
+                                     : $"Você já tem {comunidade.Apoios} apoios: leve-os a uma ação coletiva.", -1f);
             return;
         }
         segurando = segurandoE ? segurando + Time.deltaTime : 0f;
-        hud.Prompt($"Segure FALAR (E): {m.Nome}, {m.Papel}", segurando / SegundosConversa);
-        if (segurando >= SegundosConversa)
+        hud.Prompt(novo ? $"Segure ESCUTAR (E): {m.Nome}, {m.Papel}" : $"Segure FALAR (E): mobilizar {m.Nome}", segurando / SegundosConversa);
+        if (segurando < SegundosConversa) return;
+        segurando = 0f;
+        if (novo)
         {
-            segurando = 0f;
-            if (comunidade.Convidar(m))
-            {
-                hud.Aviso($"{m.Nome} vai apoiar a mobilização! Apoios: {comunidade.Apoios}", HudAmbiental.Verde);
-                Recalcular(silencioso: true);
-            }
+            RegistrarSaber(m.Nome);
+            hud.Fala($"{m.Nome}, {m.Papel}", m.Fala, HudAmbiental.Verde, 10f);
+            string libera = string.Join(", ", comunidade.TarefasQueUsam(m.Nome));
+            hud.Aviso($"Pista nova: {m.Saber}" + (libera.Length > 0 ? $"  (libera: {libera})" : ""), HudAmbiental.Verde, 6f);
         }
+        if (podeApoiar && comunidade.Convidar(m) && !novo)
+            hud.Aviso($"{m.Nome} vai apoiar a mobilização! Apoios: {comunidade.Apoios}", HudAmbiental.Verde);
+        Recalcular(silencioso: true);
+    }
+
+    // ------------------------------------------------------------------ roda de conversa (Paulo Freire)
+    private void RodaVitoria() => MostrarRodaDeConversa(true);
+    private void RodaDerrota() => MostrarRodaDeConversa(false);
+
+    /// Fim da partida: Realidade do oprimido → Consciência crítica → Práxis emancipatória.
+    private void MostrarRodaDeConversa(bool vitoria)
+    {
+        if (rodaMostrada) return;
+        rodaMostrada = true;
+        int totalSab = comunidade != null ? comunidade.TotalDeSaberes : 6;
+        int mob = comunidade != null ? comunidade.ApoiosMobilizados : 0;
+        string recursos = string.Join("\n", Enumerable.Range(0, 4).Select(i => $"•  {HudAmbiental.NomesRecursos[i]}: {Mathf.RoundToInt(dimensoes[i] * 100)}%"));
+
+        string aconteceu =
+            $"Vocês conversaram com <b>{saberes.Count} de {totalSab}</b> moradores.\n\n" +
+            $"A empresa desfez conquistas <b>{sabotagens}</b> vezes.\n\nRecursos no fim:\n{recursos}";
+        string quemGanhou =
+            "Quem lucrou com a mineradora e o porto? E quem ficou com a água suja, a doença e a falta de peixe?\n\n" +
+            "Por que o laudo da empresa valia mais que a palavra da marisqueira?\n\n" +
+            "Bastava cada um \"fazer a sua parte\"?";
+        string fizemos =
+            $"<b>{TarefasFeitas}/{TotalTarefas}</b> ações e <b>{mob}</b> moradores mobilizados.\n\n" +
+            "Conversar, informar, cobrar direitos, juntar comunidades e criar trabalho: foi isso que protegeu a vila.\n\n" +
+            "<b>E perto de nós?</b> Existe algum lugar parecido com a Vila Beira-Rio?";
+        float media = dimensoes.Average();
+        int estrelas = vitoria ? 3 : media >= 0.6f ? 2 : media >= 0.25f ? 1 : 0;
+        string nota = new string('★', estrelas) + new string('☆', 3 - estrelas);
+        hud.PainelInfo((vitoria ? "A comunidade unida protegeu a vila!" : "A empresa passou por cima da vila") + "   " + nota,
+            vitoria ? "Ninguém veio de fora salvar a vila: foram os próprios moradores, juntos. Agora, a roda de conversa:"
+                    : "O tempo acabou antes de a comunidade se organizar. Antes de jogar de novo, a roda de conversa:",
+            new[] { ("O QUE ACONTECEU", aconteceu), ("QUEM GANHOU, QUEM PERDEU", quemGanhou), ("O QUE A COMUNIDADE FEZ", fizemos) },
+            "FECHAR");
     }
 
     // ------------------------------------------------------------------ partida
@@ -448,11 +598,14 @@ public class GerenciadorAmbiental : MonoBehaviourPunCallbacks
             if (!PhotonNetwork.IsMasterClient) return;
             var limpar = new Hashtable();
             foreach (var p in pontos) limpar[PREFIXO + p.Id] = null;    // null apaga a propriedade
+            foreach (var sb in saberes) limpar[PREFIXO_SABER + sb] = null;
             limpar[CHAVE_INICIO] = PhotonNetwork.Time;                  // o relógio recomeça
+            limpar[CHAVE_REINICIO] = PhotonNetwork.Time;                // avisa todos que é uma nova rodada
             PhotonNetwork.CurrentRoom.SetCustomProperties(limpar);
             SortearSabotador();
         }
-        else { feitas.Clear(); inicioOffline = Time.time; tempoAcabou = false; hud.Grande(null); Recalcular(silencioso: true); }
+        else { feitas.Clear(); saberes.Clear(); inicioOffline = Time.time; tempoAcabou = false; hud.Grande(null); Recalcular(silencioso: true); }
+        sabotagens = 0; rodaMostrada = false;
     }
 
     private void DefinirTodas(bool feita)

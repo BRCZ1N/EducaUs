@@ -34,75 +34,91 @@ public class MinigameTarefa : MonoBehaviour
         Amarelo = new Color32(232, 179, 60, 255), Verde = new Color32(63, 143, 90, 255), Marrom = new Color32(122, 82, 50, 255),
         Cinza = new Color32(110, 110, 110, 255);
 
+    // Conteúdo de cada tarefa. Versão decolonial: as respostas certas valorizam o saber de quem vive no território
+    // e apontam os responsáveis; as erradas repetem o discurso do "Desenvolvimento" ou culpam a comunidade.
     static readonly Dictionary<string, Config> Tarefas = new Dictionary<string, Config>
     {
-        ["Separar recicláveis"] = new Config
+        // ---------- conversar e se organizar
+        ["Roda de conversa com os moradores"] = new Config
         {
-            tipo = Tipo.Separar, instrucao = "Arraste cada resíduo para o contêiner certo da coleta seletiva.",
-            destinos = new[] { "PAPEL", "PLÁSTICO", "METAL", "VIDRO", "ORGÂNICO" },
-            coresDestino = new[] { Azul, Vermelho, Amarelo, Verde, Marrom },
-            itens = new[] { ("papel", 0), ("garrafa", 1), ("sacola", 1), ("lata", 2), ("vidro", 3), ("casca", 4) },
+            tipo = Tipo.Escolher, instrucao = "Por que a água, a pesca e a saúde pioraram? Marque o que os moradores descobriram conversando.",
+            opcoes = new[] { ("A barragem e o porto da empresa", true), ("Licenças dadas sem consultar a comunidade", true),
+                             ("Laudos que ignoram quem vive aqui", true), ("O lucro vai para fora, o dano fica aqui", true),
+                             ("Os moradores não sabem cuidar do ambiente", false), ("É só cada um fazer a sua parte", false) },
         },
-        ["Trocar o agrotóxico por adubo orgânico"] = new Config
+        ["Assembleia da associação de moradores"] = new Config
         {
-            tipo = Tipo.Separar, instrucao = "O que vai para a lavoura? Arraste: adubo orgânico para a horta, veneno para o descarte seguro.",
-            destinos = new[] { "USAR NA LAVOURA", "DESCARTE SEGURO" }, coresDestino = new[] { Verde, Vermelho },
-            itens = new[] { ("composto", 0), ("esterco", 0), ("agrotoxico", 1), ("agrotoxico", 1) },
+            tipo = Tipo.Ordem, instrucao = "Organize a assembleia na ordem certa.",
+            passos = new[] { "Abrir a roda com os mais velhos", "Ouvir quem foi prejudicado", "Decidir juntos as ações", "Escolher quem leva às comunidades vizinhas" },
         },
-        ["Mutirão de limpeza do rio"] = new Config
-        { tipo = Tipo.Clicar, instrucao = "Recolha todo o lixo boiando no rio.", alvo = "garrafa", alvoFeito = "", quantidade = 8 },
-        ["Formar a brigada comunitária"] = new Config
-        { tipo = Tipo.Clicar, instrucao = "A brigada chegou! Apague todos os focos de incêndio.", alvo = "chama", alvoFeito = "", quantidade = 7 },
-        ["Plantar mudas nativas"] = new Config
-        { tipo = Tipo.Clicar, instrucao = "Plante uma muda nativa em cada cova.", alvo = "cova", alvoFeito = "muda", quantidade = 6 },
-        ["Regar a horta comunitária"] = new Config
-        { tipo = Tipo.Clicar, instrucao = "Regue todos os canteiros secos.", alvo = "canteiro_seco", alvoFeito = "canteiro_ok", quantidade = 6 },
-        ["Coletar amostra da lama para o laudo"] = new Config
-        { tipo = Tipo.Encher, instrucao = "Segure para encher o frasco e solte na faixa verde. A amostra vai para o laudo independente." },
-        ["Mapear os problemas com os moradores"] = new Config
+        // ---------- informar
+        ["Laudo da comunidade"] = new Config
+        { tipo = Tipo.Encher, instrucao = "Dona Lia mostrou onde o marisco morreu. Segure para colher a amostra e solte na faixa verde." },
+        ["Rastrear o lixo industrial da empresa"] = new Config
         {
-            tipo = Tipo.Escolher, instrucao = "Quais problemas os moradores apontaram no mapa da vila? Marque todos.",
-            opcoes = new[] { ("Lixão a céu aberto", true), ("Esgoto despejado no rio", true), ("Lama da mineradora", true),
-                             ("Queimadas na mata", true), ("Falta de loja de celular", false), ("Gente demais reclamando", false) },
+            tipo = Tipo.Separar, instrucao = "Dona Cida conhece a rota dos caminhões. Separe o lixo das casas do rejeito que a empresa despeja no lixão.",
+            destinos = new[] { "LIXO DA COMUNIDADE (reciclar)", "REJEITO DA EMPRESA (denunciar)" }, coresDestino = new[] { Verde, Vermelho },
+            itens = new[] { ("garrafa", 0), ("lata", 0), ("papel", 0), ("casca", 0), ("tambor", 1), ("tambor", 1), ("agrotoxico", 1) },
         },
-        ["Protesto na entrada da mineradora"] = new Config
+        ["Monitoramento comunitário da água"] = new Config
+        { tipo = Tipo.Clicar, instrucao = "Marque no mapa da água cada ponto com peixe morto. Quem monitora o rio é a comunidade.", alvo = "peixe_morto", alvoFeito = "registro", quantidade = 7 },
+        ["Rádio comunitária"] = new Config
         {
-            tipo = Tipo.Escolher, instrucao = "Quais faixas levar ao protesto? Marque as que cobram os responsáveis.",
-            opcoes = new[] { ("Reparação para as famílias atingidas", true), ("Fiscalização da barragem já", true),
-                             ("Lama não é progresso", true), ("A culpa é de quem mora perto", false), ("Cada um cuida do seu quintal", false) },
+            tipo = Tipo.Escolher, instrucao = "Joca trouxe as gravações. O que vai ao ar na rádio comunitária?",
+            opcoes = new[] { ("Depoimento da marisqueira sobre a lama", true), ("Convite para a assembleia", true),
+                             ("Resultado do laudo da comunidade", true), ("Os direitos de quem foi prejudicado", true),
+                             ("Propaganda da Rádio Progresso", false), ("Boato sem fonte", false) },
         },
-        ["Denunciar o esgoto despejado no rio"] = new Config
+        // ---------- cobrar direitos
+        ["Ato cultural na portaria da mineradora"] = new Config
         {
-            tipo = Tipo.Escolher, instrucao = "O que precisa ir na denúncia ao órgão ambiental?",
-            opcoes = new[] { ("Foto do cano despejando", true), ("Local e data", true), ("Resultado da análise da água", true),
-                             ("Boato que ouvi na rua", false), ("Xingamentos ao vizinho", false) },
+            tipo = Tipo.Escolher, instrucao = "A cultura também marcha. O que a comunidade leva ao ato?",
+            opcoes = new[] { ("Samba de roda e cantigas da comunidade", true), ("Faixa: Território não se vende", true),
+                             ("Depoimentos dos moradores no microfone", true), ("Faixa: Lama não é progresso", true),
+                             ("Faixa: Obrigado pelos empregos, empresa", false), ("Pedir desculpas por atrapalhar", false) },
         },
-        ["Fiscalizar a obra pelo conselho popular"] = new Config
+        ["Denúncia ao Ministério Público"] = new Config
         {
-            tipo = Tipo.Escolher, instrucao = "O que o conselho popular deve conferir na obra de saneamento?",
-            opcoes = new[] { ("O prazo prometido", true), ("Quanto dinheiro foi gasto", true), ("Se a rede chega ao bairro pobre", true),
-                             ("A cor do capacete dos operários", false), ("Se o prefeito apareceu na foto", false) },
+            tipo = Tipo.Escolher, instrucao = "Seu Tonho contou a memória do rio. O que vai na denúncia?",
+            opcoes = new[] { ("Depoimentos de pescadores e marisqueiras", true), ("O laudo da comunidade", true),
+                             ("Fotos do cano e dos peixes mortos", true), ("Pedido de reparação às famílias", true),
+                             ("Só o laudo da empresa", false), ("Pedido para a comunidade sair dali", false) },
         },
-        ["Cobrar saneamento na Câmara de Vereadores"] = new Config
+        ["Demarcar as terras da comunidade"] = new Config
+        { tipo = Tipo.Clicar, instrucao = "Dona Marta lembra onde terminam as terras da comunidade. Finque um marco em cada lugar.", alvo = "marco_vazio", alvoFeito = "marco", quantidade = 6 },
+        ["Brigada comunitária"] = new Config
+        { tipo = Tipo.Clicar, instrucao = "O fogo começou na cerca da empresa. A brigada da comunidade apaga todos os focos.", alvo = "chama", alvoFeito = "", quantidade = 7 },
+        ["Fiscalizar a obra de saneamento"] = new Config
         {
-            tipo = Tipo.Escolher, instrucao = "Escolha os argumentos para levar à Câmara.",
-            opcoes = new[] { ("Saneamento é um direito previsto em lei", true), ("Esgoto a céu aberto causa doenças", true),
-                             ("O bairro paga impostos como os outros", true), ("Pobre não liga para isso", false), ("É melhor esconder o problema", false) },
+            tipo = Tipo.Escolher, instrucao = "O que o conselho popular confere na obra de saneamento?",
+            opcoes = new[] { ("Se a rede chega até a vila", true), ("Quanto dinheiro foi gasto", true), ("O prazo prometido", true),
+                             ("Se a comunidade foi consultada", true), ("A cor do capacete dos operários", false), ("Se o prefeito saiu bem na foto", false) },
         },
-        ["Organizar a cooperativa de catadores"] = new Config
+        // ---------- juntar comunidades
+        ["Audiência pública com as comunidades vizinhas"] = new Config
+        {
+            tipo = Tipo.Escolher, instrucao = "Várias comunidades prejudicadas pela empresa se juntaram. O que levar à audiência?",
+            opcoes = new[] { ("Comunidades vizinhas, lado a lado", true), ("Depoimentos e o laudo da comunidade", true),
+                             ("Exigir que a comunidade seja consultada antes", true), ("Pedido de reparação e saneamento", true),
+                             ("Aceitar a proposta da empresa sem discutir", false), ("Deixar só os técnicos falarem", false) },
+        },
+        // ---------- trabalho e renda
+        ["Banco de sementes crioulas"] = new Config
+        {
+            tipo = Tipo.Separar, instrucao = "Seu Zé guarda as sementes da avó. O que fica no banco da comunidade e o que volta para a empresa?",
+            destinos = new[] { "BANCO DA COMUNIDADE", "DEVOLVER À EMPRESA" }, coresDestino = new[] { Verde, Vermelho },
+            itens = new[] { ("semente_crioula", 0), ("semente_crioula", 0), ("composto", 0), ("esterco", 0),
+                            ("semente_patente", 1), ("semente_patente", 1), ("agrotoxico", 1) },
+        },
+        ["Cooperativa de catadores"] = new Config
         {
             tipo = Tipo.Ordem, instrucao = "Clique nos passos na ordem certa para criar a cooperativa.",
-            passos = new[] { "Reunir os catadores", "Decidir as regras juntos", "Registrar a cooperativa", "Fechar contrato com a prefeitura" },
+            passos = new[] { "Reunir os catadores", "Decidir as regras em assembleia", "Registrar a cooperativa", "Cobrar um contrato justo da prefeitura" },
         },
-        ["Criar a cooperativa de agricultores"] = new Config
+        ["Cooperativa agroecológica"] = new Config
         {
             tipo = Tipo.Ordem, instrucao = "Clique nos passos na ordem certa.",
-            passos = new[] { "Reunir as famílias", "Dividir o trabalho", "Montar a feira agroecológica", "Vender direto para a vila" },
-        },
-        ["Reunião da associação de moradores"] = new Config
-        {
-            tipo = Tipo.Ordem, instrucao = "Organize a pauta da reunião na ordem certa.",
-            passos = new[] { "Abrir a reunião", "Ouvir os moradores", "Votar as prioridades", "Escolher quem leva à prefeitura" },
+            passos = new[] { "Reunir as famílias", "Trocar sementes e saberes", "Montar a feira agroecológica", "Vender direto, sem atravessador" },
         },
     };
 
