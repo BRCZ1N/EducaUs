@@ -7,8 +7,11 @@ using UnityEngine;
 /// </summary>
 public class NomeAcima : MonoBehaviour
 {
-    [SerializeField] private float altura = 2.35f;
-    [SerializeField] private float tamanho = 0.09f;
+    [SerializeField] private float folga = 0.12f;     // espaço entre o topo da cabeça e o nome
+    [SerializeField] private float tamanho = 0.05f;   // tamanho da letra
+
+    private SpriteRenderer corpo;
+    private float topo = -1f;                          // maior altura do sprite já vista (evita o nome "pular" ao andar)
 
     private PhotonView pv;
     private TextMesh texto, sombra;
@@ -17,9 +20,10 @@ public class NomeAcima : MonoBehaviour
     private void Start()
     {
         pv = GetComponentInParent<PhotonView>();
+        corpo = GetComponentInChildren<SpriteRenderer>();
         var fonte = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
-        sombra = Criar("Nome (sombra)", fonte, new Color(0, 0, 0, 0.75f), new Vector3(0.03f, altura - 0.03f, 0), 199);
-        texto = Criar("Nome", fonte, Color.white, new Vector3(0, altura, 0), 200);
+        sombra = Criar("Nome (sombra)", fonte, new Color(0, 0, 0, 0.75f), Vector3.zero, 199);
+        texto = Criar("Nome", fonte, Color.white, Vector3.zero, 200);
     }
 
     private TextMesh Criar(string nome, Font fonte, Color cor, Vector3 pos, int ordem)
@@ -52,8 +56,17 @@ public class NomeAcima : MonoBehaviour
         texto.color = meu ? new Color(1f, 0.85f, 0.35f, a) : new Color(1f, 1f, 1f, a);
         sombra.color = new Color(0, 0, 0, 0.75f * a);
 
-        // não espelha junto com o personagem
+        // posição: logo acima da cabeça, calculada pelo tamanho real do sprite
+        if (corpo != null && corpo.sprite != null)
+            topo = Mathf.Max(topo, corpo.bounds.max.y - transform.position.y);
+        float alturaNome = topo > 0 ? topo + folga : 1.6f;
+        Vector3 basePos = transform.position + new Vector3(0, alturaNome, 0);
+        texto.transform.position = basePos;
+        sombra.transform.position = basePos + new Vector3(0.02f, -0.02f, 0);
+
+        // tamanho fixo no mundo, sem espelhar junto com o personagem
         var s = transform.lossyScale;
-        texto.transform.localScale = sombra.transform.localScale = new Vector3(Mathf.Sign(s.x), 1, 1);
+        var esc = new Vector3(1f / Mathf.Max(0.0001f, Mathf.Abs(s.x)), 1f / Mathf.Max(0.0001f, Mathf.Abs(s.y)), 1f);
+        texto.transform.localScale = sombra.transform.localScale = new Vector3(Mathf.Sign(s.x) * esc.x, esc.y, 1);
     }
 }

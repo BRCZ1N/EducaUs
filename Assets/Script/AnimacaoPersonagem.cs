@@ -1,18 +1,20 @@
 using System.Collections.Generic;
+using ExitGames.Client.Photon;
 using Photon.Pun;
+using Photon.Realtime;
 using UnityEngine;
 
 /// <summary>
 /// Anima o personagem (parado / andando para frente, para trás e para os lados) e dá uma COR diferente
 /// para cada jogador da sala (6 cores). Coloque no prefab do Player, junto do SpriteRenderer.
 /// No seu boneco a direção vem do movimento. Nos bonecos dos outros, a direção, o lado e se está andando
-/// chegam PELA REDE (este componente se registra no PhotonView): deduzir pelo movimento interpolado fazia o
-/// boneco virar para lados errados com os pequenos trancos da sincronização.
+/// chegam PELA REDE num evento próprio do Photon (não mexe no PhotonView nem na ordem dos dados de posição):
+/// deduzir pelo movimento interpolado fazia o boneco virar para lados errados com os trancos da sincronização.
 /// Os quadros vêm de Resources/Animacoes/Personagem_0..5 (rode Tools → Vila → Preparar animações uma vez).
 /// O PlayerMovement adiciona este componente sozinho se ele não estiver no prefab.
 /// O SpriteRenderer pode estar no próprio objeto ou num filho.
 /// </summary>
-public class AnimacaoPersonagem : MonoBehaviour, IPunObservable
+public class AnimacaoPersonagem : MonoBehaviour, IOnEventCallback
 {
     [SerializeField] private float quadrosPorSegundo = 9f;
     [Tooltip("Velocidade mínima (unidades/s) para considerar que está andando.")]
@@ -34,6 +36,8 @@ public class AnimacaoPersonagem : MonoBehaviour, IPunObservable
     // o que chegou pela rede (bonecos dos outros)
     private bool temRede; private string direcaoRede = "frente"; private bool esquerdaRede, andandoRede;
     private static readonly string[] Direcoes = { "frente", "costas", "lado" };
+    private const byte EVENTO_DIRECAO = 77;                              // código livre de evento do Photon
+    private string enviadaDir = ""; private bool enviadaEsq, enviadaAnd; private float proximoReenvio;
 
     private void Awake()
     {
@@ -67,27 +71,36 @@ public class AnimacaoPersonagem : MonoBehaviour, IPunObservable
         else if (!quadros.ContainsKey("andar_frente_0"))
             Debug.LogError("[AnimacaoPersonagem] A folha Personagem_" + Cor + " não está fatiada com os nomes certos. Rode Tools → Vila → Preparar animações.");
         ultimaPos = transform.position;
-        // registra no PhotonView para mandar/receber a direção junto com a posição
-        if (pv != null && pv.ObservedComponents != null && !pv.ObservedComponents.Contains(this))
-            pv.ObservedComponents.Add(this);
     }
 
-    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    private void OnEnable() { PhotonNetwork.AddCallbackTarget(this); }
+    private void OnDisable() { PhotonNetwork.RemoveCallbackTarget(this); }
+
+    // Dono do boneco: manda a direção quando muda e, por garantia, a cada 1 s (quem entrou depois também recebe).
+    private void EnviarDirecao()
     {
-        if (stream.IsWriting)
-        {
-            stream.SendNext((byte)System.Array.IndexOf(Direcoes, direcao));
-            stream.SendNext(paraEsquerda);
-            stream.SendNext(andandoAgora);
-        }
-        else
-        {
-            int d = (byte)stream.ReceiveNext();
-            direcaoRede = Direcoes[Mathf.Clamp(d, 0, Direcoes.Length - 1)];
-            esquerdaRede = (bool)stream.ReceiveNext();
-            andandoRede = (bool)stream.ReceiveNext();
-            temRede = true;
-        }
+        if (!PhotonNetwork.InRoom || pv == null || !pv.AmOwner || pv.ViewID == 0) return;
+        bool mudou = direcao != enviadaDir || paraEsquerda != enviadaEsq || andandoAgora != enviadaAnd;
+        if (!mudou && Time.time < proximoReenvio) return;
+        object[] dados = { pv.ViewID, (byte)Mathf.Max(0, System.Array.IndexOf(Direcoes, direcao)), paraEsquerda, andandoAgora };
+        PhotonNetwork.RaiseEvent(EVENTO_DIRECAO, dados,
+            new RaiseEventOptions { Receivers = ReceiverGroup.Others },
+            mudou ? SendOptions.SendReliable : SendOptions.SendUnreliable);
+        enviadaDir = direcao; enviadaEsq = paraEsquerda; enviadaAnd = andandoAgora;
+        proximoReenvio = Time.time + 1f;
+    }
+
+    // Outros bonecos: recebe a direção mandada pelo dono.
+    public void OnEvent(EventData ev)
+    {
+        if (ev.Code != EVENTO_DIRECAO || pv == null) return;
+        if (!(ev.CustomData is object[] d) || d.Length < 4) return;
+        if (!(d[0] is int id) || id != pv.ViewID) return;
+        int i = d[1] is byte b ? b : 0;
+        direcaoRede = Direcoes[Mathf.Clamp(i, 0, Direcoes.Length - 1)];
+        esquerdaRede = d[2] is bool e && e;
+        andandoRede = d[3] is bool a && a;
+        temRede = true;
     }
 
     private void LateUpdate()
@@ -121,6 +134,7 @@ public class AnimacaoPersonagem : MonoBehaviour, IPunObservable
             }
         }
         andandoAgora = andando;
+        EnviarDirecao();
 
         tempo += dt;
         string nome;

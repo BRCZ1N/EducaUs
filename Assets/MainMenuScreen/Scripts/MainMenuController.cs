@@ -70,7 +70,7 @@ public class MainMenuController : MonoBehaviour
 
     private void AplicarNome(string nome)
     {
-        nome = string.IsNullOrWhiteSpace(nome) ? "Voluntário" : nome.Trim();
+        nome = string.IsNullOrWhiteSpace(nome) ? "Voluntário " + Random.Range(10, 100) : nome.Trim();
         if (nome.Length > 16) nome = nome.Substring(0, 16);
         PhotonNetwork.NickName = nome;
         PlayerPrefs.SetString(ChaveNome, nome);

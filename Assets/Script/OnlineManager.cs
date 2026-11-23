@@ -87,7 +87,8 @@ public class OnlineManager : MonoBehaviourPunCallbacks
 
     private void Start()
     {
-        PhotonNetwork.NickName = PlayerPrefs.GetString("NomeJogador", "Voluntário");
+        string salvo = PlayerPrefs.GetString("NomeJogador", "");
+        PhotonNetwork.NickName = string.IsNullOrWhiteSpace(salvo) ? "Voluntário " + UnityEngine.Random.Range(10, 100) : salvo;
         if (usarPorta443)
             PhotonNetwork.PhotonServerSettings.AppSettings.Protocol = ExitGames.Client.Photon.ConnectionProtocol.WebSocketSecure;
         PhotonNetwork.ConnectUsingSettings();
