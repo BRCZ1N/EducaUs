@@ -43,7 +43,7 @@ public class Comunidade : MonoBehaviour
     {
         ("Dona Cida", "catadora da cooperativa", new Vector2(92f, 45f), "cida", "a rota do lixo da empresa",
          "Os caminhões da empresa descarregam aqui de madrugada. Depois dizem que o lixão é culpa da comunidade."),
-        ("Seu Zé", "agricultor, guardião de sementes", new Vector2(10f, 30f), "ze", "as sementes crioulas",
+        ("Seu Zé", "agricultor, guardião de sementes", new Vector2(10f, 30f), "ze", "as sementes guardadas pela família",
          "Essa semente veio da minha avó e nunca precisou de veneno. A empresa quer vender semente que não nasce de novo."),
         ("Dona Lia", "marisqueira", new Vector2(26f, 50f), "lia", "onde o marisco morreu",
          "Eu sei pelo cheiro da maré quando a lama desce. Nenhum laudo da empresa veio perguntar pra quem cata marisco."),
@@ -62,7 +62,7 @@ public class Comunidade : MonoBehaviour
         { "Rastrear o lixo industrial da empresa", "Dona Cida" },
         { "Denúncia ao Ministério Público", "Seu Tonho" },
         { "Demarcar as terras da comunidade", "Dona Marta" },
-        { "Banco de sementes crioulas", "Seu Zé" },
+        { "Banco de sementes da comunidade", "Seu Zé" },
         { "Rádio comunitária", "Joca" },
     };
 

@@ -10,7 +10,7 @@ using Hashtable = ExitGames.Client.Photon.Hashtable;
 /// <summary>
 /// Assembleia com votação (só no multiplayer, com 3+ jogadores e um infiltrado na sala).
 ///
-/// • Como chamar: no barracão (ponto "Reunião de emergência"), cada jogador pode convocar UMA assembleia por partida.
+/// • Como chamar: na associação de moradores (ponto "Reunião de emergência"), cada jogador pode convocar UMA assembleia por partida.
 ///   Logo depois de uma sabotagem, qualquer um pode DENUNCIAR de onde estiver (por 20 s).
 /// • Na assembleia todo mundo para, conversa e vota em quem acha que é o infiltrado (ou pula o voto).
 ///   Acaba quando todos votam ou o tempo acaba. O mais votado é DISPENSADO da organização; empate ou "pular" = ninguém sai.
@@ -31,7 +31,7 @@ public class Assembleia : MonoBehaviourPunCallbacks
 
     [SerializeField] private float duracao = 75f;          // conversa + votação
     [SerializeField] private float janelaDenuncia = 20f;
-    [SerializeField] private float raioBarracao = 2.6f;
+    [SerializeField] private float raioAssociacao = 2.6f;
 
     public static bool Aberto { get; private set; }
     private static readonly HashSet<int> dispensados = new HashSet<int>();
@@ -80,12 +80,12 @@ public class Assembleia : MonoBehaviourPunCallbacks
     /// Jogadores presentes (quem caiu fica guardado na sala por um tempo, mas não conta).
     private static IEnumerable<Player> Ativos => PhotonNetwork.PlayerList.Where(p => !p.IsInactive);
 
-    private bool PertoDoBarracao()
+    private bool PertoDaAssociacao()
     {
         if (pontoReuniao == null) return false;
         var eu = FindObjectsByType<PlayerMovement>(FindObjectsSortMode.None)
                  .FirstOrDefault(pm => !PhotonNetwork.InRoom || (pm.GetComponent<PhotonView>() is PhotonView v && v.AmOwner));
-        return eu != null && Vector2.Distance(eu.transform.position, pontoReuniao.position) <= raioBarracao;
+        return eu != null && Vector2.Distance(eu.transform.position, pontoReuniao.position) <= raioAssociacao;
     }
 
     private bool JaUsei()
@@ -105,7 +105,7 @@ public class Assembleia : MonoBehaviourPunCallbacks
             if (PhotonNetwork.IsMasterClient && (PhotonNetwork.Time - inicio >= duracao || TodosVotaram())) Apurar();
         }
 
-        bool perto = PertoDoBarracao();
+        bool perto = PertoDaAssociacao();
         if (!MultiplayerValido)
         {
             botao.SetActive(false);

@@ -103,7 +103,7 @@ public class MinigameTarefa : MonoBehaviour
                              ("Aceitar a proposta da empresa sem discutir", false), ("Deixar só os técnicos falarem", false) },
         },
         // ---------- trabalho e renda
-        ["Banco de sementes crioulas"] = new Config
+        ["Banco de sementes da comunidade"] = new Config
         {
             tipo = Tipo.Separar, instrucao = "Seu Zé guarda as sementes da avó. O que fica no banco da comunidade e o que volta para a empresa?",
             destinos = new[] { "BANCO DA COMUNIDADE", "DEVOLVER À EMPRESA" }, coresDestino = new[] { Verde, Vermelho },

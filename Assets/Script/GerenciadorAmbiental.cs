@@ -86,7 +86,7 @@ public class GerenciadorAmbiental : MonoBehaviourPunCallbacks
                               "O mapa oficial apagou os nomes que os mais velhos dão aos lugares.",
                               "Disseram que a comunidade \"não usa\" a terra e por isso não tem direito a ela." } },
         { "Fazenda", new[] { "O crédito agrícola só sai para quem compra semente patenteada e veneno.",
-                             "O técnico de fora disse que a semente crioula é \"atrasada\".",
+                             "O técnico de fora disse que a semente guardada pela comunidade é \"atrasada\".",
                              "Os agricultores ouviram que \"pobre não sabe plantar\"." } },
         { "Vila", new[] { "A empresa comprou o horário da rádio comunitária.",
                           "Uma reportagem disse que os moradores \"exageram\" os problemas.",
@@ -150,10 +150,10 @@ public class GerenciadorAmbiental : MonoBehaviourPunCallbacks
     private bool iniciadaOffline;
     private string papelMostrado;
 
-    /// A partida só começa quando o dono da sala usa o painel INICIAR no meio do barracão.
+    /// A partida só começa quando o dono da sala usa o painel INICIAR no meio da associação de moradores.
     public bool PartidaIniciada => PhotonNetwork.InRoom ? PhotonNetwork.CurrentRoom.CustomProperties.ContainsKey(CHAVE_INICIO) : iniciadaOffline;
     private static bool SouDono => !PhotonNetwork.InRoom || PhotonNetwork.IsMasterClient;
-    public static readonly Vector2 PosicaoInicio = new Vector2(50f, 70.6f);   // recepção do barracão (centro da ONG)
+    public static readonly Vector2 PosicaoInicio = new Vector2(50f, 70.6f);   // recepção da associação de moradores
     private SpriteRenderer srInicio; private Sprite[] sprInicio;
     private bool pertoDoInicio; private float segurandoInicio;
     private const float SegundosInicio = 1.5f;
@@ -230,7 +230,7 @@ public class GerenciadorAmbiental : MonoBehaviourPunCallbacks
             "•  <b>Ações coletivas</b> (marca azul) precisam de mais gente: chame outros jogadores ou mobilize moradores.\n" +
             "•  Cuide dos <b>recursos</b> da comunidade: água, saúde, terra e comida.\n" +
             "•  Com 3 ou mais jogadores, um <b>infiltrado da empresa</b> vai tentar desfazer o que vocês conquistarem.\n\n" +
-            "Quando todos estiverem prontos, o <b>dono da sala</b> inicia a partida no painel <b>INICIAR</b>, no meio do barracão.",
+            "Quando todos estiverem prontos, o <b>dono da sala</b> inicia a partida no painel <b>INICIAR</b>, no meio da associação de moradores.",
             null, "COMEÇAR");
     }
 
@@ -536,7 +536,7 @@ public class GerenciadorAmbiental : MonoBehaviourPunCallbacks
             hud.BotaoSabotar(false, false, 0);
             return;
         }
-        // painel INICIAR / REINICIAR no meio do barracão (só o dono da sala usa)
+        // painel INICIAR / REINICIAR no meio da associação (só o dono da sala usa)
         pertoDoInicio = PertoDoPainelInicio();
         if (srInicio != null && sprInicio[1] != null) srInicio.sprite = PartidaIniciada ? sprInicio[1] : sprInicio[0];
         if (pertoDoInicio && pontoAtual == null)
@@ -551,8 +551,8 @@ public class GerenciadorAmbiental : MonoBehaviourPunCallbacks
         segurandoInicio = 0f;
         if (!PartidaIniciada)
         {   // antes de começar dá para andar e conhecer o mapa, mas sem tarefas, conversas ou sabotagem
-            hud.Prompt(SouDono ? "Quando todos estiverem prontos, vá ao painel INICIAR no meio do barracão."
-                               : "Aguardando o dono da sala iniciar a partida no barracão...", -1f);
+            hud.Prompt(SouDono ? "Quando todos estiverem prontos, vá ao painel INICIAR no meio da associação de moradores."
+                               : "Aguardando o dono da sala iniciar a partida na associação de moradores...", -1f);
             hud.BotaoSabotar(false, false, 0);
             return;
         }
@@ -705,8 +705,8 @@ public class GerenciadorAmbiental : MonoBehaviourPunCallbacks
         int estrelas = vitoria ? 3 : media >= 0.6f ? 2 : media >= 0.25f ? 1 : 0;
         string nota = new string('★', estrelas) + new string('☆', 3 - estrelas);
         hud.PainelInfo((tituloFim ?? (vitoria ? "A comunidade unida protegeu a vila!" : "A empresa passou por cima da vila")) + "   " + nota,
-            vitoria ? "Ninguém veio de fora salvar a vila: foram os próprios moradores, juntos. Agora, a roda de conversa:"
-                    : "O tempo acabou antes de a comunidade se organizar. Antes de jogar de novo, a roda de conversa:",
+            vitoria ? "Ninguém veio de fora salvar a vila: foram os próprios moradores, juntos. Agora, conversem em grupo sobre as perguntas abaixo:"
+                    : "O tempo acabou antes de a comunidade se organizar. Antes de jogar de novo, conversem em grupo sobre as perguntas abaixo:",
             new[] { ("O QUE ACONTECEU", aconteceu), ("QUEM GANHOU, QUEM PERDEU", quemGanhou), ("O QUE A COMUNIDADE FEZ", fizemos) },
             "FECHAR");
     }
@@ -721,7 +721,7 @@ public class GerenciadorAmbiental : MonoBehaviourPunCallbacks
         PhotonNetwork.CurrentRoom.SetCustomProperties(new Hashtable { { CHAVE_SAB, ator }, { CHAVE_SAB_ANTERIOR, ator } });
     }
 
-    // ------------------------------------------------------------------ painel de início (barracão)
+    // ------------------------------------------------------------------ painel de início (associação de moradores)
     private void CriarPainelInicio()
     {
         sprInicio = new Sprite[2];

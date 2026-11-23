@@ -7,7 +7,7 @@ using UnityEngine.UI;
 /// <summary>
 /// Mapa da vila (botão MAPA no canto de cima, ou tecla M / Tab), como o mapa do Among Us.
 /// Mostra onde você está, as tarefas que faltam (amarelo = individual, azul = coletiva, cadeado = falta a pista),
-/// os moradores que ainda têm uma pista para contar e o painel INICIAR do barracão.
+/// os moradores que ainda têm uma pista para contar e o painel INICIAR da associação.
 /// Dá para continuar andando com o mapa aberto. A imagem vem de Resources/Mapa/MapaVila.
 /// O GerenciadorAmbiental adiciona este componente sozinho.
 /// </summary>

@@ -41,10 +41,10 @@ public class TutorialScreen : MonoBehaviour
         ("O infiltrado da empresa",
          "Com 3 ou mais jogadores, um é sorteado em segredo como <b>infiltrado</b>. Ele finge ajudar e aperta <b>SABOTAR</b> para desfazer " +
          "o que vocês conquistaram. No modo solo não há infiltrado: o desafio é proteger tudo antes que o tempo acabe.\n\n" +
-         "Desconfiou? Toque o sino do barracão (<b>ASSEMBLEIA</b>) ou aperte <b>DENUNCIAR</b> logo depois de uma sabotagem. Todos votam e o " +
+         "Desconfiou? Toque o sino da associação de moradores (<b>ASSEMBLEIA</b>) ou aperte <b>DENUNCIAR</b> logo depois de uma sabotagem. Todos votam e o " +
          "mais votado é dispensado. Cuidado: dispensar um inocente enfraquece a comunidade."),
         ("Começar e vencer",
-         "O <b>dono da sala</b> começa a partida no painel <b>INICIAR</b>, no meio do barracão (o mesmo painel reinicia a rodada).\n\n" +
+         "O <b>dono da sala</b> começa a partida no painel <b>INICIAR</b>, no meio da associação de moradores (o mesmo painel reinicia a rodada).\n\n" +
          "<b>Os moradores vencem</b> se protegerem as 7 áreas ou dispensarem o infiltrado.\n" +
          "<b>A empresa vence</b> se o tempo acabar ou se sobrarem só o infiltrado e mais um jogador.\n\n" +
          "No fim, a tela de resumo abre a <b>roda de conversa</b>: o que aconteceu, quem ganhou, quem perdeu e o que a comunidade fez."),
