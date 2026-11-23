@@ -24,9 +24,6 @@ public class GerenciadorAmbiental : MonoBehaviourPunCallbacks
 {
     public static GerenciadorAmbiental Instancia { get; private set; }
 
-    [Header("Tarefas")]
-    [Tooltip("Quanto tempo segurando E para concluir uma tarefa.")]
-    [SerializeField] private float segundosPorTarefa = 3f;
 
     [Header("Sabotador")]
     [Tooltip("O dono da sala sorteia o sabotador quando a cena Game abre (se ainda não houver um).")]
@@ -151,11 +148,12 @@ public class GerenciadorAmbiental : MonoBehaviourPunCallbacks
     private bool iniciado;
     private float inicioOffline;
     private bool iniciadaOffline;
+    private string papelMostrado;
 
     /// A partida só começa quando o dono da sala usa o painel INICIAR no meio do barracão.
     public bool PartidaIniciada => PhotonNetwork.InRoom ? PhotonNetwork.CurrentRoom.CustomProperties.ContainsKey(CHAVE_INICIO) : iniciadaOffline;
     private static bool SouDono => !PhotonNetwork.InRoom || PhotonNetwork.IsMasterClient;
-    private static readonly Vector2 PosicaoInicio = new Vector2(50f, 70.6f);   // recepção do barracão (centro da ONG)
+    public static readonly Vector2 PosicaoInicio = new Vector2(50f, 70.6f);   // recepção do barracão (centro da ONG)
     private SpriteRenderer srInicio; private Sprite[] sprInicio;
     private bool pertoDoInicio; private float segurandoInicio;
     private const float SegundosInicio = 1.5f;
@@ -187,6 +185,7 @@ public class GerenciadorAmbiental : MonoBehaviourPunCallbacks
         hud = GetComponent<HudAmbiental>();
         if (hud == null) hud = gameObject.AddComponent<HudAmbiental>();
         if (GetComponent<MenuPartida>() == null) gameObject.AddComponent<MenuPartida>();   // menu do Esc
+        if (GetComponent<MapaPartida>() == null) gameObject.AddComponent<MapaPartida>();   // mapa (M / Tab / botão MAPA)
         if (GetComponent<LimiteDoMapa>() == null) gameObject.AddComponent<LimiteDoMapa>(); // parede em volta do mapa
         if (GetComponent<AnimarAgua>() == null) gameObject.AddComponent<AnimarAgua>();     // água ondulando
         if (GetComponent<ControleToque>() == null) gameObject.AddComponent<ControleToque>(); // andar com mouse/joystick
@@ -230,7 +229,7 @@ public class GerenciadorAmbiental : MonoBehaviourPunCallbacks
             "•  <b>Converse com os vizinhos</b> (balão amarelo). Cada um tem uma pista que libera tarefas para todos.\n" +
             "•  <b>Ações coletivas</b> (marca azul) precisam de mais gente: chame outros jogadores ou mobilize moradores.\n" +
             "•  Cuide dos <b>recursos</b> da comunidade: água, saúde, terra e comida.\n" +
-            "•  A <b>Rádio Progresso</b> e um possível infiltrado da empresa vão tentar desfazer o que vocês conquistarem.\n\n" +
+            "•  Com 3 ou mais jogadores, um <b>infiltrado da empresa</b> vai tentar desfazer o que vocês conquistarem.\n\n" +
             "Quando todos estiverem prontos, o <b>dono da sala</b> inicia a partida no painel <b>INICIAR</b>, no meio do barracão.",
             null, "COMEÇAR");
     }
@@ -330,10 +329,25 @@ public class GerenciadorAmbiental : MonoBehaviourPunCallbacks
     }
 
     /// Dono da sala: quando a sala chega ao número mínimo de jogadores, sorteia o sabotador (uma vez).
+    private const string CHAVE_SAB_ANTERIOR = "SABU";   // quem foi o infiltrado na rodada anterior (para não repetir)
+
+    /// Jogadores que podem ser sorteados: presentes (não caídos) e não dispensados pela assembleia.
+    private static List<Player> Elegiveis() =>
+        PhotonNetwork.PlayerList.Where(p => !p.IsInactive && !Assembleia.Dispensado(p.ActorNumber)).ToList();
+
+    /// Sorteia entre os elegíveis, evitando repetir o infiltrado da rodada anterior (se houver outra opção).
+    private static int SortearAtor(List<Player> elegiveis)
+    {
+        if (elegiveis.Count == 0) return 0;
+        int anterior = PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue(CHAVE_SAB_ANTERIOR, out object v) && v is int a ? a : 0;
+        var opcoes = elegiveis.Count > 1 ? elegiveis.Where(p => p.ActorNumber != anterior).ToList() : elegiveis;
+        return opcoes[UnityEngine.Random.Range(0, opcoes.Count)].ActorNumber;
+    }
+
     private void TentarSortearSabotador()
     {
-        if (PhotonNetwork.InRoom && PhotonNetwork.IsMasterClient && sortearSabotadorAoIniciar && PartidaIniciada
-            && PhotonNetwork.CurrentRoom.PlayerCount >= jogadoresParaSabotador
+        if (PhotonNetwork.InRoom && PhotonNetwork.IsMasterClient && sortearSabotadorAoIniciar && PartidaIniciada && !PartidaEncerrada
+            && Elegiveis().Count >= jogadoresParaSabotador
             && !TemSabotadorNaSala)
             SortearSabotador();
     }
@@ -345,7 +359,7 @@ public class GerenciadorAmbiental : MonoBehaviourPunCallbacks
         {
             if (!PhotonNetwork.InRoom) return sabotadorOffline;
             if (!PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue(CHAVE_SAB, out object v) || !(v is int ator)) return false;
-            return PhotonNetwork.PlayerList.Any(p => p.ActorNumber == ator);
+            return PhotonNetwork.PlayerList.Any(p => p.ActorNumber == ator && !p.IsInactive);   // caiu = não conta
         }
     }
 
@@ -361,10 +375,57 @@ public class GerenciadorAmbiental : MonoBehaviourPunCallbacks
 
     public override void OnPlayerEnteredRoom(Player novo) => TentarSortearSabotador();
 
+    /// Entrou numa sala com a cena já aberta (voltou depois de cair, ou abriu a sala pelo menu): relê o estado.
+    public override void OnJoinedRoom()
+    {
+        if (!iniciado) return;
+        LerEstadoDaSala();
+        Recalcular(silencioso: true);
+    }
+
+    /// Partida offline virando sala online (botão do menu): leva o progresso para a sala, que passa a ser a referência.
+    public void LevarEstadoParaSala()
+    {
+        if (!PhotonNetwork.InRoom || !PhotonNetwork.IsMasterClient) return;
+        var h = new Hashtable();
+        foreach (var id in feitas) h[PREFIXO + id] = true;
+        foreach (var sb in saberes) h[PREFIXO_SABER + sb] = true;
+        if (iniciadaOffline) h[CHAVE_INICIO] = PhotonNetwork.Time - (Time.time - inicioOffline);   // o relógio continua de onde estava
+        if (h.Count > 0) PhotonNetwork.CurrentRoom.SetCustomProperties(h);
+        TentarSortearSabotador();
+    }
+
     public override void OnPlayerLeftRoom(Player saiu)
     {
-        if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue(CHAVE_SAB, out object v) && v is int a && a == saiu.ActorNumber)
-            hud.Aviso("O infiltrado da empresa saiu da partida!");
+        if (!(PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue(CHAVE_SAB, out object v) && v is int a && a == saiu.ActorNumber)) return;
+        if (saiu.IsInactive)
+        {   // caiu: a sala guarda o lugar dele por um tempo; se não voltar, outro é sorteado
+            hud.Aviso("O infiltrado da empresa caiu da partida...");
+            if (PhotonNetwork.IsMasterClient) StartCoroutine(EsperarVoltaDoInfiltrado(saiu.ActorNumber));
+            return;
+        }
+        hud.Aviso("O infiltrado da empresa saiu da partida!");
+        if (PhotonNetwork.IsMasterClient) TrocarInfiltrado();
+    }
+
+    private System.Collections.IEnumerator EsperarVoltaDoInfiltrado(int ator)
+    {
+        yield return new WaitForSeconds(32f);
+        var p = PhotonNetwork.CurrentRoom?.GetPlayer(ator);
+        if (p == null || p.IsInactive) TrocarInfiltrado();
+    }
+
+    /// O infiltrado saiu de vez: o dono da sala sorteia outro (se ainda houver gente suficiente).
+    private void TrocarInfiltrado()
+    {
+        if (!PhotonNetwork.InRoom || !PhotonNetwork.IsMasterClient || PartidaEncerrada) return;
+        var elegiveis = Elegiveis();
+        if (sortearSabotadorAoIniciar && PartidaIniciada && elegiveis.Count >= jogadoresParaSabotador)
+        {
+            int novo = SortearAtor(elegiveis);
+            PhotonNetwork.CurrentRoom.SetCustomProperties(new Hashtable { { CHAVE_SAB, novo }, { CHAVE_SAB_ANTERIOR, novo } });
+        }
+        else PhotonNetwork.CurrentRoom.SetCustomProperties(new Hashtable { { CHAVE_SAB, null } });
     }
 
     private void Recalcular(bool silencioso)
@@ -450,6 +511,13 @@ public class GerenciadorAmbiental : MonoBehaviourPunCallbacks
             }
         }
 
+        // revela o papel quando a partida começa (e de novo se o sorteio mudar)
+        if (PartidaIniciada)
+        {
+            object ini = PhotonNetwork.InRoom ? PhotonNetwork.CurrentRoom.CustomProperties[CHAVE_INICIO] : (object)inicioOffline;
+            string chave = $"{ini}|{SouSabotador}|{TemSabotadorNaSala}";
+            if (chave != papelMostrado) { papelMostrado = chave; hud.RevelarPapel(SouSabotador, TemSabotadorNaSala); }
+        }
         float resta = TempoRestante;
         if (!PartidaVencida) tempoCongelado = -1f;
         else if (tempoCongelado < 0f) tempoCongelado = resta;
@@ -648,9 +716,9 @@ public class GerenciadorAmbiental : MonoBehaviourPunCallbacks
     public void SortearSabotador()
     {
         if (!PhotonNetwork.InRoom || !PhotonNetwork.IsMasterClient) return;
-        var jogadores = PhotonNetwork.PlayerList;
-        int ator = jogadores[UnityEngine.Random.Range(0, jogadores.Length)].ActorNumber;
-        PhotonNetwork.CurrentRoom.SetCustomProperties(new Hashtable { { CHAVE_SAB, ator } });
+        int ator = SortearAtor(Elegiveis());
+        if (ator == 0) return;
+        PhotonNetwork.CurrentRoom.SetCustomProperties(new Hashtable { { CHAVE_SAB, ator }, { CHAVE_SAB_ANTERIOR, ator } });
     }
 
     // ------------------------------------------------------------------ painel de início (barracão)
@@ -671,7 +739,7 @@ public class GerenciadorAmbiental : MonoBehaviourPunCallbacks
     {
         foreach (var pm in FindObjectsByType<PlayerMovement>(FindObjectsSortMode.None))
         {
-            if (PhotonNetwork.InRoom && pm.GetComponent<PhotonView>() is PhotonView v && !v.IsMine) continue;
+            if (PhotonNetwork.InRoom && pm.GetComponent<PhotonView>() is PhotonView v && !v.AmOwner) continue;
             return Vector2.Distance(pm.transform.position, PosicaoInicio + new Vector2(0, 0.4f)) <= 1.8f;
         }
         return false;
@@ -698,9 +766,10 @@ public class GerenciadorAmbiental : MonoBehaviourPunCallbacks
             limpar[CHAVE_REINICIO] = PhotonNetwork.Time;                // avisa todos que é uma nova rodada
             foreach (var k in new[] { Assembleia.CH_ATIVA, Assembleia.CH_DISPENSADOS, Assembleia.CH_USOU, Assembleia.CH_RESULTADO, Assembleia.CH_FIM })
                 limpar[k] = null;                                        // a assembleia também recomeça
-            var lista = PhotonNetwork.PlayerList;
-            limpar[CHAVE_SAB] = sortearSabotadorAoIniciar && lista.Length >= jogadoresParaSabotador
-                ? (object)lista[UnityEngine.Random.Range(0, lista.Length)].ActorNumber : null;
+            var elegiveis = PhotonNetwork.PlayerList.Where(p => !p.IsInactive).ToList();   // nova rodada: ninguém está dispensado
+            int novoSab = sortearSabotadorAoIniciar && elegiveis.Count >= jogadoresParaSabotador ? SortearAtor(elegiveis) : 0;
+            limpar[CHAVE_SAB] = novoSab != 0 ? (object)novoSab : null;
+            if (novoSab != 0) limpar[CHAVE_SAB_ANTERIOR] = novoSab;
             PhotonNetwork.CurrentRoom.SetCustomProperties(limpar);
         }
         else { iniciadaOffline = true; feitas.Clear(); saberes.Clear(); inicioOffline = Time.time; tempoAcabou = false; hud.Grande(null); Recalcular(silencioso: true); }

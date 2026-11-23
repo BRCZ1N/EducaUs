@@ -50,7 +50,7 @@ public class CameraSegue : MonoBehaviour
     {
         if (!PhotonNetwork.InRoom) return true;
         var pv = t.GetComponent<PhotonView>();
-        return pv == null || pv.IsMine;
+        return pv == null || pv.AmOwner;
     }
 
     private static Transform AcharJogadorLocal()
@@ -59,7 +59,7 @@ public class CameraSegue : MonoBehaviour
         {
             if (!PhotonNetwork.InRoom) return pm.transform;
             var pv = pm.GetComponent<PhotonView>();
-            if (pv == null || pv.IsMine) return pm.transform;
+            if (pv == null || pv.AmOwner) return pm.transform;
         }
         return null;
     }

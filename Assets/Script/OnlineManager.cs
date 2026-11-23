@@ -10,6 +10,8 @@ using Hashtable = ExitGames.Client.Photon.Hashtable;
 /// Fala com o Photon e avisa o resultado por eventos.
 /// Não conhece nenhuma tela: quem quiser saber o que aconteceu se inscreve nos eventos.
 /// Fica no Bootstrap (nunca é descarregado).
+/// Se a conexão cair no meio de uma partida, tenta voltar para a MESMA sala sozinho (até 3 vezes):
+/// a sala guarda o jogador por 30 s (PlayerTtl), então ele volta com o mesmo personagem e o mesmo papel.
 /// </summary>
 public class OnlineManager : MonoBehaviourPunCallbacks
 {
@@ -46,6 +48,22 @@ public class OnlineManager : MonoBehaviourPunCallbacks
 
     public event Action<IReadOnlyList<RoomInfo>> SalasAtualizadas;   // lista de salas abertas mudou
 
+    public event Action Reconectou;          // voltou para a sala depois de cair
+    public event Action ReconexaoFalhou;     // não deu para voltar (a partida segue sem você)
+
+    /// Tentando voltar para a sala depois de uma queda.
+    public bool Reconectando { get; private set; }
+    /// Entrar na próxima sala sem trocar de cena (sala aberta de dentro da partida offline).
+    public bool FicarNaCena { get; set; }
+
+    [Header("Reconexão")]
+    [SerializeField] private int tentativasDeVolta = 3;
+    [Tooltip("Segundos que a sala guarda o lugar de quem caiu.")]
+    [SerializeField] private int segundosParaVoltar = 30;
+    private bool estavaEmSala;
+    private int tentativas;
+    private string ultimaSala;
+
     /// <summary>True quando dá pra criar/entrar em sala.</summary>
     public bool IsReady => PhotonNetwork.NetworkClientState == ClientState.ConnectedToMasterServer || PhotonNetwork.NetworkClientState == ClientState.JoinedLobby;
 
@@ -80,6 +98,10 @@ public class OnlineManager : MonoBehaviourPunCallbacks
     public override void OnConnectedToMaster()
     {
         Debug.Log("Conectado");
+        if (Reconectando && !string.IsNullOrEmpty(ultimaSala))
+        {   // reconectou ao servidor mas ainda não à sala: tenta voltar para ela
+            if (PhotonNetwork.RejoinRoom(ultimaSala)) return;
+        }
         Connected?.Invoke();
         PedirListaDeSalas();                    // entra no lobby para receber a lista de salas
     }
@@ -89,12 +111,46 @@ public class OnlineManager : MonoBehaviourPunCallbacks
         Debug.Log("Desconectado: " + cause);
         salas.Clear();
         SalasAtualizadas?.Invoke(Salas);
+        bool porQueda = cause != DisconnectCause.ApplicationQuit && cause != DisconnectCause.DisconnectByClientLogic;
+        if (porQueda && estavaEmSala && tentativas < tentativasDeVolta)
+        {
+            Reconectando = true;
+            tentativas++;
+            Disconnected?.Invoke(cause);
+            Invoke(nameof(TentarVoltar), 2f);    // tenta voltar para a mesma sala em 2 segundos
+            return;
+        }
+        if (Reconectando) DesistirDeVoltar();
         Disconnected?.Invoke(cause);
         if (cause != DisconnectCause.ApplicationQuit)
             Invoke(nameof(Reconectar), 2f);     // tenta de novo em 2 segundos
     }
 
     private void Reconectar() => PhotonNetwork.ConnectUsingSettings();
+
+    private void TentarVoltar()
+    {
+        if (!PhotonNetwork.ReconnectAndRejoin()) PhotonNetwork.ConnectUsingSettings();   // sem dados para voltar direto: conecta e usa RejoinRoom
+    }
+
+    private void DesistirDeVoltar()
+    {
+        Reconectando = false; estavaEmSala = false; tentativas = 0;
+        ReconexaoFalhou?.Invoke();
+    }
+
+    public override void OnLeftRoom()
+    {
+        // saiu de propósito (continua conectado): não tenta voltar. Se foi queda, quem cuida é o OnDisconnected.
+        if (PhotonNetwork.IsConnected && !Reconectando) estavaEmSala = false;
+    }
+
+    /// Sair da sala de vez (sem guardar o lugar para voltar).
+    public void SairDaSala()
+    {
+        estavaEmSala = false; Reconectando = false;
+        if (PhotonNetwork.InRoom) PhotonNetwork.LeaveRoom(false);
+    }
 
     public void joinLobby() => PedirListaDeSalas();
 
@@ -128,6 +184,8 @@ public class OnlineManager : MonoBehaviourPunCallbacks
         var opcoes = new RoomOptions
         {
             MaxPlayers = (byte)maxJogadores,
+            PlayerTtl = segundosParaVoltar * 1000,                // quem cai tem esse tempo para voltar à sala
+            EmptyRoomTtl = segundosParaVoltar * 1000,
             IsVisible = true,                                   // aparece na lista de salas
             IsOpen = true,
             CustomRoomProperties = new Hashtable
@@ -189,13 +247,24 @@ public class OnlineManager : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         Debug.Log("Entrou na sala: " + PhotonNetwork.CurrentRoom.Name);
-        PhotonNetwork.IsMessageQueueRunning = false;   // segura as mensagens até a Game abrir (o PlayerSpawner religa)
+        ultimaSala = PhotonNetwork.CurrentRoom.Name;
+        estavaEmSala = true;
+        if (Reconectando)
+        {   // voltou para a sala depois de cair: a cena Game já está aberta
+            Reconectando = false; tentativas = 0;
+            Reconectou?.Invoke();
+            return;
+        }
+        tentativas = 0;
+        if (FicarNaCena) { FicarNaCena = false; }                     // sala aberta de dentro da partida: não troca de cena
+        else PhotonNetwork.IsMessageQueueRunning = false;   // segura as mensagens até a Game abrir (o PlayerSpawner religa)
         JoinSucceeded?.Invoke(PhotonNetwork.CurrentRoom.Name);
     }
 
     public override void OnJoinRoomFailed(short returnCode, string message)
     {
         Debug.LogWarning($"Falha ao entrar na sala ({returnCode}): {message}");
+        if (Reconectando) { DesistirDeVoltar(); return; }
         JoinFailed?.Invoke(returnCode, message);
     }
 }

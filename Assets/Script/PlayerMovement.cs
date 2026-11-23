@@ -10,13 +10,14 @@ using UnityEngine.InputSystem;
 public class PlayerMovement : MonoBehaviourPun
 {
     [SerializeField] private float speed = 4f;
-    [SerializeField] private Animator animator;       // opcional
     [SerializeField] private SpriteRenderer sprite;   // opcional, para virar o personagem
 
     private Rigidbody2D rb;
     private Vector2 input;
 
-    private bool PodeControlar => !PhotonNetwork.InRoom || photonView == null || photonView.IsMine;
+    // AmOwner (e não IsMine): quando alguém cai, o dono da sala vira "controlador" do boneco que ficou na sala,
+    // e com IsMine ele passava a mexer os dois bonecos ao mesmo tempo.
+    private bool PodeControlar => !PhotonNetwork.InRoom || photonView == null || photonView.AmOwner;
 
     private void Awake()
     {
@@ -30,7 +31,7 @@ public class PlayerMovement : MonoBehaviourPun
         if (sprite != null) sprite.spriteSortPoint = SpriteSortPoint.Pivot;
         // a animação de andar (frente, costas, lados) e a cor de cada jogador
         if (GetComponentInChildren<AnimacaoPersonagem>() == null) gameObject.AddComponent<AnimacaoPersonagem>();
-        animator = null;      // quem anima agora é o AnimacaoPersonagem
+        if (GetComponent<NomeAcima>() == null) gameObject.AddComponent<NomeAcima>();               // nome acima da cabeça
     }
 
     private void Start()

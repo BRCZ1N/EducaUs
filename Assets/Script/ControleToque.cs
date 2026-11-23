@@ -64,7 +64,7 @@ public class ControleToque : MonoBehaviour
         {
             if (!PhotonNetwork.InRoom) return pm.transform;
             var pv = pm.GetComponent<PhotonView>();
-            if (pv == null || pv.IsMine) return pm.transform;
+            if (pv == null || pv.AmOwner) return pm.transform;
         }
         return null;
     }

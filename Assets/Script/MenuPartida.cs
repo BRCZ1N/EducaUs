@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Linq;
 using Photon.Pun;
 using Photon.Realtime;
@@ -10,7 +11,8 @@ using UnityEngine.UI;
 /// <summary>
 /// Menu dentro da partida (Esc). Não é outra cena: abre por cima do jogo, que continua rodando para os outros.
 /// Mostra o código da sala e os jogadores, e tem Continuar, Copiar código, Sair da partida e Sair do jogo.
-/// Também leva o jogador de volta ao menu principal se a conexão cair.
+/// Jogando offline: o botão "Abrir sala online" conecta, cria uma sala levando o progresso e chama outros jogadores.
+/// Se a conexão cair numa sala, o OnlineManager tenta voltar sozinho; só se não der o jogador volta ao menu.
 /// O GerenciadorAmbiental adiciona este componente sozinho; não precisa colocar à mão.
 /// </summary>
 public class MenuPartida : MonoBehaviourPunCallbacks
@@ -33,6 +35,11 @@ public class MenuPartida : MonoBehaviourPunCallbacks
     private GameObject painel;
     private Text txtCodigo, txtJogadores, txtCanto;
     private bool saindo;
+    private bool abrindoSala;
+    private bool fechandoJogo;
+    private GameObject btAbrirSala, btCopiar;
+    private Text txtAbrirSala;
+    private bool inscrito;
 
     // ------------------------------------------------------------------ ciclo de vida
     private void Awake()
@@ -43,7 +50,23 @@ public class MenuPartida : MonoBehaviourPunCallbacks
         Fechar();
     }
 
-    private void OnDestroy() => Aberto = false;
+    private void OnDestroy()
+    {
+        Aberto = false;
+        if (inscrito && OnlineManager.Instance != null)
+        {
+            OnlineManager.Instance.Reconectou -= AoReconectar;
+            OnlineManager.Instance.ReconexaoFalhou -= AoFalharReconexao;
+        }
+    }
+
+    private void Start()
+    {
+        if (OnlineManager.Instance == null) return;
+        OnlineManager.Instance.Reconectou += AoReconectar;
+        OnlineManager.Instance.ReconexaoFalhou += AoFalharReconexao;
+        inscrito = true;
+    }
 
     private void Update()
     {
@@ -52,7 +75,9 @@ public class MenuPartida : MonoBehaviourPunCallbacks
         {
             if (Aberto) Fechar(); else Abrir();
         }
-        txtCanto.text = PhotonNetwork.InRoom ? $"Sala {PhotonNetwork.CurrentRoom.Name}" : "Offline";
+        bool voltando = OnlineManager.Instance != null && OnlineManager.Instance.Reconectando;
+        txtCanto.text = voltando ? "Reconectando..." : PhotonNetwork.InRoom ? $"Sala {PhotonNetwork.CurrentRoom.Name}" : "Offline";
+        if (Aberto && !abrindoSala) AtualizarBotoes();
     }
 
     public void Abrir()
@@ -70,18 +95,117 @@ public class MenuPartida : MonoBehaviourPunCallbacks
 
     private void Atualizar()
     {
+        AtualizarBotoes();
         if (!PhotonNetwork.InRoom)
         {
-            txtCodigo.text = "Partida offline";
-            txtJogadores.text = "Você está jogando sem conexão.";
+            txtCodigo.text = $"Partida offline  ·  {PhotonNetwork.NickName}";
+            bool pronto = OnlineManager.Instance != null && OnlineManager.Instance.IsReady;
+            txtJogadores.text = "Você está jogando sozinho.\n\n" + (pronto
+                ? $"Há conexão com o servidor ({PhotonNetwork.CountOfPlayers} jogador(es) online): abra uma sala para chamar outros jogadores. O progresso continua."
+                : "Sem conexão com o servidor agora. Toque em \"Abrir sala online\" para tentar conectar.");
             return;
         }
         txtCodigo.text = $"Código da sala:  {PhotonNetwork.CurrentRoom.Name}";
         var nomes = PhotonNetwork.PlayerList
             .OrderBy(p => p.ActorNumber)
             .Select(p => (string.IsNullOrEmpty(p.NickName) ? $"Jogador {p.ActorNumber}" : p.NickName)
-                         + (p.IsMasterClient ? "  (anfitrião)" : "") + (p.IsLocal ? "  (você)" : ""));
-        txtJogadores.text = $"Jogadores ({PhotonNetwork.PlayerList.Length}/{maxJogadores}):\n" + string.Join("\n", nomes);
+                         + (p.IsMasterClient ? "  (anfitrião)" : "") + (p.IsLocal ? "  (você)" : "") + (p.IsInactive ? "  (caiu, pode voltar)" : ""));
+        txtJogadores.text = $"Jogadores na sala ({PhotonNetwork.PlayerList.Count(p => !p.IsInactive)}/{maxJogadores}):\n" + string.Join("\n", nomes) +
+                            $"\n\n<size=18>Online no servidor: {PhotonNetwork.CountOfPlayers} jogador(es) em {PhotonNetwork.CountOfRooms} sala(s)</size>";
+    }
+
+    private void AtualizarBotoes()
+    {
+        if (btAbrirSala == null) return;
+        btAbrirSala.SetActive(!PhotonNetwork.InRoom);
+        btCopiar.SetActive(PhotonNetwork.InRoom);
+    }
+
+    // ------------------------------------------------------------------ abrir sala dentro da partida
+    private void AbrirSalaOnline()
+    {
+        if (abrindoSala || PhotonNetwork.InRoom) return;
+        StartCoroutine(AbrirSalaRotina());
+    }
+
+    private IEnumerator AbrirSalaRotina()
+    {
+        var online = OnlineManager.Instance;
+        if (online == null) { txtJogadores.text = "O OnlineManager não está na cena (abra o jogo pelo Bootstrap)."; yield break; }
+        abrindoSala = true;
+        txtAbrirSala.text = "Conectando...";
+        if (!PhotonNetwork.IsConnected) PhotonNetwork.ConnectUsingSettings();
+        float t = 0f;
+        while (!online.IsReady && t < 15f) { t += Time.unscaledDeltaTime; yield return null; }
+        if (!online.IsReady)
+        {
+            txtJogadores.text = "Não foi possível conectar ao servidor. Confira a internet e tente de novo.";
+            txtAbrirSala.text = "Abrir sala online"; abrindoSala = false; yield break;
+        }
+
+        txtAbrirSala.text = "Criando a sala...";
+        bool criou = false, falhou = false;
+        System.Action<string> okCb = _ => criou = true;
+        System.Action<short, string> erroCb = (c, m) => falhou = true;
+        online.RoomCreated += okCb; online.CreateFailed += erroCb;
+        online.FicarNaCena = true;                       // continua nesta cena, sem recarregar a Game
+        online.createRoom();
+        t = 0f;
+        while (!criou && !falhou && t < 15f) { t += Time.unscaledDeltaTime; yield return null; }
+        online.RoomCreated -= okCb; online.CreateFailed -= erroCb;
+        if (!criou)
+        {
+            online.FicarNaCena = false;
+            txtJogadores.text = "Não deu para criar a sala. Tente de novo.";
+            txtAbrirSala.text = "Abrir sala online"; abrindoSala = false; yield break;
+        }
+        t = 0f;
+        while (!PhotonNetwork.InRoom && t < 10f) { t += Time.unscaledDeltaTime; yield return null; }
+        PhotonNetwork.IsMessageQueueRunning = true;
+
+        var gm = GetComponent<GerenciadorAmbiental>();
+        if (gm != null) gm.LevarEstadoParaSala();        // tarefas, pistas e relógio vão para a sala
+        TrocarJogadorLocal();
+        txtAbrirSala.text = "Abrir sala online"; abrindoSala = false;
+        Atualizar();
+        AvisarHud($"Sala aberta! Código {PhotonNetwork.CurrentRoom.Name}: os outros entram pela lista de salas.");
+    }
+
+    /// O personagem offline vira um personagem de rede (os outros jogadores passam a vê-lo).
+    private static void TrocarJogadorLocal()
+    {
+        foreach (var pm in FindObjectsByType<PlayerMovement>(FindObjectsSortMode.None))
+        {
+            var pv = pm.GetComponent<PhotonView>();
+            if (pv != null && pv.ViewID != 0) continue;              // já é de rede
+            string prefab = pm.gameObject.name.Replace("(Clone)", "").Trim();
+            try
+            {
+                var novo = PhotonNetwork.Instantiate(prefab, pm.transform.position, Quaternion.identity);
+                if (novo != null) Destroy(pm.gameObject);
+            }
+            catch (System.Exception e)
+            {
+                Debug.LogError($"[MenuPartida] Não deu para criar o personagem de rede '{prefab}' (ele precisa estar numa pasta Resources): {e.Message}");
+            }
+            return;
+        }
+    }
+
+    // ------------------------------------------------------------------ reconexão
+    private void AoReconectar()
+    {
+        saindo = false;
+        AvisarHud("Conexão de volta! Você voltou para a sala.");
+        if (Aberto) Atualizar();
+    }
+
+    private void AoFalharReconexao()
+    {
+        if (saindo) return;
+        MotivoSaida = "A conexão caiu e não foi possível voltar para a sala.";
+        saindo = true;
+        VoltarAoMenu();
     }
 
     // ------------------------------------------------------------------ botões
@@ -96,13 +220,28 @@ public class MenuPartida : MonoBehaviourPunCallbacks
     {
         if (saindo) return;
         saindo = true;
-        if (PhotonNetwork.InRoom) PhotonNetwork.LeaveRoom();   // OnLeftRoom volta para o menu
+        if (PhotonNetwork.InRoom)
+        {   // sai de vez (sem guardar o lugar para voltar); OnLeftRoom volta para o menu
+            if (OnlineManager.Instance != null) OnlineManager.Instance.SairDaSala(); else PhotonNetwork.LeaveRoom(false);
+        }
         else VoltarAoMenu();
     }
 
     private void SairDoJogo()
     {
-        if (PhotonNetwork.InRoom) PhotonNetwork.LeaveRoom();
+        saindo = true; fechandoJogo = true;
+        StartCoroutine(SairDoJogoRotina());
+    }
+
+    // sai da sala de vez ANTES de fechar o jogo (fechando direto, o boneco ficava 30 s parado na sala dos outros)
+    private IEnumerator SairDoJogoRotina()
+    {
+        if (PhotonNetwork.InRoom)
+        {
+            if (OnlineManager.Instance != null) OnlineManager.Instance.SairDaSala(); else PhotonNetwork.LeaveRoom(false);
+            float t = 0f;
+            while (PhotonNetwork.InRoom && t < 2f) { t += Time.unscaledDeltaTime; yield return null; }
+        }
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
 #else
@@ -118,11 +257,27 @@ public class MenuPartida : MonoBehaviourPunCallbacks
     }
 
     // ------------------------------------------------------------------ Photon
-    public override void OnLeftRoom() => VoltarAoMenu();
+    public override void OnLeftRoom()
+    {
+        if (saindo && !fechandoJogo) VoltarAoMenu();   // só quando o jogador escolheu sair (queda é tratada pela reconexão)
+    }
 
     public override void OnDisconnected(DisconnectCause cause)
     {
         if (saindo || cause == DisconnectCause.ApplicationQuit || cause == DisconnectCause.DisconnectByClientLogic) return;
+        StartCoroutine(VerQueda());
+    }
+
+    private IEnumerator VerQueda()
+    {
+        yield return null;                  // deixa o OnlineManager decidir se vai tentar voltar
+        var online = OnlineManager.Instance;
+        if (online != null && online.Reconectando)
+        {
+            AvisarHud("A conexão caiu. Tentando voltar para a sala...");
+            yield break;
+        }
+        if (saindo) yield break;
         MotivoSaida = "A conexão caiu e você saiu da partida.";
         saindo = true;
         VoltarAoMenu();
@@ -194,9 +349,12 @@ public class MenuPartida : MonoBehaviourPunCallbacks
         Linha(caixa.transform, txtCodigo, 40);
         txtJogadores = Texto(null, "Jogadores", 22, FontStyle.Normal, Cal, TextAnchor.UpperCenter);
         Linha(caixa.transform, txtJogadores, 200);
+        txtJogadores.horizontalOverflow = HorizontalWrapMode.Wrap; txtJogadores.supportRichText = true;
 
         Botao(caixa.transform, "Continuar", BotaoCor, Fechar);
-        Botao(caixa.transform, "Copiar código da sala", BotaoCor, CopiarCodigo);
+        btCopiar = Botao(caixa.transform, "Copiar código da sala", BotaoCor, CopiarCodigo);
+        btAbrirSala = Botao(caixa.transform, "Abrir sala online", new Color32(47, 107, 85, 255), AbrirSalaOnline);
+        txtAbrirSala = btAbrirSala.GetComponentInChildren<Text>();
         Botao(caixa.transform, "Sair da partida", BotaoPerigo, SairDaPartida);
         Botao(caixa.transform, "Sair do jogo", BotaoPerigo, SairDoJogo);
     }
@@ -225,7 +383,7 @@ public class MenuPartida : MonoBehaviourPunCallbacks
         le.preferredHeight = altura;
     }
 
-    private void Botao(Transform pai, string rotulo, Color cor, UnityEngine.Events.UnityAction acao)
+    private GameObject Botao(Transform pai, string rotulo, Color cor, UnityEngine.Events.UnityAction acao)
     {
         var go = new GameObject(rotulo, typeof(RectTransform), typeof(Image), typeof(Button), typeof(LayoutElement));
         go.transform.SetParent(pai, false);
@@ -242,6 +400,7 @@ public class MenuPartida : MonoBehaviourPunCallbacks
         b.onClick.AddListener(acao);
         var t = Texto((RectTransform)go.transform, "Texto", 30, FontStyle.Bold, Cal, TextAnchor.MiddleCenter, rotulo);
         var rt = t.rectTransform; rt.anchorMin = Vector2.zero; rt.anchorMax = Vector2.one; rt.offsetMin = rt.offsetMax = Vector2.zero;
+        return go;
     }
 
     private static void Ancorar(RectTransform rt, Vector2 ancora, Vector2 pivo, Vector2 pos, Vector2 tam)

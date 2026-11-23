@@ -75,13 +75,16 @@ public class Assembleia : MonoBehaviourPunCallbacks
 
     // ------------------------------------------------------------------ regras
     private bool MultiplayerValido =>
-        PhotonNetwork.InRoom && PhotonNetwork.CurrentRoom.PlayerCount >= 3 && gm != null && gm.TemSabotadorNaSala;
+        PhotonNetwork.InRoom && Ativos.Count() >= 3 && gm != null && gm.TemSabotadorNaSala;
+
+    /// Jogadores presentes (quem caiu fica guardado na sala por um tempo, mas não conta).
+    private static IEnumerable<Player> Ativos => PhotonNetwork.PlayerList.Where(p => !p.IsInactive);
 
     private bool PertoDoBarracao()
     {
         if (pontoReuniao == null) return false;
         var eu = FindObjectsByType<PlayerMovement>(FindObjectsSortMode.None)
-                 .FirstOrDefault(pm => !PhotonNetwork.InRoom || (pm.GetComponent<PhotonView>() is PhotonView v && v.IsMine));
+                 .FirstOrDefault(pm => !PhotonNetwork.InRoom || (pm.GetComponent<PhotonView>() is PhotonView v && v.AmOwner));
         return eu != null && Vector2.Distance(eu.transform.position, pontoReuniao.position) <= raioBarracao;
     }
 
@@ -106,7 +109,7 @@ public class Assembleia : MonoBehaviourPunCallbacks
         if (!MultiplayerValido)
         {
             botao.SetActive(false);
-            if (perto && !avisouSolo && hud != null && (!PhotonNetwork.InRoom || PhotonNetwork.CurrentRoom.PlayerCount < 3))
+            if (perto && !avisouSolo && hud != null && (!PhotonNetwork.InRoom || Ativos.Count() < 3))
             {
                 hud.Aviso("A assembleia com votação só existe no multiplayer (3 ou mais jogadores).", HudAmbiental.Cinza, 5f);
                 avisouSolo = true;
@@ -156,7 +159,7 @@ public class Assembleia : MonoBehaviourPunCallbacks
         return false;
     }
 
-    private IEnumerable<Player> Votantes => PhotonNetwork.PlayerList.Where(p => !Dispensado(p.ActorNumber));
+    private IEnumerable<Player> Votantes => Ativos.Where(p => !Dispensado(p.ActorNumber));
 
     private bool TodosVotaram() => Votantes.All(p => VotoDe(p, out _));
 
@@ -186,7 +189,7 @@ public class Assembleia : MonoBehaviourPunCallbacks
             { CH_RESULTADO, new object[] { idAtivo, dispensar, eraSab } },
         };
         if (eraSab) h[CH_FIM] = "comunidade";
-        else if (sab > 0 && PhotonNetwork.PlayerList.Count(p => !novos.Contains(p.ActorNumber)) <= 2) h[CH_FIM] = "empresa";
+        else if (sab > 0 && Ativos.Count(p => !novos.Contains(p.ActorNumber)) <= 2) h[CH_FIM] = "empresa";
         PhotonNetwork.CurrentRoom.SetCustomProperties(h);
     }
 
@@ -198,8 +201,8 @@ public class Assembleia : MonoBehaviourPunCallbacks
         // se a saída deixa só o infiltrado e mais um, a empresa vence (o dono da sala decide)
         if (!PhotonNetwork.IsMasterClient || gm == null || gm.PartidaEncerrada) return;
         int sab = gm.AtorSabotador;
-        if (sab > 0 && sab != saiu.ActorNumber && PhotonNetwork.CurrentRoom.PlayerCount >= 2 &&
-            PhotonNetwork.PlayerList.Count(p => !Dispensado(p.ActorNumber)) <= 2 && dispensados.Count > 0)
+        if (sab > 0 && sab != saiu.ActorNumber && Ativos.Count() >= 2 &&
+            Ativos.Count(p => !Dispensado(p.ActorNumber)) <= 2 && dispensados.Count > 0)
             PhotonNetwork.CurrentRoom.SetCustomProperties(new Hashtable { { CH_FIM, "empresa" } });
     }
 
@@ -251,7 +254,7 @@ public class Assembleia : MonoBehaviourPunCallbacks
 
     private void MontarCartoes()
     {
-        var jogadores = PhotonNetwork.PlayerList.OrderBy(p => p.ActorNumber).ToArray();
+        var jogadores = Ativos.OrderBy(p => p.ActorNumber).ToArray();
         for (int i = 0; i < cartoes.Count; i++)
         {
             var c = cartoes[i];
@@ -271,7 +274,7 @@ public class Assembleia : MonoBehaviourPunCallbacks
     {
         float resta = Mathf.Max(0f, duracao - (float)(PhotonNetwork.Time - inicio));
         txtTempo.text = $"{Mathf.CeilToInt(resta)}s";
-        var jogadores = PhotonNetwork.PlayerList.OrderBy(p => p.ActorNumber).ToArray();
+        var jogadores = Ativos.OrderBy(p => p.ActorNumber).ToArray();
         bool euVotei = VotoDe(PhotonNetwork.LocalPlayer, out int meu);
         bool possoVotar = !LocalDispensado && !euVotei;
         for (int i = 0; i < cartoes.Count && i < jogadores.Length; i++)

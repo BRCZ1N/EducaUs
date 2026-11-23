@@ -111,7 +111,7 @@ public class PontoDeTarefa : MonoBehaviour
         if (pm == null) return false;
         if (!PhotonNetwork.InRoom) return true;
         var pv = pm.GetComponent<PhotonView>();
-        return pv == null || pv.IsMine;
+        return pv == null || pv.AmOwner;
     }
 
     // ------------------------------------------------------------------ marcador "!"

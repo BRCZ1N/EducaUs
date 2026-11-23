@@ -68,7 +68,8 @@ public class AnimacaoPersonagem : MonoBehaviour
     {
         if (sr != null && pv != null)                                    // dispensado pela assembleia fica transparente
         {
-            float alvo = Assembleia.Dispensado(pv.OwnerActorNr) ? 0.4f : 1f;
+            bool caiu = PhotonNetwork.InRoom && pv.Owner != null && pv.Owner.IsInactive;       // caiu e a sala guarda o lugar
+            float alvo = caiu ? 0.25f : Assembleia.Dispensado(pv.OwnerActorNr) ? 0.4f : 1f;
             if (!Mathf.Approximately(sr.color.a, alvo)) sr.color = new Color(1f, 1f, 1f, alvo);
         }
         if (quadros.Count == 0) return;

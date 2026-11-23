@@ -63,7 +63,7 @@ public class MainMenuController : MonoBehaviour
 
         if (statusConexao == null || !statusLivre) return;
         if (criandoSala) statusConexao.text = "Criando sala...";
-        else if (pronto) statusConexao.text = "Conectado ao servidor";
+        else if (pronto) statusConexao.text = $"Conectado  |  {Mathf.Max(1, PhotonNetwork.CountOfPlayers)} jogador(es) online  |  {PhotonNetwork.CountOfRooms} sala(s)";
         else if (PhotonNetwork.IsConnected) statusConexao.text = "Conectando ao servidor...";
         else statusConexao.text = "Sem conexão: o jogo abre offline";
     }

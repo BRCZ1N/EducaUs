@@ -13,7 +13,7 @@ using UnityEngine;
 /// • Escutar também dá um APOIO: nas tarefas coletivas cada apoio conta como uma pessoa (dá para jogar sozinho).
 /// • A "Rádio Progresso" da empresa repete o discurso do Desenvolvimento e um morador responde.
 /// • Os outdoors da empresa ganham a faixa da comunidade quando a área ligada a eles é defendida.
-/// • Sem sabotador humano na sala, a pressão econômica desfaz conquistas sozinha de tempos em tempos.
+/// • A sabotagem automática (pressão econômica) existe, mas fica desligada: só o infiltrado desfaz conquistas.
 /// O GerenciadorAmbiental adiciona este componente sozinho.
 /// </summary>
 public class Comunidade : MonoBehaviour
@@ -24,6 +24,8 @@ public class Comunidade : MonoBehaviour
     [SerializeField] private float recargaDoMorador = 25f;
 
     [Header("Pressão econômica (sem sabotador na sala)")]
+    [Tooltip("Sabotagem automática quando não há infiltrado. Desligada por padrão.")]
+    [SerializeField] private bool pressaoAutomatica = false;
     [SerializeField] private float primeiraPressao = 75f;
     [SerializeField] private Vector2 intervaloPressao = new Vector2(45f, 70f);
 
@@ -110,7 +112,7 @@ public class Comunidade : MonoBehaviour
             lista.Add(mor);
         }
         CriarOutdoors();
-        StartCoroutine(PressaoEconomica());
+        if (pressaoAutomatica) StartCoroutine(PressaoEconomica());   // desligada: só o infiltrado sabota
         StartCoroutine(RadioProgresso());
     }
 
@@ -269,7 +271,7 @@ public class Morador : MonoBehaviour
         if (pm == null) return false;
         if (!PhotonNetwork.InRoom) return true;
         var pv = pm.GetComponent<PhotonView>();
-        return pv == null || pv.IsMine;
+        return pv == null || pv.AmOwner;
     }
 
     // balão de conversa branco com "..." e uma setinha apontando para a cabeça do morador (desenhado com antisserrilhado)

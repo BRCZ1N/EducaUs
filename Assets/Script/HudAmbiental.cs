@@ -39,6 +39,8 @@ public class HudAmbiental : MonoBehaviour
     private GameObject colunasInfo;
     private System.Action aoFecharInfo;
     private float falaAte;
+    private GameObject telaPapel; private Text txtPapelGrande, txtPapelSub; private Image fundoPapel;
+    private float papelAte;
     private Text txtAreas, txtTarefas, txtPapel, txtPrompt, txtAviso, txtGrande, txtTempo;
     private RectTransform barraAreas, barraPrompt;
     private Image painelPapel;
@@ -64,6 +66,15 @@ public class HudAmbiental : MonoBehaviour
     {
         if (painelAviso.activeSelf && Time.time > avisoAte) painelAviso.SetActive(false);
         if (painelFala.activeSelf && Time.time > falaAte) painelFala.SetActive(false);
+        if (telaPapel.activeSelf)
+        {   // aparece forte e some devagar no último segundo
+            float resta = papelAte - Time.time;
+            float a = Mathf.Clamp01(resta);
+            fundoPapel.color = new Color(0f, 0f, 0f, 0.92f * a);
+            txtPapelGrande.color = new Color(txtPapelGrande.color.r, txtPapelGrande.color.g, txtPapelGrande.color.b, a);
+            txtPapelSub.color = new Color(1, 1, 1, a);
+            if (resta <= 0f) telaPapel.SetActive(false);
+        }
         // tela mais estreita que 16:9: mantém a largura de 1920 (os painéis não se sobrepõem);
         // mais larga: mantém a altura de 1080 (sobra espaço dos lados)
         if (escala != null) escala.matchWidthOrHeight = (float)Screen.width / Mathf.Max(1, Screen.height) < 16f / 9f ? 0f : 1f;
@@ -90,9 +101,30 @@ public class HudAmbiental : MonoBehaviour
             ? "<b>INFILTRADO DA EMPRESA</b>  Finja que ajuda a comunidade e desfaça o que eles conquistarem (<b>Q</b>). Não seja descoberto!"
             : temSabotador
                 ? "<b>MORADOR</b>  Tem um infiltrado da empresa entre vocês. Converse com os vizinhos e protejam a vila juntos."
-                : "<b>MORADOR</b>  Converse com os vizinhos (balão amarelo = pista nova). A empresa vai tentar desfazer o que vocês conquistarem.";
+                : "<b>MORADOR</b>  Converse com os vizinhos (balão amarelo = pista nova) e protejam as 7 áreas antes que o tempo acabe.";
         txtPapel.color = Color.white;
         painelPapel.color = sabotador ? new Color(0.55f, 0.13f, 0.10f, 0.85f) : new Color(0.16f, 0.36f, 0.27f, 0.85f);
+    }
+
+    /// Mostra em tela cheia, por alguns segundos, se você é morador(a) ou o infiltrado da empresa.
+    public void RevelarPapel(bool sabotador, bool temSabotador, float segundos = 4f)
+    {
+        // simples como no Among Us: fundo preto, o papel grande e uma linha embaixo
+        fundoPapel.color = new Color(0f, 0f, 0f, 0.92f);
+        if (sabotador)
+        {
+            txtPapelGrande.text = "Infiltrado";
+            txtPapelGrande.color = new Color32(230, 60, 50, 255);
+            txtPapelSub.text = "Desfaça as conquistas da vila sem ser descoberto";
+        }
+        else
+        {
+            txtPapelGrande.text = "Morador";
+            txtPapelGrande.color = new Color32(120, 205, 255, 255);
+            txtPapelSub.text = temSabotador ? "Há <color=#e63c32>1 infiltrado</color> entre nós" : "Proteja a vila antes que o tempo acabe";
+        }
+        papelAte = Time.time + segundos;
+        telaPapel.SetActive(true);
     }
 
     /// Recursos da comunidade (água, saúde, terra, comida), de 0 a 1. Pisca vermelho quando cai e verde quando sobe.
@@ -314,6 +346,17 @@ public class HudAmbiental : MonoBehaviour
         painelGrande.SetActive(false);
 
         ConstruirPainelInfo(raiz);
+
+        // revelação do papel no começo da partida (como a tela "Tripulante / Impostor" do Among Us)
+        telaPapel = new GameObject("Revelar papel", typeof(RectTransform), typeof(Image));
+        var tp = (RectTransform)telaPapel.transform; tp.SetParent(raiz, false);
+        tp.anchorMin = Vector2.zero; tp.anchorMax = Vector2.one; tp.offsetMin = tp.offsetMax = Vector2.zero;
+        fundoPapel = telaPapel.GetComponent<Image>(); fundoPapel.raycastTarget = false;
+        txtPapelGrande = Texto(tp, "Papel", 120, FontStyle.Bold, Verde, new Vector2(-900, 150), new Vector2(1800, 170), TextAnchor.MiddleCenter, new Vector2(.5f, .5f));
+        Sombra(txtPapelGrande);
+        txtPapelSub = Texto(tp, "Explicacao", 34, FontStyle.Normal, Color.white, new Vector2(-800, -30), new Vector2(1600, 60), TextAnchor.MiddleCenter, new Vector2(.5f, .5f));
+        txtPapelSub.horizontalOverflow = HorizontalWrapMode.Wrap; txtPapelSub.supportRichText = true;
+        telaPapel.SetActive(false);
     }
 
     private void ConstruirPainelInfo(RectTransform raiz)

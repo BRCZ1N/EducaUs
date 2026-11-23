@@ -10,7 +10,7 @@ using UnityEngine.UI;
 using UnityEngine.InputSystem.UI;
 #endif
 
-public static class MenuBuilder
+public static class VilaMenuBuilder
 {
     const string Root = "Assets/MainMenuScreen/";
     static readonly Vector4 Border = new Vector4(56, 42, 40, 42); // esquerda, baixo, direita, cima
@@ -61,7 +61,7 @@ public static class MenuBuilder
         menuGO.transform.SetParent(canvasGO.transform, false);
         var mrt = (RectTransform)menuGO.transform;
         mrt.anchorMin = mrt.anchorMax = Vector2.zero; mrt.pivot = Vector2.zero;
-        mrt.anchoredPosition = new Vector2(96, 70); mrt.sizeDelta = new Vector2(560, 700);
+        mrt.anchoredPosition = new Vector2(96, 150); mrt.sizeDelta = new Vector2(560, 700);
 
         MakeText(menuGO.transform, "Titulo", "EducaUs", 574, 100, 84, Ouro, fTitle, true);
         MakeText(menuGO.transform, "Subtitulo", "Organize a comunidade. Recupere a vila.", 534, 36, 26, Cal, fBody, false);
@@ -77,8 +77,9 @@ public static class MenuBuilder
         //var cont = MakeButton(menuGO.transform, "Continuar", 312, 84, bN, bH, bP, fBody, 36, Cal);
         //var opc  = MakeButton(menuGO.transform, "Opções", 204, 84, bN, bH, bP, fBody, 36, Cal);
         //var cred = MakeButton(menuGO.transform, "Créditos", 96, 84, bN, bH, bP, fBody, 36, Cal);
-        var exit = MakeButton(menuGO.transform, "Sair", 30, 84, bN, bH, bP, fBody, 36, Cal);
-        var status = MakeText(menuGO.transform, "StatusConexao", "Conectando ao servidor...", -36, 40, 24, Cal, fBody, false);
+        var tutorial = MakeButton(menuGO.transform, "Como jogar", 30, 84, bN, bH, bP, fBody, 36, Cal);
+        var exit = MakeButton(menuGO.transform, "Sair", -60, 84, bN, bH, bP, fBody, 36, Cal);
+        var status = MakeText(menuGO.transform, "StatusConexao", "Conectando ao servidor...", -116, 40, 24, Cal, fBody, false);
         status.fontStyle = FontStyles.Italic;
 
         // Tela "Juntar-se a partida" (começa fechada; o botão abre ela direto)
@@ -92,6 +93,8 @@ public static class MenuBuilder
         UnityEventTools.AddPersistentListener(exit.onClick, ctrl.quit);
         var listaSalas = BuildListaSalasScreen(canvasGO.transform, menuGO, bN, bH, bP, bM, fTitle, fBody);
         UnityEventTools.AddPersistentListener(salas.onClick, listaSalas.Open);
+        var telaTutorial = BuildTutorialScreen(canvasGO.transform, menuGO, bN, bH, bP, bM, fTitle, fBody);
+        UnityEventTools.AddPersistentListener(tutorial.onClick, telaTutorial.Open);
 
         // Liga o campo de nome, o texto de conexão e o botão que precisa do servidor
         var cso = new SerializedObject(ctrl);
@@ -103,7 +106,7 @@ public static class MenuBuilder
 
         // Navegação vertical por teclado/controle
         //Selectable[] order = { novo, cont, opc, cred, sair };
-        Selectable[] order = { nome, novo, salas, joinLobby, exit };
+        Selectable[] order = { nome, novo, salas, joinLobby, tutorial, exit };
         foreach (var s in order)
             s.navigation = new Navigation { mode = Navigation.Mode.Vertical };
 
@@ -222,9 +225,9 @@ public static class MenuBuilder
         var prt = (RectTransform)panel.transform;
         prt.anchorMin = prt.anchorMax = prt.pivot = new Vector2(0.5f, 0.5f);
         prt.anchoredPosition = Vector2.zero; prt.sizeDelta = new Vector2(PW, PH);
-        var pimg = panel.GetComponent<Image>();
-        if (campoN) { pimg.sprite = campoN; pimg.type = Image.Type.Sliced; pimg.color = new Color(0.85f, 0.85f, 0.85f, 0.97f); }
-        else pimg.color = new Color(0.08f, 0.12f, 0.1f, 0.95f);
+        // fundo liso (o sprite do campo de nome tem o ícone de pessoa, que esticava e virava uma barra na lateral)
+        panel.GetComponent<Image>().color = new Color32(22, 40, 34, 245);
+        var bordaLista = panel.AddComponent<Outline>(); bordaLista.effectColor = new Color32(243, 166, 74, 255); bordaLista.effectDistance = new Vector2(3, -3);
 
         var titulo = MakeText(panel.transform, "Titulo", "Salas abertas", 0, 90, 72, Ouro, fTitle, true);
         Ret((RectTransform)titulo.transform, 0, PH - 120, PW, 90); titulo.alignment = TextAlignmentOptions.Center;
@@ -309,6 +312,68 @@ public static class MenuBuilder
         so.FindProperty("statusText").objectReferenceValue = status;
         so.FindProperty("backButton").objectReferenceValue = voltar;
         so.FindProperty("atualizarButton").objectReferenceValue = atualizar;
+        so.FindProperty("previousScreen").objectReferenceValue = menuGO;
+        so.ApplyModifiedPropertiesWithoutUndo();
+
+        root.SetActive(false);
+        return screen;
+    }
+
+    // =====================================================================
+    // Tela "Como jogar" — tutorial em páginas, mesmo painel da lista de salas
+    // =====================================================================
+    static TutorialScreen BuildTutorialScreen(Transform canvas, GameObject menuGO,
+        Sprite bN, Sprite bH, Sprite bP, Sprite bM, TMP_FontAsset fTitle, TMP_FontAsset fBody)
+    {
+        const float PW = 1300, PH = 820;
+        var root = new GameObject("TutorialScreen", typeof(RectTransform), typeof(Image), typeof(TutorialScreen));
+        root.transform.SetParent(canvas, false);
+        var rrt = (RectTransform)root.transform;
+        rrt.anchorMin = Vector2.zero; rrt.anchorMax = Vector2.one; rrt.offsetMin = rrt.offsetMax = Vector2.zero;
+        root.GetComponent<Image>().color = new Color(0f, 0f, 0f, 0.65f);
+
+        var panel = new GameObject("Painel", typeof(RectTransform), typeof(Image));
+        panel.transform.SetParent(root.transform, false);
+        var prt = (RectTransform)panel.transform;
+        prt.anchorMin = prt.anchorMax = prt.pivot = new Vector2(0.5f, 0.5f);
+        prt.anchoredPosition = Vector2.zero; prt.sizeDelta = new Vector2(PW, PH);
+        // fundo liso (o sprite do campo de nome tem o ícone de pessoa, que esticava e virava uma barra na lateral)
+        panel.GetComponent<Image>().color = new Color32(22, 40, 34, 245);
+        var borda = panel.AddComponent<Outline>(); borda.effectColor = new Color32(243, 166, 74, 255); borda.effectDistance = new Vector2(3, -3);
+
+        var sobre = MakeText(panel.transform, "Rotulo", "COMO JOGAR", 0, 36, 24, Ouro, fBody, false);
+        Ret((RectTransform)sobre.transform, 0, PH - 80, PW, 36); sobre.alignment = TextAlignmentOptions.Center;
+        sobre.characterSpacing = 8; sobre.fontStyle = FontStyles.Bold;
+        var titulo = MakeText(panel.transform, "Titulo", "", 0, 90, 64, Ouro, fTitle, true);
+        Ret((RectTransform)titulo.transform, 0, PH - 175, PW, 90); titulo.alignment = TextAlignmentOptions.Center;
+
+        var fundoTexto = new GameObject("FundoTexto", typeof(RectTransform), typeof(Image));
+        fundoTexto.transform.SetParent(panel.transform, false);
+        Ret((RectTransform)fundoTexto.transform, 70, 160, PW - 140, PH - 360);
+        fundoTexto.GetComponent<Image>().color = new Color(0f, 0f, 0f, 0.3f);
+        var texto = MakeText(fundoTexto.transform, "Texto", "", 0, 0, 32, Cal, fBody, false);
+        var trt = (RectTransform)texto.transform; trt.anchorMin = Vector2.zero; trt.anchorMax = Vector2.one;
+        trt.offsetMin = new Vector2(40, 30); trt.offsetMax = new Vector2(-40, -30);
+        texto.alignment = TextAlignmentOptions.TopLeft; texto.textWrappingMode = TextWrappingModes.Normal;
+        texto.richText = true; texto.lineSpacing = 8;
+
+        var voltar = MakeButton(panel.transform, "Voltar", 40, 84, bN, bH, bP, fBody, 36, Cal);
+        Ret((RectTransform)voltar.transform, 50, 40, 280, 84);
+        var anterior = MakeButton(panel.transform, "‹ Anterior", 40, 84, bN, bH, bP, fBody, 36, Cal);
+        Ret((RectTransform)anterior.transform, PW - 650, 40, 280, 84);
+        var proximo = MakeButton(panel.transform, "Próximo ›", 40, 84, bM, bH, bP, fBody, 36, Cal);
+        Ret((RectTransform)proximo.transform, PW - 330, 40, 280, 84);
+        var pagina = MakeText(panel.transform, "Pagina", "1 / 6", 0, 40, 28, Cal, fBody, false);
+        Ret((RectTransform)pagina.transform, 340, 62, PW - 1000, 40); pagina.alignment = TextAlignmentOptions.Center;
+
+        var screen = root.GetComponent<TutorialScreen>();
+        var so = new SerializedObject(screen);
+        so.FindProperty("titulo").objectReferenceValue = titulo;
+        so.FindProperty("texto").objectReferenceValue = texto;
+        so.FindProperty("pagina").objectReferenceValue = pagina;
+        so.FindProperty("anterior").objectReferenceValue = anterior;
+        so.FindProperty("proximo").objectReferenceValue = proximo;
+        so.FindProperty("voltar").objectReferenceValue = voltar;
         so.FindProperty("previousScreen").objectReferenceValue = menuGO;
         so.ApplyModifiedPropertiesWithoutUndo();
 
