@@ -5,13 +5,14 @@ using UnityEngine;
 /// <summary>
 /// Anima o personagem (parado / andando para frente, para trás e para os lados) e dá uma COR diferente
 /// para cada jogador da sala (6 cores). Coloque no prefab do Player, junto do SpriteRenderer.
-/// Funciona igual no seu boneco e na cópia dos outros: a direção vem do movimento na tela,
-/// então não precisa sincronizar nada a mais pela rede.
+/// No seu boneco a direção vem do movimento. Nos bonecos dos outros, a direção, o lado e se está andando
+/// chegam PELA REDE (este componente se registra no PhotonView): deduzir pelo movimento interpolado fazia o
+/// boneco virar para lados errados com os pequenos trancos da sincronização.
 /// Os quadros vêm de Resources/Animacoes/Personagem_0..5 (rode Tools → Vila → Preparar animações uma vez).
 /// O PlayerMovement adiciona este componente sozinho se ele não estiver no prefab.
 /// O SpriteRenderer pode estar no próprio objeto ou num filho.
 /// </summary>
-public class AnimacaoPersonagem : MonoBehaviour
+public class AnimacaoPersonagem : MonoBehaviour, IPunObservable
 {
     [SerializeField] private float quadrosPorSegundo = 9f;
     [Tooltip("Velocidade mínima (unidades/s) para considerar que está andando.")]
@@ -29,6 +30,10 @@ public class AnimacaoPersonagem : MonoBehaviour
     private float velSuave, tempo;
     private string direcao = "frente";
     private bool paraEsquerda;
+    private bool andandoAgora;
+    // o que chegou pela rede (bonecos dos outros)
+    private bool temRede; private string direcaoRede = "frente"; private bool esquerdaRede, andandoRede;
+    private static readonly string[] Direcoes = { "frente", "costas", "lado" };
 
     private void Awake()
     {
@@ -62,6 +67,27 @@ public class AnimacaoPersonagem : MonoBehaviour
         else if (!quadros.ContainsKey("andar_frente_0"))
             Debug.LogError("[AnimacaoPersonagem] A folha Personagem_" + Cor + " não está fatiada com os nomes certos. Rode Tools → Vila → Preparar animações.");
         ultimaPos = transform.position;
+        // registra no PhotonView para mandar/receber a direção junto com a posição
+        if (pv != null && pv.ObservedComponents != null && !pv.ObservedComponents.Contains(this))
+            pv.ObservedComponents.Add(this);
+    }
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {
+            stream.SendNext((byte)System.Array.IndexOf(Direcoes, direcao));
+            stream.SendNext(paraEsquerda);
+            stream.SendNext(andandoAgora);
+        }
+        else
+        {
+            int d = (byte)stream.ReceiveNext();
+            direcaoRede = Direcoes[Mathf.Clamp(d, 0, Direcoes.Length - 1)];
+            esquerdaRede = (bool)stream.ReceiveNext();
+            andandoRede = (bool)stream.ReceiveNext();
+            temRede = true;
+        }
     }
 
     private void LateUpdate()
@@ -77,15 +103,24 @@ public class AnimacaoPersonagem : MonoBehaviour
         Vector3 delta = transform.position - ultimaPos;
         ultimaPos = transform.position;
 
-        float vel = delta.magnitude / dt;
-        velSuave = Mathf.Lerp(velSuave, vel, 12f * dt);                 // evita piscar entre parado/andando
-        bool andando = velSuave > limiarAndando;
-
-        if (delta.sqrMagnitude > 0.00001f)
-        {
-            if (Mathf.Abs(delta.x) > Mathf.Abs(delta.y) * 1.1f) { direcao = "lado"; paraEsquerda = delta.x < 0; }
-            else if (Mathf.Abs(delta.y) > 0.0001f) direcao = delta.y > 0 ? "costas" : "frente";
+        bool andando;
+        bool remoto = PhotonNetwork.InRoom && pv != null && !pv.AmOwner;
+        if (remoto && temRede)
+        {   // boneco de outro jogador: usa exatamente o que o dono mandou
+            direcao = direcaoRede; paraEsquerda = esquerdaRede; andando = andandoRede;
         }
+        else
+        {
+            float vel = delta.magnitude / dt;
+            velSuave = Mathf.Lerp(velSuave, vel, 12f * dt);             // evita piscar entre parado/andando
+            andando = velSuave > limiarAndando;
+            if (delta.sqrMagnitude > 0.00001f)
+            {
+                if (Mathf.Abs(delta.x) > Mathf.Abs(delta.y) * 1.1f) { direcao = "lado"; paraEsquerda = delta.x < 0; }
+                else if (Mathf.Abs(delta.y) > 0.0001f) direcao = delta.y > 0 ? "costas" : "frente";
+            }
+        }
+        andandoAgora = andando;
 
         tempo += dt;
         string nome;

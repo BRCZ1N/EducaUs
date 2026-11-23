@@ -5144,3 +5144,15 @@
 [2026-11-23T05:41:21.115Z] [DEBUG] log Relay->Editor communication is unblocked
 [2026-11-23T05:41:21.115Z] [INFO] log Unity client connected with ID: editor-17220-8vfaxp (relay 1.0.12-build.99)
 [2026-11-23T05:41:21.116Z] [INFO] connection.established clientId=editor-17220-8vfaxp port=9001
+[2026-11-23T06:40:13.455Z] [DEBUG] log Relay->Editor communication is blocked
+[2026-11-23T06:40:13.445Z] [INFO] log Domain reload signal received from client editor-17220-8vfaxp
+[2026-11-23T06:40:13.456Z] [DEBUG] acp.queue.pause depth=0
+[2026-11-23T06:40:14.873Z] [DEBUG] log Relay->Editor communication is blocked
+[2026-11-23T06:40:14.873Z] [DEBUG] acp.queue.pause depth=0
+[2026-11-23T06:40:14.874Z] [INFO] log Client disconnected - blocking and caching for recovery
+[2026-11-23T06:40:14.875Z] [WARN] connection.lost clientId=null
+[2026-11-23T06:40:14.875Z] [WARN] log Client disconnected - sessions will persist until auto-shutdown, reason: Client disconnected
+[2026-11-23T06:40:14.877Z] [INFO] log Auto-shutdown timer started due to client disconnection
+[2026-11-23T06:40:26.508Z] [DEBUG] log Relay->Editor communication is unblocked
+[2026-11-23T06:40:26.509Z] [INFO] log Unity client connected with ID: editor-17220-mda7jd (relay 1.0.12-build.99)
+[2026-11-23T06:40:26.510Z] [INFO] connection.established clientId=editor-17220-mda7jd port=9001
