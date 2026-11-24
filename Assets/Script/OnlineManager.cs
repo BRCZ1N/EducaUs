@@ -83,6 +83,8 @@ public class OnlineManager : MonoBehaviourPunCallbacks
         Instance = this;
         PhotonNetwork.SendRate = 30;            // pacotes por segundo
         PhotonNetwork.SerializationRate = 30;   // atualizações de posição por segundo
+        Application.runInBackground = true;     // não pausa quando a janela/aba perde o foco (senão o boneco "congela" para os outros)
+        PhotonNetwork.KeepAliveInBackground = 60f;
     }
 
     private void Start()

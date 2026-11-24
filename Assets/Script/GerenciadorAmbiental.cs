@@ -186,6 +186,7 @@ public class GerenciadorAmbiental : MonoBehaviourPunCallbacks
     {
         if (Instancia != null && Instancia != this) { Destroy(gameObject); return; }
         Instancia = this;
+        Application.runInBackground = true;      // o jogo continua rodando e mandando a posição mesmo sem foco
         hud = GetComponent<HudAmbiental>();
         if (hud == null) hud = gameObject.AddComponent<HudAmbiental>();
         if (GetComponent<MenuPartida>() == null) gameObject.AddComponent<MenuPartida>();   // menu do Esc

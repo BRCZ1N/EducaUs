@@ -36,6 +36,11 @@ public class SincronizarPosicao : MonoBehaviourPun, IOnEventCallback
     private float recebidoEm, proximoEnvio;
     private bool temDado, estavaParado = true;
 
+    /// Para o modo de diagnóstico (F3): atraso da última mensagem e há quanto tempo ela chegou.
+    public int UltimoAtrasoMs { get; private set; }
+    public float SegundosSemMensagem => temDado ? Time.time - recebidoEm : -1f;
+    public bool EhRemoto => Remoto;
+
     /// Boneco de OUTRO jogador numa sala online.
     private bool Remoto => PhotonNetwork.InRoom && photonView != null && !photonView.AmOwner;
     private bool Meu => PhotonNetwork.InRoom && photonView != null && photonView.AmOwner;
@@ -89,6 +94,7 @@ public class SincronizarPosicao : MonoBehaviourPun, IOnEventCallback
         float atraso = 0f;
         if (d[5] is int enviadoEm)
             atraso = Mathf.Clamp(unchecked(PhotonNetwork.ServerTimestamp - enviadoEm) / 1000f, 0f, 0.5f);
+        UltimoAtrasoMs = Mathf.RoundToInt(atraso * 1000f);
 
         velocidade = vel;
         alvo = pos + vel * atraso;                    // onde o dono deve estar agora

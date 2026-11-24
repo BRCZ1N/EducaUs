@@ -14,6 +14,10 @@ public class NomeAcima : MonoBehaviour
     [SerializeField] private float tamanho = 0.05f;   // tamanho da letra
 
     private static readonly List<NomeAcima> todos = new List<NomeAcima>();
+    /// F3 liga/desliga o diagnóstico de rede: mostra a posição de cada boneco e o atraso da última mensagem.
+    public static bool Diagnostico;
+    private static int quadroF3 = -1;
+    private SincronizarPosicao sync;
     private static int quadroArrumado = -1;
 
     private PhotonView pv;
@@ -66,6 +70,21 @@ public class NomeAcima : MonoBehaviour
         bool meu = !PhotonNetwork.InRoom || pv == null || pv.AmOwner;
         string nome = PhotonNetwork.InRoom && pv != null && pv.Owner != null ? pv.Owner.NickName : PhotonNetwork.NickName;
         if (string.IsNullOrEmpty(nome)) nome = "Jogador";
+        var kb = UnityEngine.InputSystem.Keyboard.current;
+        if (kb != null && kb.f3Key.wasPressedThisFrame && quadroF3 != Time.frameCount) { quadroF3 = Time.frameCount; Diagnostico = !Diagnostico; }
+        if (Diagnostico)
+        {
+            if (sync == null) sync = GetComponentInParent<SincronizarPosicao>();
+            Vector2 pp = transform.position;
+            string info = $"({pp.x:0.0}, {pp.y:0.0})";
+            if (sync != null && sync.EhRemoto)
+            {
+                float sem = sync.SegundosSemMensagem;
+                info += sem < 0 ? "  SEM DADOS" : $"  atraso {sync.UltimoAtrasoMs}ms  última há {sem:0.0}s";
+            }
+            else if (sync == null && PhotonNetwork.InRoom) info += "  SEM SincronizarPosicao";
+            nome += "\n" + info;
+        }
         bool caiu = PhotonNetwork.InRoom && pv != null && pv.Owner != null && pv.Owner.IsInactive;
         if (caiu) nome += " (caiu)";
         if (nome != ultimo) { texto.text = sombra.text = nome; ultimo = nome; }
