@@ -10,8 +10,10 @@ using Hashtable = ExitGames.Client.Photon.Hashtable;
 /// <summary>
 /// Assembleia com votação (só no multiplayer, com 3+ jogadores e um infiltrado na sala).
 ///
-/// • Como chamar: na associação de moradores (ponto "Reunião de emergência"), cada jogador pode convocar UMA assembleia por partida.
-///   Logo depois de uma sabotagem, qualquer um pode DENUNCIAR de onde estiver (por 20 s).
+/// • Como chamar: sempre no SINO da associação de moradores (ponto "Reunião de emergência").
+///   - DENUNCIAR: depois de uma sabotagem ainda não discutida, qualquer um pode ir até o sino e denunciar.
+///     Cada sabotagem rende no máximo uma assembleia (a próxima denúncia só depois de uma nova sabotagem).
+///   - ASSEMBLEIA de emergência: sem sabotagem pendente, cada jogador pode convocar UMA por partida.
 /// • Na assembleia todo mundo para, conversa e vota em quem acha que é o infiltrado (ou pula o voto).
 ///   Acaba quando todos votam ou o tempo acaba. O mais votado é DISPENSADO da organização; empate ou "pular" = ninguém sai.
 /// • Dispensado vira espectador: fica transparente, não faz tarefa, não vota, não conta nas ações coletivas.
@@ -27,10 +29,12 @@ public class Assembleia : MonoBehaviourPunCallbacks
     public const string CH_USOU = "USO";        // int[] quem já usou a convocação de emergência
     public const string CH_RESULTADO = "RES";   // object[] { id, ator dispensado (0 = ninguém), era o infiltrado }
     public const string CH_FIM = "FIM";         // "comunidade" ou "empresa"
+    public const string CH_SAB_CONTAGEM = "SABC"; // int: quantas sabotagens já aconteceram na partida
+    public const string CH_SAB_AREA = "SABA";     // string: onde foi a última
+    public const string CH_DENUNCIADAS = "DEN";   // int: até qual sabotagem já houve assembleia
     private const string CH_VOTO = "V";         // (jogador) object[] { id da assembleia, ator votado (0 = pulou) }
 
     [SerializeField] private float duracao = 75f;          // conversa + votação
-    [SerializeField] private float janelaDenuncia = 20f;
     [SerializeField] private float raioAssociacao = 2.6f;
 
     public static bool Aberto { get; private set; }
@@ -88,6 +92,20 @@ public class Assembleia : MonoBehaviourPunCallbacks
         return eu != null && Vector2.Distance(eu.transform.position, pontoReuniao.position) <= raioAssociacao;
     }
 
+    private static int ContagemSabotagens()
+    {
+        var r = PhotonNetwork.CurrentRoom;
+        return r != null && r.CustomProperties.TryGetValue(CH_SAB_CONTAGEM, out object v) && v is int n ? n : 0;
+    }
+
+    /// Há sabotagem que ainda não foi discutida em assembleia?
+    private static bool SabotagemPendente()
+    {
+        var r = PhotonNetwork.CurrentRoom;
+        int den = r != null && r.CustomProperties.TryGetValue(CH_DENUNCIADAS, out object v) && v is int n ? n : 0;
+        return ContagemSabotagens() > den;
+    }
+
     private bool JaUsei()
     {
         var r = PhotonNetwork.CurrentRoom;
@@ -120,7 +138,7 @@ public class Assembleia : MonoBehaviourPunCallbacks
 
         // botão de convocar / denunciar
         bool podeAgir = !Aberto && !gm.PartidaEncerrada && !LocalDispensado && !MenuPartida.Aberto && !HudAmbiental.PainelAberto;
-        bool denuncia = Time.time - gm.UltimaSabotagem <= janelaDenuncia;
+        bool denuncia = perto && SabotagemPendente();
         bool emergencia = perto && !JaUsei();
         botao.SetActive(podeAgir && (denuncia || emergencia));
         txtBotao.text = denuncia ? "DENUNCIAR" : "ASSEMBLEIA";
@@ -131,11 +149,16 @@ public class Assembleia : MonoBehaviourPunCallbacks
     private void Convocar()
     {
         if (!MultiplayerValido || Aberto) return;
-        bool denuncia = Time.time - gm.UltimaSabotagem <= janelaDenuncia;
+        if (!PertoDaAssociacao()) return;
+        bool denuncia = SabotagemPendente();
+        if (!denuncia && JaUsei()) return;
+        var props = PhotonNetwork.CurrentRoom.CustomProperties;
+        string area = props.TryGetValue(CH_SAB_AREA, out object ar) && ar is string sa ? sa : "algum lugar";
         string quem = PhotonNetwork.LocalPlayer.NickName;
-        string mot = denuncia ? $"{quem} denunciou a sabotagem em {gm.UltimaAreaSabotada}" : $"{quem} convocou uma assembleia de emergência";
+        string mot = denuncia ? $"{quem} tocou o sino e denunciou a sabotagem em {area}" : $"{quem} convocou uma assembleia de emergência";
         int id = Random.Range(1, int.MaxValue);
         var h = new Hashtable { { CH_ATIVA, new object[] { id, PhotonNetwork.Time, PhotonNetwork.LocalPlayer.ActorNumber, mot } } };
+        h[CH_DENUNCIADAS] = ContagemSabotagens();          // qualquer assembleia já discute as sabotagens até aqui
         if (!denuncia)
         {
             var usou = PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue(CH_USOU, out object v) && v is int[] a ? a.ToList() : new List<int>();

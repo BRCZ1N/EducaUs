@@ -117,7 +117,7 @@ public class GerenciadorAmbiental : MonoBehaviourPunCallbacks
     private bool fimAssembleia;
     private string tituloFim;
 
-    /// Última vez (Time.time) que uma conquista foi desfeita, e onde: a Assembleia usa para liberar o DENUNCIAR.
+    /// Última vez (Time.time) que uma conquista foi desfeita, e onde (usado nos avisos).
     public float UltimaSabotagem { get; private set; } = -999f;
     public string UltimaAreaSabotada { get; private set; } = "";
 
@@ -139,6 +139,10 @@ public class GerenciadorAmbiental : MonoBehaviourPunCallbacks
     private HudAmbiental hud;
     private PontoDeTarefa pontoAtual;
     private Morador moradorAtual;
+    /// Para os poderes do infiltrado: o que está perto do jogador local e a lista de tarefas.
+    public PontoDeTarefa PontoPerto => pontoAtual;
+    public Morador MoradorPerto => pontoAtual == null ? moradorAtual : null;
+    public IReadOnlyList<PontoDeTarefa> Pontos => pontos;
     private float dicaColetiva;
     private Comunidade comunidade;
     private MinigameTarefa minigame;
@@ -193,7 +197,8 @@ public class GerenciadorAmbiental : MonoBehaviourPunCallbacks
         if (minigame == null) minigame = gameObject.AddComponent<MinigameTarefa>();         // minigames das tarefas
         comunidade = GetComponent<Comunidade>();
         if (comunidade == null) comunidade = gameObject.AddComponent<Comunidade>();
-        if (GetComponent<Assembleia>() == null) gameObject.AddComponent<Assembleia>();      // assembleia e votação (multiplayer)         // moradores + pressão econômica
+        if (GetComponent<Assembleia>() == null) gameObject.AddComponent<Assembleia>();
+        if (GetComponent<PoderesInfiltrado>() == null) gameObject.AddComponent<PoderesInfiltrado>();   // comprar, boato, interditar, bueiros      // assembleia e votação (multiplayer)         // moradores + pressão econômica
     }
 
     private void OnDestroy()
@@ -454,7 +459,7 @@ public class GerenciadorAmbiental : MonoBehaviourPunCallbacks
                     {
                         int k = Mathf.Abs(sabotagens) % 3;     // igual em todos os computadores
                         string causa = AvisoSabotagem.TryGetValue(a.Nome, out var lista) ? lista[k] : a.Nome + " voltou a ser degradada.";
-                        hud.Aviso($"Sabotagem! {causa}", HudAmbiental.Vermelho, 6f);
+                        hud.Aviso(TemSabotadorNaSala ? $"Sabotagem! {causa} Quem desconfiar, vá ao sino da associação." : $"Sabotagem! {causa}", HudAmbiental.Vermelho, 6f);
                     }
                 }
             }
@@ -516,7 +521,15 @@ public class GerenciadorAmbiental : MonoBehaviourPunCallbacks
         {
             object ini = PhotonNetwork.InRoom ? PhotonNetwork.CurrentRoom.CustomProperties[CHAVE_INICIO] : (object)inicioOffline;
             string chave = $"{ini}|{SouSabotador}|{TemSabotadorNaSala}";
-            if (chave != papelMostrado) { papelMostrado = chave; hud.RevelarPapel(SouSabotador, TemSabotadorNaSala); }
+            if (chave != papelMostrado)
+            {
+                papelMostrado = chave; hud.RevelarPapel(SouSabotador, TemSabotadorNaSala);
+                if (SouSabotador)
+                    hud.Fala("Suas ações de infiltrado",
+                             "SABOTAR (Q) desfaz uma tarefa feita. BOATO (B) tira o mapa dos moradores. " +
+                             "Com F: perto de um morador, COMPRAR o silêncio dele; perto de uma tarefa, INTERDITAR; perto de um bueiro, viajar pelo esgoto.",
+                             HudAmbiental.Vermelho, 12f);
+            }
         }
         float resta = TempoRestante;
         if (!PartidaVencida) tempoCongelado = -1f;
@@ -563,6 +576,25 @@ public class GerenciadorAmbiental : MonoBehaviourPunCallbacks
             return;
         }
 
+        if (!pontoAtual.Feita && PoderesInfiltrado.Interditada(pontoAtual.Id))
+        {   // obra da empresa: duas pessoas juntas embargam
+            int aqui = pontoAtual.ContarJogadores();
+            if (aqui < PessoasParaEmbargar)
+            {
+                segurando = 0f;
+                hud.Prompt($"Obra irregular da empresa bloqueia \"{pontoAtual.nome}\": chamem mais gente ({aqui}/{PessoasParaEmbargar}) para embargar.", 0f);
+                return;
+            }
+            segurando = segurandoE ? segurando + Time.deltaTime : 0f;
+            hud.Prompt($"Segure EMBARGAR (E): parar a obra irregular da empresa", segurando / SegundosEmbargo);
+            if (segurando >= SegundosEmbargo)
+            {
+                segurando = 0f;
+                PoderesInfiltrado.Desinterditar(pontoAtual.Id);
+                hud.Aviso("A comunidade embargou a obra irregular! A tarefa está livre de novo.", HudAmbiental.Verde, 4f);
+            }
+            return;
+        }
         if (!pontoAtual.Feita)
         {
             int apoiosUsados = 0;
@@ -620,12 +652,21 @@ public class GerenciadorAmbiental : MonoBehaviourPunCallbacks
             {
                 DefinirTarefa(pontoAtual.Id, false);
                 proximaSabotagem = Time.time + recargaSabotagem;
+                if (PhotonNetwork.InRoom)
+                {   // conta a sabotagem na sala: libera a denúncia no sino da associação
+                    var r = PhotonNetwork.CurrentRoom.CustomProperties;
+                    int n = r.TryGetValue(Assembleia.CH_SAB_CONTAGEM, out object c) && c is int ci ? ci : 0;
+                    string area = pontoAtual.Area != null ? pontoAtual.Area.Nome : "algum lugar";
+                    PhotonNetwork.CurrentRoom.SetCustomProperties(new Hashtable { { Assembleia.CH_SAB_CONTAGEM, n + 1 }, { Assembleia.CH_SAB_AREA, area } });
+                }
             }
         }
         else hud.Prompt($"Concluída: {pontoAtual.nome}", -1f);
     }
 
     private const float SegundosConversa = 1.5f;
+    private const float SegundosEmbargo = 2f;
+    private const int PessoasParaEmbargar = 2;
 
     /// Acende/apaga os botões redondos da tela conforme o que está perto do jogador.
     private void AtualizarBotoes()
@@ -637,8 +678,10 @@ public class GerenciadorAmbiental : MonoBehaviourPunCallbacks
         else if (!menu && !PartidaIniciada) { }
         else if (!menu)
         {
-            if (pontoAtual != null && !pontoAtual.Feita) { usar = true; prog = 0f; }
-            else if (pontoAtual == null && moradorAtual != null)
+            if (pontoAtual != null && !pontoAtual.Feita && PoderesInfiltrado.Interditada(pontoAtual.Id))
+            { usar = pontoAtual.ContarJogadores() >= PessoasParaEmbargar; rotulo = "EMBARGAR"; prog = segurando / SegundosEmbargo; }
+            else if (pontoAtual != null && !pontoAtual.Feita) { usar = true; prog = 0f; }
+            else if (pontoAtual == null && moradorAtual != null && !PoderesInfiltrado.MoradorComprado(moradorAtual.Nome, out _))
             {
                 bool novo = !SaberConhecido(moradorAtual.Nome);
                 if (novo || (moradorAtual.Disponivel && comunidade.Apoios < comunidade.MaximoDeApoios))
@@ -652,6 +695,12 @@ public class GerenciadorAmbiental : MonoBehaviourPunCallbacks
     private void ConversarComMorador(bool segurandoE)
     {
         var m = moradorAtual;
+        if (PoderesInfiltrado.MoradorComprado(m.Nome, out int calado))
+        {
+            segurando = 0f;
+            hud.Prompt($"{m.Nome} foi pressionado(a) pela empresa e não quer falar agora ({calado}s).", -1f);
+            return;
+        }
         bool novo = !SaberConhecido(m.Nome);
         bool podeApoiar = m.Disponivel && comunidade.Apoios < comunidade.MaximoDeApoios;
         if (!novo && !podeApoiar)
@@ -764,15 +813,17 @@ public class GerenciadorAmbiental : MonoBehaviourPunCallbacks
             foreach (var sb in saberes) limpar[PREFIXO_SABER + sb] = null;
             limpar[CHAVE_INICIO] = PhotonNetwork.Time;                  // o relógio recomeça
             limpar[CHAVE_REINICIO] = PhotonNetwork.Time;                // avisa todos que é uma nova rodada
-            foreach (var k in new[] { Assembleia.CH_ATIVA, Assembleia.CH_DISPENSADOS, Assembleia.CH_USOU, Assembleia.CH_RESULTADO, Assembleia.CH_FIM })
+            foreach (var k in new[] { Assembleia.CH_ATIVA, Assembleia.CH_DISPENSADOS, Assembleia.CH_USOU, Assembleia.CH_RESULTADO, Assembleia.CH_FIM,
+                                     Assembleia.CH_SAB_CONTAGEM, Assembleia.CH_SAB_AREA, Assembleia.CH_DENUNCIADAS })
                 limpar[k] = null;                                        // a assembleia também recomeça
             var elegiveis = PhotonNetwork.PlayerList.Where(p => !p.IsInactive).ToList();   // nova rodada: ninguém está dispensado
             int novoSab = sortearSabotadorAoIniciar && elegiveis.Count >= jogadoresParaSabotador ? SortearAtor(elegiveis) : 0;
             limpar[CHAVE_SAB] = novoSab != 0 ? (object)novoSab : null;
             if (novoSab != 0) limpar[CHAVE_SAB_ANTERIOR] = novoSab;
+            PoderesInfiltrado.LimparPara(limpar);                       // compras, obras e boato também recomeçam
             PhotonNetwork.CurrentRoom.SetCustomProperties(limpar);
         }
-        else { iniciadaOffline = true; feitas.Clear(); saberes.Clear(); inicioOffline = Time.time; tempoAcabou = false; hud.Grande(null); Recalcular(silencioso: true); }
+        else { PoderesInfiltrado.LimparOffline(); iniciadaOffline = true; feitas.Clear(); saberes.Clear(); inicioOffline = Time.time; tempoAcabou = false; hud.Grande(null); Recalcular(silencioso: true); }
         sabotagens = 0; rodaMostrada = false; fimAssembleia = false; tituloFim = null;
     }
 

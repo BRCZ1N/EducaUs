@@ -54,7 +54,8 @@ public class MapaPartida : MonoBehaviour
     private void Update()
     {
         var kb = UnityEngine.InputSystem.Keyboard.current;
-        bool bloqueado = MenuPartida.Aberto || MinigameTarefa.Aberto || HudAmbiental.PainelAberto || Assembleia.Aberto;
+        bool bloqueado = MenuPartida.Aberto || MinigameTarefa.Aberto || HudAmbiental.PainelAberto || Assembleia.Aberto
+                         || PoderesInfiltrado.BoatoBloqueiaMapa;      // boato da empresa: o mapa sai do ar
         if (kb != null && !bloqueado && (kb.mKey.wasPressedThisFrame || kb.tabKey.wasPressedThisFrame)) Alternar();
         if (bloqueado && Aberto) Fechar();
         botao.SetActive(!bloqueado);

@@ -250,8 +250,10 @@ public class Morador : MonoBehaviour
             corpo.sprite = parado[(int)(Time.time * 2f + transform.position.x) % 2] ?? parado[0];
         var gm = GerenciadorAmbiental.Instancia;
         bool temHistoria = gm != null && !gm.SaberConhecido(Nome);
-        balao.enabled = temHistoria || Disponivel;
-        balao.color = temHistoria ? new Color(1f, 0.85f, 0.35f) : Color.white;     // amarelo = ainda tem um saber para contar
+        bool comprado = PoderesInfiltrado.MoradorComprado(Nome, out _);           // pressionado pela empresa: fica calado
+        balao.enabled = temHistoria || Disponivel || comprado;
+        balao.color = comprado ? new Color(0.55f, 0.55f, 0.55f, 0.8f)
+                    : temHistoria ? new Color(1f, 0.85f, 0.35f) : Color.white;     // amarelo = ainda tem um saber para contar
         if (balao.enabled) balao.transform.localPosition = new Vector3(0.9f, 2.2f + Mathf.Sin(Time.time * 3f) * 0.08f, 0);
     }
 

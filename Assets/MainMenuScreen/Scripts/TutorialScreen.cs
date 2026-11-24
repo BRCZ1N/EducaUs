@@ -39,9 +39,10 @@ public class TutorialScreen : MonoBehaviour
          "Cada tarefa abre um <b>minijogo</b> curto. Quando todas as tarefas de uma área ficam prontas, ela é protegida e sobem os " +
          "<b>recursos da comunidade</b>: água, saúde, terra e comida."),
         ("O infiltrado da empresa",
-         "Com 3 ou mais jogadores, um é sorteado em segredo como <b>infiltrado</b>. Ele finge ajudar e aperta <b>SABOTAR</b> para desfazer " +
-         "o que vocês conquistaram. No modo solo não há infiltrado: o desafio é proteger tudo antes que o tempo acabe.\n\n" +
-         "Desconfiou? Toque o sino da associação de moradores (<b>ASSEMBLEIA</b>) ou aperte <b>DENUNCIAR</b> logo depois de uma sabotagem. Todos votam e o " +
+         "Com 3 ou mais jogadores, um é sorteado em segredo como <b>infiltrado</b>. Ele finge ajudar e pode: <b>SABOTAR</b> uma tarefa feita, " +
+         "<b>COMPRAR</b> o silêncio de um morador, <b>INTERDITAR</b> uma tarefa com uma obra (duas pessoas juntas <b>EMBARGAM</b>), " +
+         "espalhar um <b>BOATO</b> que tira o mapa do ar e andar pelos <b>bueiros</b>. No modo solo não há infiltrado.\n\n" +
+         "Desconfiou? Vá até o sino da associação de moradores. Depois de uma sabotagem, ele vira <b>DENUNCIAR</b>; sem sabotagem, cada um pode convocar uma <b>ASSEMBLEIA</b> por partida. Todos votam e o " +
          "mais votado é dispensado. Cuidado: dispensar um inocente enfraquece a comunidade."),
         ("Começar e vencer",
          "O <b>dono da sala</b> começa a partida no painel <b>INICIAR</b>, no meio da associação de moradores (o mesmo painel reinicia a rodada).\n\n" +
