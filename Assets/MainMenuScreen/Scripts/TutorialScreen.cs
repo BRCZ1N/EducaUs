@@ -39,11 +39,17 @@ public class TutorialScreen : MonoBehaviour
          "Cada tarefa abre um <b>minijogo</b> curto. Quando todas as tarefas de uma área ficam prontas, ela é protegida e sobem os " +
          "<b>recursos da comunidade</b>: água, saúde, terra e comida."),
         ("O infiltrado da empresa",
-         "Com 3 ou mais jogadores, um é sorteado em segredo como <b>infiltrado</b>. Ele finge ajudar e pode: <b>SABOTAR</b> uma tarefa feita, " +
-         "<b>COMPRAR</b> o silêncio de um morador, <b>INTERDITAR</b> uma tarefa com uma obra (duas pessoas juntas <b>EMBARGAM</b>), " +
-         "espalhar um <b>BOATO</b> que tira o mapa do ar e andar pelos <b>bueiros</b>. No modo solo não há infiltrado.\n\n" +
-         "Desconfiou? Vá até o sino da associação de moradores. Depois de uma sabotagem, ele vira <b>DENUNCIAR</b>; sem sabotagem, cada um pode convocar uma <b>ASSEMBLEIA</b> por partida. Todos votam e o " +
-         "mais votado é dispensado. Cuidado: dispensar um inocente enfraquece a comunidade."),
+         "Com 3 ou mais jogadores, um é sorteado em segredo como <b>infiltrado</b>. Ele finge ajudar e pode:\n" +
+         "- <b>SABOTAR</b> uma tarefa já feita\n" +
+         "- <b>COMPRAR</b> o silêncio de um morador (balão cinza)\n" +
+         "- <b>INTERDITAR</b> uma tarefa com uma obra: duas pessoas juntas <b>EMBARGAM</b>\n" +
+         "- espalhar um <b>BOATO</b> que tira o mapa do ar\n" +
+         "- andar pelos <b>bueiros</b> das ruas\n" +
+         "(No modo solo não há infiltrado.)"),
+        ("Desconfiou? Vá ao sino",
+         "Vá até o <b>sino da associação de moradores</b>.\n\n" +
+         "Depois de uma sabotagem, ele vira <b>DENUNCIAR</b>. Sem sabotagem, cada um pode convocar uma <b>ASSEMBLEIA</b> por partida.\n\n" +
+         "Todos conversam e votam. O mais votado é dispensado. Cuidado: dispensar um inocente enfraquece a comunidade."),
         ("Começar e vencer",
          "O <b>dono da sala</b> começa a partida no painel <b>INICIAR</b>, no meio da associação de moradores (o mesmo painel reinicia a rodada).\n\n" +
          "<b>Os moradores vencem</b> se protegerem as 7 áreas ou dispensarem o infiltrado.\n" +

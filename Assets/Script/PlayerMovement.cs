@@ -38,7 +38,10 @@ public class PlayerMovement : MonoBehaviourPun
     {
         // A cópia de outro jogador só segue a rede: sem física local, ninguém empurra ninguém
         if (!PodeControlar)
+        {
             rb.bodyType = RigidbodyType2D.Kinematic;
+            rb.interpolation = RigidbodyInterpolation2D.None;   // a posição vem da rede: a interpolação local brigava com ela
+        }
 
         // Jogadores não colidem entre si (cada um que nasce ignora os que já existem)
         var meus = GetComponentsInChildren<Collider2D>();

@@ -19,7 +19,7 @@ MonoBehaviour:
     width: 1920
     height: 989
   m_ShowMode: 4
-  m_Title: Project
+  m_Title: Game
   m_RootView: {fileID: 2}
   m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
@@ -119,7 +119,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 112}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 108
+  controlID: 38
   draggingID: 0
 --- !u!114 &6
 MonoBehaviour:
@@ -218,16 +218,16 @@ MonoBehaviour:
     y: 0
     width: 1401
     height: 574
-  m_MinSize: {x: 202, y: 226}
+  m_MinSize: {x: 52, y: 76}
   m_MaxSize: {x: 4002, y: 4026}
-  m_ActualView: {fileID: 16}
+  m_ActualView: {fileID: 12}
   m_Panes:
   - {fileID: 15}
   - {fileID: 16}
   - {fileID: 17}
   - {fileID: 12}
-  m_Selected: 1
-  m_LastSelected: 3
+  m_Selected: 3
+  m_LastSelected: 1
 --- !u!114 &10
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -238,7 +238,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 1
   m_Script: {fileID: 12006, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: ProjectBrowser
+  m_Name: ConsoleWindow
   m_EditorClassIdentifier: 
   m_Children: []
   m_Position:
@@ -247,14 +247,14 @@ MonoBehaviour:
     y: 574
     width: 1820
     height: 359
-  m_MinSize: {x: 231, y: 276}
-  m_MaxSize: {x: 10001, y: 10026}
-  m_ActualView: {fileID: 18}
+  m_MinSize: {x: 101, y: 126}
+  m_MaxSize: {x: 4001, y: 4026}
+  m_ActualView: {fileID: 19}
   m_Panes:
   - {fileID: 18}
   - {fileID: 19}
-  m_Selected: 0
-  m_LastSelected: 1
+  m_Selected: 1
+  m_LastSelected: 0
 --- !u!114 &11
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -303,8 +303,8 @@ MonoBehaviour:
     m_TextWithWhitespace: "Game\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 419
-    y: 79
+    x: 420
+    y: 24
     width: 1399
     height: 548
   m_SerializedDataModeController:
@@ -711,12 +711,12 @@ MonoBehaviour:
       m_LastClickedID:
         m_Data: 0
       m_ExpandedIDs:
-      - m_Data: -3464
-      - m_Data: -3406
-      - m_Data: -2322
-      - m_Data: -2254
-      - m_Data: -2246
-      - m_Data: -1384
+      - m_Data: -3486
+      - m_Data: -3428
+      - m_Data: -2342
+      - m_Data: -2274
+      - m_Data: -2266
+      - m_Data: -1404
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -1364,8 +1364,8 @@ MonoBehaviour:
     m_TextWithWhitespace: "Game\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 420
-    y: 24
+    x: 419
+    y: 79
     width: 1399
     height: 548
   m_SerializedDataModeController:
@@ -1414,7 +1414,7 @@ MonoBehaviour:
     m_HSlider: 0
     m_VSlider: 0
     m_IgnoreScrollWheelUntilClicked: 0
-    m_EnableMouseInput: 1
+    m_EnableMouseInput: 0
     m_EnableSliderZoomHorizontal: 0
     m_EnableSliderZoomVertical: 0
     m_UniformScale: 1
@@ -1525,7 +1525,7 @@ MonoBehaviour:
   m_Pos:
     serializedVersion: 2
     x: 0
-    y: 598
+    y: 653
     width: 1819
     height: 333
   m_SerializedDataModeController:
@@ -1552,7 +1552,7 @@ MonoBehaviour:
     m_SkipHidden: 1
     m_SearchArea: 1
     m_Folders:
-    - Assets/MainMenuScreen
+    - Assets/Script
     m_Globs: []
     m_ProductIds: 
     m_AnyWithAssetOrigin: 0
@@ -1562,7 +1562,7 @@ MonoBehaviour:
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/MainMenuScreen
+  - Assets/Script
   m_LastFoldersGridSize: -1
   m_LastProjectPath: C:\Users\Bruno\OneDrive\Documentos\GitHub\EducaUs
   m_LockTracker:
@@ -1571,12 +1571,17 @@ MonoBehaviour:
   m_FolderTreeState:
     scrollPos: {x: 0, y: 107}
     m_SelectedIDs:
-    - m_Data: 84550
+    - m_Data: 84676
     m_LastClickedID:
-      m_Data: 84550
+      m_Data: 84676
     m_ExpandedIDs:
     - m_Data: 0
     - m_Data: 75860
+    - m_Data: 84532
+    - m_Data: 84534
+    - m_Data: 84536
+    - m_Data: 84538
+    - m_Data: 84540
     - m_Data: 84542
     - m_Data: 84544
     - m_Data: 84546
@@ -1584,11 +1589,6 @@ MonoBehaviour:
     - m_Data: 84550
     - m_Data: 84552
     - m_Data: 84554
-    - m_Data: 84556
-    - m_Data: 84558
-    - m_Data: 84560
-    - m_Data: 84562
-    - m_Data: 84564
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1622,6 +1622,11 @@ MonoBehaviour:
     m_ExpandedIDs:
     - m_Data: 0
     - m_Data: 75860
+    - m_Data: 84532
+    - m_Data: 84534
+    - m_Data: 84536
+    - m_Data: 84538
+    - m_Data: 84540
     - m_Data: 84542
     - m_Data: 84544
     - m_Data: 84546
@@ -1629,11 +1634,6 @@ MonoBehaviour:
     - m_Data: 84550
     - m_Data: 84552
     - m_Data: 84554
-    - m_Data: 84556
-    - m_Data: 84558
-    - m_Data: 84560
-    - m_Data: 84562
-    - m_Data: 84564
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1722,8 +1722,8 @@ MonoBehaviour:
   m_Pos:
     serializedVersion: 2
     x: 0
-    y: 653
-    width: 1742
+    y: 598
+    width: 1819
     height: 333
   m_SerializedDataModeController:
     m_DataMode: 0
