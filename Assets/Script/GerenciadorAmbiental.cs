@@ -551,7 +551,7 @@ public class GerenciadorAmbiental : MonoBehaviourPunCallbacks
         segurandoInicio = 0f;
         if (!PartidaIniciada)
         {   // antes de começar dá para andar e conhecer o mapa, mas sem tarefas, conversas ou sabotagem
-            hud.Prompt(SouDono ? "Quando todos estiverem prontos, vá ao painel INICIAR no meio da associação de moradores."
+            hud.Prompt(SouDono ? "Com todos prontos, use o painel INICIAR na associação de moradores."
                                : "Aguardando o dono da sala iniciar a partida na associação de moradores...", -1f);
             hud.BotaoSabotar(false, false, 0);
             return;

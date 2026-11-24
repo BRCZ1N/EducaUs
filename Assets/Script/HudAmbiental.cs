@@ -302,6 +302,8 @@ public class HudAmbiental : MonoBehaviour
         painelPrompt = Painel(raiz, "Prompt", new Vector2(0.5f, 0), new Vector2(0.5f, 0), new Vector2(-450, 150), new Vector2(900, 96)).gameObject;
         var rp = (RectTransform)painelPrompt.transform;
         txtPrompt = Texto(rp, "Texto", 26, FontStyle.Bold, Color.white, new Vector2(20, -10), new Vector2(860, 44), TextAnchor.MiddleCenter);
+        txtPrompt.horizontalOverflow = HorizontalWrapMode.Wrap;          // texto longo quebra/encolhe em vez de vazar do painel
+        txtPrompt.resizeTextForBestFit = true; txtPrompt.resizeTextMinSize = 16; txtPrompt.resizeTextMaxSize = 26;
         var trilhoP = Retangulo(rp, "Barra", new Color(1, 1, 1, 0.15f), new Vector2(40, -62), new Vector2(820, 18));
         barraPrompt = Preenchimento(trilhoP, Amarelo);
         painelPrompt.SetActive(false);
