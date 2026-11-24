@@ -72,6 +72,7 @@
     <Compile Include="Assets\Script\MenuPartida.cs" />
     <Compile Include="Assets\Script\HudAmbiental.cs" />
     <Compile Include="Assets\Script\Assembleia.cs" />
+    <Compile Include="Assets\Script\SincronizarPosicao.cs" />
     <Compile Include="Assets\MainMenuScreen\Scripts\JoinRoomScreen.cs" />
     <Compile Include="Assets\Script\AnimacaoPersonagem.cs" />
     <Compile Include="Assets\Script\PlayerMovement.cs" />

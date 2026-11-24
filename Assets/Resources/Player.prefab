@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 429610297785642721}
   - component: {fileID: 8056826481004589001}
   - component: {fileID: 3451071632872734949}
-  - component: {fileID: 7486591575338056043}
+  - component: {fileID: 5799590344544942509}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -173,7 +173,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
   speed: 4
-  animator: {fileID: 0}
   sprite: {fileID: 0}
 --- !u!114 &3451071632872734949
 MonoBehaviour:
@@ -193,12 +192,11 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   observableSearch: 2
-  ObservedComponents:
-  - {fileID: 7486591575338056043}
+  ObservedComponents: []
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &7486591575338056043
+--- !u!114 &5799590344544942509
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -207,27 +205,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 4605506837009443588}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8efc6b1d64977384eb3405357896c656, type: 3}
+  m_Script: {fileID: 11500000, guid: a6f48fbfaa45c5d479c7a9315a298301, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: PhotonUnityNetworking::Photon.Pun.PhotonTransformViewClassic
-  m_PositionModel:
-    SynchronizeEnabled: 1
-    TeleportEnabled: 1
-    TeleportIfDistanceGreaterThan: 3
-    InterpolateOption: 2
-    InterpolateMoveTowardsSpeed: 1
-    InterpolateLerpSpeed: 1
-    ExtrapolateOption: 0
-    ExtrapolateSpeed: 1
-    ExtrapolateIncludingRoundTripTime: 1
-    ExtrapolateNumberOfStoredPositions: 1
-  m_RotationModel:
-    SynchronizeEnabled: 1
-    InterpolateOption: 1
-    InterpolateRotateTowardsSpeed: 180
-    InterpolateLerpSpeed: 5
-  m_ScaleModel:
-    SynchronizeEnabled: 0
-    InterpolateOption: 0
-    InterpolateMoveTowardsSpeed: 1
-    InterpolateLerpSpeed: 0
+  m_EditorClassIdentifier: Assembly-CSharp::SincronizarPosicao
+  distanciaParaPular: 4
+  suavidade: 14
+  maxPrevisao: 0.25
