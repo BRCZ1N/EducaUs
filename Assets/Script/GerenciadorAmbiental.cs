@@ -326,6 +326,7 @@ public class GerenciadorAmbiental : MonoBehaviourPunCallbacks
         {   // o dono da sala reiniciou a partida
             sabotagens = 0; rodaMostrada = false; tempoAcabou = false; fimAssembleia = false; tituloFim = null; hud.Grande(null);
             CancelInvoke(); if (HudAmbiental.PainelAberto) hud.FecharInfo();
+            if (comunidade != null) comunidade.ZerarApoios();             // apoios são de cada jogador: cada um zera os seus
             hud.Aviso("A partida começou! Converse com os vizinhos e protejam a vila.", HudAmbiental.Verde, 5f);
         }
         foreach (var kv in mudou) AplicarChave(kv.Key as string, kv.Value);
@@ -823,8 +824,9 @@ public class GerenciadorAmbiental : MonoBehaviourPunCallbacks
             PoderesInfiltrado.LimparPara(limpar);                       // compras, obras e boato também recomeçam
             PhotonNetwork.CurrentRoom.SetCustomProperties(limpar);
         }
-        else { PoderesInfiltrado.LimparOffline(); iniciadaOffline = true; feitas.Clear(); saberes.Clear(); inicioOffline = Time.time; tempoAcabou = false; hud.Grande(null); Recalcular(silencioso: true); }
+        else { PoderesInfiltrado.LimparOffline(); if (comunidade != null) comunidade.ZerarApoios(); iniciadaOffline = true; feitas.Clear(); saberes.Clear(); inicioOffline = Time.time; tempoAcabou = false; hud.Grande(null); Recalcular(silencioso: true); }
         sabotagens = 0; rodaMostrada = false; fimAssembleia = false; tituloFim = null;
+        if (comunidade != null) comunidade.ZerarApoios();                 // o dono zera na hora (não espera a resposta da sala)
     }
 
     private void DefinirTodas(bool feita)

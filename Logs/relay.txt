@@ -5534,3 +5534,15 @@
 [2026-11-24T17:48:19.965Z] [DEBUG] log Relay->Editor communication is unblocked
 [2026-11-24T17:48:19.966Z] [INFO] log Unity client connected with ID: editor-12068-xdvrdq (relay 1.0.12-build.99)
 [2026-11-24T17:48:19.966Z] [INFO] connection.established clientId=editor-12068-xdvrdq port=9001
+[2026-11-24T18:10:20.272Z] [INFO] log Domain reload signal received from client editor-12068-xdvrdq
+[2026-11-24T18:10:20.273Z] [DEBUG] log Relay->Editor communication is blocked
+[2026-11-24T18:10:20.274Z] [DEBUG] acp.queue.pause depth=0
+[2026-11-24T18:10:21.474Z] [DEBUG] log Relay->Editor communication is blocked
+[2026-11-24T18:10:21.475Z] [DEBUG] acp.queue.pause depth=0
+[2026-11-24T18:10:21.476Z] [INFO] log Client disconnected - blocking and caching for recovery
+[2026-11-24T18:10:21.477Z] [WARN] connection.lost clientId=null
+[2026-11-24T18:10:21.477Z] [WARN] log Client disconnected - sessions will persist until auto-shutdown, reason: Client disconnected
+[2026-11-24T18:10:21.478Z] [INFO] log Auto-shutdown timer started due to client disconnection
+[2026-11-24T18:10:28.643Z] [DEBUG] log Relay->Editor communication is unblocked
+[2026-11-24T18:10:28.643Z] [INFO] log Unity client connected with ID: editor-12068-u3vsfy (relay 1.0.12-build.99)
+[2026-11-24T18:10:28.644Z] [INFO] connection.established clientId=editor-12068-u3vsfy port=9001

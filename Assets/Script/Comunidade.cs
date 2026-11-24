@@ -138,6 +138,13 @@ public class Comunidade : MonoBehaviour
         return true;
     }
 
+    /// Nova rodada: ninguém começa com apoios e todos os moradores ficam livres de novo.
+    public void ZerarApoios()
+    {
+        Apoios = 0; ApoiosMobilizados = 0;
+        foreach (var m in FindObjectsByType<Morador>(FindObjectsSortMode.None)) m.Liberar();
+    }
+
     public void Gastar(int n)
     {
         int g = Mathf.Min(n, Apoios);
@@ -212,6 +219,7 @@ public class Morador : MonoBehaviour
     public string Saber { get; private set; }
     public string Fala { get; private set; }
     public bool Disponivel => Time.time >= livreEm;
+    public void Liberar() => livreEm = 0f;
 
     private float livreEm;
     private SpriteRenderer corpo, balao;
